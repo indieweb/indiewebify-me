@@ -33,11 +33,10 @@
     <div class="container">
       <div class="demo-headline">
         <h1 class="demo-logo">
-          <!-- <div class="logo"></div> -->
           IndieWebify.Me
           <small>A guide to getting you on the <a href="http://indiewebcamp.com" target="_blank">IndieWeb</a></small>
         </h1>
-      </div> <!-- /demo-headline -->
+      </div>
 
 	
 		<div class="row demo-row">
@@ -68,15 +67,14 @@
 			<h4>Once you've added the proper rel="me" links test out signing in with IndieAuth</h4>
 			<div class="row">
 		        <div class="span4">
-		        	<input type="text" value="" placeholder="http://yoursite.com" class="span4" />
+		        	<input type="text" id="validate-rel-url" value="" placeholder="http://yoursite.com" class="span4" />
 		        </div>
 		        <div class="span3">
-		        	<a href="#fakelink" class="btn btn-large btn-block btn-primary">Sign In</a>
+		        	<a href="#" id="validate-rel" class="validate-microformat btn btn-large btn-block btn-primary">Test</a>
 		        </div>
 			</div>
-
 		</div>
-		<div class="row demo-row"><hr></div>
+		<div id="validate-rel-result" class="row validate-result"></div>
 
 
 		<!-- Level 2 -->
@@ -86,43 +84,38 @@
 	
 			<h2>1. Markup your content (Posts, Articles, Notes, etc...) with <a href="http://microformats.org/" target="_blank">Microformats</a></h2>
 			<p>&nbsp;</p>
-			
+
+
 			<h4>Validate your <strong>index</strong> page has a <a href="http://microformats.org/wiki/h-card" target="_blank">hCARD</a> that is properly formatted</h4>
 			<div class="row">
 		        <div class="span4">
 		        	<input type="text" id="validate-hcard-url" value="" placeholder="http://yoursite.com" class="span4" />
 		        </div>
 		        <div class="span3">
-		        	<a href="#fakelink" id="validate-hcard" class="btn btn-large btn-block btn-primary">Validate hCARD</a>
+		        	<a href="#fakelink" id="validate-hcard" class="validate-microformat btn btn-large btn-block btn-primary">Validate hCARD</a>
 		        </div>
 			</div>
 			<div id="validate-hcard-result" class="row validate-result"></div>
-
-
 			<p>&nbsp;</p>
 			
-			<h4>Validate your  <strong>posts / notes</strong> display a <a href="http://microformats.org/wiki/h-entry" target="_blank">hENTRY</a> that is properly formatted</h4>
+
+
+			<h4>Validate your <strong>posts / notes</strong> display a <a href="http://microformats.org/wiki/h-entry" target="_blank">hENTRY</a> that is properly formatted</h4>
 			<div class="row">
 		        <div class="span4">
-		        	<input type="text" value="" placeholder="http://yoursite.com/notes/123456" class="span4" />
+		        	<input type="text" id="validate-hentry-url" value="" placeholder="http://yoursite.com/notes/123456" class="span4" />
 		        </div>
 		        <div class="span3">
-		        	<a href="#fakelink" class="btn btn-large btn-block btn-primary">Validate hENTRY</a>
+		        	<a href="#fakelink" id="validate-hentry" class="validate-microformat btn btn-large btn-block btn-primary">Validate hENTRY</a>
 		        </div>
 			</div>
 			<div id="validate-hentry-result" class="row validate-result"></div>
-	
-	
-			
-			http://waterpigs.co.uk/php-mf2/
-			http://pin13.net/
-			
 			<p>&nbsp;</p>
+
 					
+
 			<h2>2. Add the ability to "send" a <a href="http://webmention.org" target="_blank">WebMention</a> to other IndieWeb sites</h2>
-			
 			<h4>A Post / Note marked up content needs to exist at the URL with valid Microformat data 
-			
 			<h4>Send Webmention POST request to the site you are mentioning</h4>
 			<p>&nbsp;</p>
 
@@ -174,14 +167,39 @@
 
 
 		<!-- Templates -->
+		<script type="text/template" id="template-validate-rel">		
+			<h3>Success, here is the rel="me" data we found</h3> 
+			<ul>
+				<%= rels %>
+			</ul>
+			<p>You can now sign in to <a href="http://indiewebcamp.com/wiki/index.php?title=Special:UserLogin&returnto=Main_Page&returntoquery=local%3Dtrue" target="_blank">indiewebcamp.com</a> while signed into any of the above sites</p>
+		</script>
+
 		<script type="text/template" id="template-validate-hcard">
 			<h3>Success, here is the hCard data we found</h3>
-			<strong>rel="me"</strong>
-			<%= me %>
-
+			<p>
+				<strong>hCard</strong><br><br>
+				<%= name %><br>
+				<img src="<%= photo %>"><br>
+				<a href="<%= url %>" target="_blank"><%= url %></a><br>
+			</p>
 		</script>
 		
 
+		<script type="text/template" id="template-validate-hentry">
+			<h3>Success, here is the hEntry data we found</h3>
+			<p>
+				<strong>hEntry</strong><br><br>
+				<%= name %><br>
+				<img src="<%= photo %>"><br>
+				<a href="<%= url %>" target="_blank"><%= url %></a><br>
+				Published: <%= published %><br>
+				Updated: <%= updated %>
+			</p>
+			<p>
+				
+			</p>
+		</script>
     
     <!-- Load JS here for greater good =============================-->
     <script src="js/jquery-1.8.3.min.js"></script>
@@ -199,36 +217,57 @@
     <script src="js/application.js"></script>
     
     <script type="text/javascript">
-/*
-		_.templateSettings = {
-		  interpolate: /\{\{(.+?)\}\}/g
-		};
-*/
+
+		var validateMicroRel = function(result) {
+
+			var da_rels = result.rels.me;
+
+			var rel_urls = '';
+			$.each(da_rels, function(key, url) {
+				rel_urls += '<li><a href="' + url + '" target="_blank">' + url + '</a></li>';
+			});
+
+			$('#validate-rel-result').html(_.template($('#template-validate-rel').html(), {rels: rel_urls})).fadeIn('slow');
+		}
+
+		var validateMicroHCard = function(hcard) {	
+			$('#validate-hcard-result').html(_.template($('#template-validate-hcard').html(), hcard)).fadeIn('slow');
+		}
+
+		var validateMicroHEntry = function(hentry) {
+			$('#validate-hentry-result').html(_.template($('#template-validate-hentry').html(), hentry)).fadeIn('slow');
+		}
 
 	  $(document).ready(function(){
-    
-			$('#validate-hcard').bind('click', function(e) {
+
+			$('.validate-microformat').bind('click', function(e) {
+
+				var validate = $(this).attr('id');
+
+				console.log(validate);
+
 			  e.preventDefault();
 				$.ajax({
 					url			  : 'microformat.php',
 					type		  : 'POST',
-					data      :  {'url': $('#validate-hcard-url').val()},
+					data      :  {'url': $('#' + validate + '-url').val()},
 					dataType  : 'json',
 			  	success : function(result)
 			  	{
-
 						console.log(result);		
-						var me_urls = '<ul>';
-
-						$.each(result.rels.me, function(key, url) {
-							me_urls += '<li><a href="' + url + '" target="_blank">' + url + '</a></li>';
-						});
 						
-						me_urls += '</ul>';
-	
-						var validate_hcard = _.template($('#template-validate-hcard').html(), { me: me_urls });
-
-						$('#validate-hcard-result').html(validate_hcard).fadeIn('slow');
+						if (validate == 'validate-rel') {
+							validateMicroRel(result);
+						}
+						else if (validate == 'validate-hcard') {
+							validateMicroHCard(result.items[0].properties);
+						}
+						else if (validate == 'validate-hentry') {
+							validateMicroHEntry(result);
+						}
+						else {
+							alert('Ooops, could not find that type of validation');
+						}
 
 			  	}
 				});
