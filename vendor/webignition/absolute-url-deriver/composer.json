@@ -1,0 +1,21 @@
+{
+    "name": "webignition/absolute-url-deriver",
+    "description": "Derives an absolute URL from relative and source URLs",
+    "keywords": ["url", "absolute"],
+    "homepage": "https://github.com/webignition/absolute-url-deriver",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jon Cram",
+            "email": "jon@webignition.net"
+        }
+    ],
+    "autoload": {
+        "psr-0": { "": "src/" }
+    },     
+    "require": {
+        "php": ">=5.3.0",
+        "webignition/url": ">=1.1"        
+    }   
+}

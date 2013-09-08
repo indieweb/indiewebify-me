@@ -1,0 +1,31 @@
+{
+    "name": "mf2/mf2",
+    "type": "library",
+    "description": "A pure (generic) microformats-2 parser",
+    "keywords": ["microformats", "microformats 2", "parser", "semantic"],
+    "authors" : [
+    	{
+    		"name": "Barnaby Walters",
+    		"homepage": "http://waterpigs.co.uk"
+    	}
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "webignition/absolute-url-deriver": "1.3.*@stable"
+    },
+    "require-dev": {
+      "phpunit/phpunit": "3.7.*"
+    },
+    "autoload": {
+    	"psr-0": {
+    		"mf2\\Parser": ""
+    	}
+    },
+    "config": {
+    	"bin-dir": "bin/"
+    },
+		"license": "MIT",
+		"suggest": {
+			"barnabywalters/mf-cleaner": "To more easily handle the canonical data php-mf2 gives you"
+		}
+}

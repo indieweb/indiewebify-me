@@ -1,0 +1,6 @@
+.DS_Store
+/nbproject
+composer.phar
+/vendor/
+/tmp
+/bin

@@ -1,0 +1,6 @@
+{
+    "require": {
+        "mf2/mf2": "0.1.*",
+        "guzzle/guzzle": "~3.7"
+    }
+}
