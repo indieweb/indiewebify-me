@@ -7,8 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'mf2\\Parser' => array($vendorDir . '/mf2/mf2'),
-    'Symfony\\Component\\EventDispatcher\\' => array($vendorDir . '/symfony/event-dispatcher'),
-    'Guzzle\\Tests' => array($vendorDir . '/guzzle/guzzle/tests'),
-    'Guzzle' => array($vendorDir . '/guzzle/guzzle/src'),
+    'Buzz' => array($vendorDir . '/kriswallsmith/buzz/lib'),
     '' => array($vendorDir . '/webignition/url/src', $vendorDir . '/webignition/absolute-url-deriver/src'),
 );

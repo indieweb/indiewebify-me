@@ -17,13 +17,24 @@
     <!--[if lt IE 9]>
       <script src="js/html5shiv.js"></script>
     <![endif]-->
+    
+    <style type="text/css">
+			.validate-result {
+				border-radius: .75em;
+				margin: .75em .10em;
+				padding: 1.25em;
+				background-color: #edeff1;
+				display: none;
+			}
+    </style>
+   
   </head>
   <body>
     <div class="container">
       <div class="demo-headline">
         <h1 class="demo-logo">
           <!-- <div class="logo"></div> -->
-          Indie Webify Me
+          IndieWebify.Me
           <small>A guide to getting you on the <a href="http://indiewebcamp.com" target="_blank">IndieWeb</a></small>
         </h1>
       </div> <!-- /demo-headline -->
@@ -45,10 +56,10 @@
 
 
 
-		<!-- Level 0 -->
+		<!-- Level 1 -->
 		<div class="row demo-row">
 
-			<h1><span class="fui-user"></span> &nbsp; Become a citizen of the IndieWeb <small>Level 0</small></h1>
+			<h1><span class="fui-user"></span> &nbsp; Become a citizen of the IndieWeb <small>Level 1</small></h1>
 	
 			<h2>1. Register a domain name to use as your personal web identity</h2>
 			<h2>2. Add ability to sign in <a href="http://indiewebcamp.com/IndieAuth" target="_blank">IndieAuth</a> using your personal domain name</h2>
@@ -68,34 +79,40 @@
 		<div class="row demo-row"><hr></div>
 
 
-		<!-- Level 1 -->
+		<!-- Level 2 -->
 		<div class="row demo-row">
 
-			<h1><span class="fui-new"></span> &nbsp; Publishing on the IndieWeb <small>Level 1</small></h1>
+			<h1><span class="fui-new"></span> &nbsp; Publishing on the IndieWeb <small>Level 2</small></h1>
 	
 			<h2>1. Markup your content (Posts, Articles, Notes, etc...) with <a href="http://microformats.org/" target="_blank">Microformats</a></h2>
 			<p>&nbsp;</p>
 			
-			<h4>Validate your <strong>index</strong> page has a <a href="http://microformats.org/wiki/hcard" target="_blank">HCARD</a> that is properly formatted</h4>
+			<h4>Validate your <strong>index</strong> page has a <a href="http://microformats.org/wiki/h-card" target="_blank">hCARD</a> that is properly formatted</h4>
 			<div class="row">
 		        <div class="span4">
-		        	<input type="text" value="" placeholder="http://yoursite.com" class="span4" />
+		        	<input type="text" id="validate-hcard-url" value="" placeholder="http://yoursite.com" class="span4" />
 		        </div>
 		        <div class="span3">
-		        	<a href="#fakelink" class="btn btn-large btn-block btn-primary">Validate HCARD</a>
+		        	<a href="#fakelink" id="validate-hcard" class="btn btn-large btn-block btn-primary">Validate hCARD</a>
 		        </div>
 			</div>
+			<div id="validate-hcard-result" class="row validate-result"></div>
+
+
 			<p>&nbsp;</p>
 			
-			<h4>Validate your  <strong>posts / notes</strong> display a <a href="http://microformats.org/wiki/hentry" target="_blank">HENTRY</a> that is properly formatted</h4>
+			<h4>Validate your  <strong>posts / notes</strong> display a <a href="http://microformats.org/wiki/h-entry" target="_blank">hENTRY</a> that is properly formatted</h4>
 			<div class="row">
 		        <div class="span4">
 		        	<input type="text" value="" placeholder="http://yoursite.com/notes/123456" class="span4" />
 		        </div>
 		        <div class="span3">
-		        	<a href="#fakelink" class="btn btn-large btn-block btn-primary">Validate HENTRY</a>
+		        	<a href="#fakelink" class="btn btn-large btn-block btn-primary">Validate hENTRY</a>
 		        </div>
 			</div>
+			<div id="validate-hentry-result" class="row validate-result"></div>
+	
+	
 			
 			http://waterpigs.co.uk/php-mf2/
 			http://pin13.net/
@@ -119,10 +136,10 @@
 		
 		
 		
-		<!-- Level 2 -->
+		<!-- Level 3 -->
 		<div class="row demo-row">
 
-			<h1><span class="fui-chat"></span> &nbsp; Federating IndieWeb Conversations <small>Level 2</small></h1>
+			<h1><span class="fui-chat"></span> &nbsp; Federating IndieWeb Conversations <small>Level 3</small></h1>
 
 			<h2>1. Add <strong>Reply Contexts</strong> to your site</h2>
 
@@ -154,44 +171,17 @@
 
     </div> <!-- /container -->
 
-	<!--
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="span7">
-            <h3 class="footer-title">Help build the IndieWeb</h3>
-            <p>Do you like this freebie? Want to get more stuff like this?<br/>
-              Subscribe to designmodo news and updates to stay tuned on great designs.<br/>
-              Go to: <a href="http://indiewebcamp.com" target="_blank">indiewebcamp.com</a>
-            </p>
 
-            <p class="pvl">
-              <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://designmodo.com/flat-free/" data-text="Flat UI Free - PSD&amp;HTML User Interface Kit" data-via="designmodo" data-size="large">Tweet</a>
-              <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-            </p>
 
-            <a class="footer-brand" href="http://designmodo.com" target="_blank">
-              <img src="images/footer/logo.png" alt="Designmodo.com" />
-            </a>
-          </div>
+		<!-- Templates -->
+		<script type="text/template" id="template-validate-hcard">
+			<h3>Success, here is the hCard data we found</h3>
+			<strong>rel="me"</strong>
+			<%= me %>
 
-          <div class="span5">
-            <div class="footer-banner">
-              <h3 class="footer-title">Get Flat UI Pro</h3>
-              <ul>
-                <li>Tons of Basic and Custom UI Elements</li>
-                <li>A Lot of Useful Samples</li>
-                <li>More Vector Icons and Glyphs</li>
-                <li>Pro Color Swatches</li>
-                <li>Bootstrap Based HTML/CSS/JS Layout</li>
-              </ul>
-              Go to: <a href="http://designmodo.com/flat" target="_blank">designmodo.com/flat</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-    -->
+		</script>
+		
+
     
     <!-- Load JS here for greater good =============================-->
     <script src="js/jquery-1.8.3.min.js"></script>
@@ -205,7 +195,47 @@
     <script src="js/jquery.tagsinput.js"></script>
     <script src="js/jquery.placeholder.js"></script>
     <script src="js/jquery.stacktable.js"></script>
-    <script src="http://vjs.zencdn.net/c/video.js"></script>
+    <script src="js/underscore-min.js"></script>
     <script src="js/application.js"></script>
+    
+    <script type="text/javascript">
+/*
+		_.templateSettings = {
+		  interpolate: /\{\{(.+?)\}\}/g
+		};
+*/
+
+	  $(document).ready(function(){
+    
+			$('#validate-hcard').bind('click', function(e) {
+			  e.preventDefault();
+				$.ajax({
+					url			  : 'microformat.php',
+					type		  : 'POST',
+					data      :  {'url': $('#validate-hcard-url').val()},
+					dataType  : 'json',
+			  	success : function(result)
+			  	{
+
+						console.log(result);		
+						var me_urls = '<ul>';
+
+						$.each(result.rels.me, function(key, url) {
+							me_urls += '<li><a href="' + url + '" target="_blank">' + url + '</a></li>';
+						});
+						
+						me_urls += '</ul>';
+	
+						var validate_hcard = _.template($('#template-validate-hcard').html(), { me: me_urls });
+
+						$('#validate-hcard-result').html(validate_hcard).fadeIn('slow');
+
+			  	}
+				});
+			});
+
+    });
+    </script>
+    
   </body>
 </html>
