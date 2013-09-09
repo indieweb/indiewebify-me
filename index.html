@@ -191,13 +191,20 @@
 			<p>
 				<strong>hEntry</strong><br><br>
 				<%= name %><br>
-				<img src="<%= photo %>"><br>
-				<a href="<%= url %>" target="_blank"><%= url %></a><br>
-				Published: <%= published %><br>
-				Updated: <%= updated %>
+			</p>	
+			<p>
+				<%= published %><br>
+				<%= updated %>
 			</p>
 			<p>
-				
+				<%= author %><br>
+				<%= category %><br>
+				<%= content %><br>
+				<%= name %><br>
+				<%= summary %><br>
+				<%= syndication %><br>
+				<%= updated %><br>
+				<%= url %>
 			</p>
 		</script>
     
@@ -235,6 +242,20 @@
 		}
 
 		var validateMicroHEntry = function(hentry) {
+		
+			var hentry_values = {};
+
+		
+	
+
+			
+			if (hentry.published != undefined) {
+				hentry_values.published = 'Published ' + hentry.published;
+			}
+			else {
+				hentry_values.published = 'No class named .published found';
+			}
+		
 			$('#validate-hentry-result').html(_.template($('#template-validate-hentry').html(), hentry)).fadeIn('slow');
 		}
 
@@ -263,7 +284,7 @@
 							validateMicroHCard(result.items[0].properties);
 						}
 						else if (validate == 'validate-hentry') {
-							validateMicroHEntry(result);
+							validateMicroHEntry(result.items[1].properties);
 						}
 						else {
 							alert('Ooops, could not find that type of validation');
