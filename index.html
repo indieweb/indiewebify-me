@@ -42,7 +42,6 @@
 		<div class="row demo-row">
 
 			<h1>What is the IndieWeb?</h1>
-			<p>&nbsp;</p>			
 			<blockquote>			
 			We should all own the content we're creating, rather than just posting to third-party content silos. 
 			Publish on your own domain, and syndicate out to silos.
@@ -65,14 +64,14 @@
 			<p>&nbsp;</p>
 
 			<h4>Once you've added the proper rel="me" links test out signing in with IndieAuth</h4>
-			<div class="row">
+			<form class="validate-rel row">
 		        <div class="span4">
 		        	<input type="text" id="validate-rel-url" value="" placeholder="http://yoursite.com" class="span4" />
 		        </div>
 		        <div class="span3">
-		        	<a href="#" id="validate-rel" class="validate-microformat btn btn-large btn-block btn-primary">Test</a>
+		        	<button type="submit" id="validate-rel" class="btn btn-large btn-block btn-primary">Test</button>
 		        </div>
-			</div>
+			</form>
 		</div>
 		<div id="validate-rel-result" class="row validate-result"></div>
 
@@ -82,34 +81,32 @@
 
 			<h1><span class="fui-new"></span> &nbsp; Publishing on the IndieWeb <small>Level 2</small></h1>
 	
-			<h2>1. Markup your content (Posts, Articles, Notes, etc...) with <a href="http://microformats.org/" target="_blank">Microformats</a></h2>
+			<h2>1. Markup your content (Posts, Articles, Notes, etc...) with <a href="http://microformats.org/" target="_blank">Microformats2</a></h2>
 			<p>&nbsp;</p>
 
-
-			<h4>Validate your <strong>index</strong> page has a <a href="http://microformats.org/wiki/h-card" target="_blank">hCARD</a> that is properly formatted</h4>
-			<div class="row">
+			<h4>Validate your <strong>homepage</strong> has a <a href="http://microformats.org/wiki/h-card" target="_blank">h-card</a> that is properly formatted</h4>
+			<form class="validate-h-card row">
 		        <div class="span4">
-		        	<input type="text" id="validate-hcard-url" value="" placeholder="http://yoursite.com" class="span4" />
+		        	<input type="text" id="validate-h-card-url" value="" placeholder="http://yoursite.com" class="span4" />
 		        </div>
 		        <div class="span3">
-		        	<a href="#fakelink" id="validate-hcard" class="validate-microformat btn btn-large btn-block btn-primary">Validate hCARD</a>
+		        	<button type="submit" id="validate-h-card" class="btn btn-large btn-block btn-primary">Validate profile h-card</button>
 		        </div>
-			</div>
-			<div id="validate-hcard-result" class="row validate-result"></div>
+			</form>
+			<div id="validate-h-card-result" class="row validate-result"></div>
 			<p>&nbsp;</p>
 			
-
-
-			<h4>Validate your <strong>posts / notes</strong> display a <a href="http://microformats.org/wiki/h-entry" target="_blank">hENTRY</a> that is properly formatted</h4>
-			<div class="row">
+			
+			<h4>Validate your <strong>posts / notes</strong> display a <a href="http://microformats.org/wiki/h-entry" target="_blank">h-entry</a> that is properly formatted</h4>
+			<form class="validate-h-entry row">
 		        <div class="span4">
-		        	<input type="text" id="validate-hentry-url" value="" placeholder="http://yoursite.com/notes/123456" class="span4" />
+		        	<input type="text" id="validate-h-entry-url" value="" placeholder="http://yoursite.com/notes/123456" class="span4" />
 		        </div>
 		        <div class="span3">
-		        	<a href="#fakelink" id="validate-hentry" class="validate-microformat btn btn-large btn-block btn-primary">Validate hENTRY</a>
+		        	<button type="submit" id="validate-h-entry" class="btn btn-large btn-block btn-primary">Validate h-entry</button>
 		        </div>
-			</div>
-			<div id="validate-hentry-result" class="row validate-result"></div>
+			</form>
+			<div id="validate-h-entry-result" class="row validate-result"></div>
 			<p>&nbsp;</p>
 
 					
@@ -175,7 +172,7 @@
 			<p>You can now sign in to <a href="http://indiewebcamp.com/wiki/index.php?title=Special:UserLogin&returnto=Main_Page&returntoquery=local%3Dtrue" target="_blank">indiewebcamp.com</a> while signed into any of the above sites</p>
 		</script>
 
-		<script type="text/template" id="template-validate-hcard">
+		<script type="text/template" id="template-validate-h-card">
 			<h3>Success, here is the hCard data we found</h3>
 			<p>
 				<strong>hCard</strong><br><br>
@@ -186,7 +183,7 @@
 		</script>
 		
 
-		<script type="text/template" id="template-validate-hentry">
+		<script type="text/template" id="template-validate-h-entry">
 			<h3>Success, here is the hEntry data we found</h3>
 			<p>
 				<strong>hEntry</strong><br><br>
@@ -244,10 +241,6 @@
 		var validateMicroHEntry = function(hentry) {
 		
 			var hentry_values = {};
-
-		
-	
-
 			
 			if (hentry.published != undefined) {
 				hentry_values.published = 'Published ' + hentry.published;
@@ -257,43 +250,47 @@
 			}
 		
 			$('#validate-hentry-result').html(_.template($('#template-validate-hentry').html(), hentry)).fadeIn('slow');
-		}
+		};
 
+		var fetchMicroformats = function (url, success, error) {
+			$.ajax({
+					url: 'microformat.php',
+					type: 'POST',
+					data: {url: url},
+					dataType: 'json',
+			  	success: success,
+					error: error
+				});
+		};
+		
 	  $(document).ready(function(){
-
-			$('.validate-microformat').bind('click', function(e) {
-
-				var validate = $(this).attr('id');
-
-				console.log(validate);
-
-			  e.preventDefault();
-				$.ajax({
-					url			  : 'microformat.php',
-					type		  : 'POST',
-					data      :  {'url': $('#' + validate + '-url').val()},
-					dataType  : 'json',
-			  	success : function(result)
-			  	{
-						console.log(result);		
-						
-						if (validate == 'validate-rel') {
-							validateMicroRel(result);
-						}
-						else if (validate == 'validate-hcard') {
-							validateMicroHCard(result.items[0].properties);
-						}
-						else if (validate == 'validate-hentry') {
-							validateMicroHEntry(result.items[1].properties);
-						}
-						else {
-							alert('Ooops, could not find that type of validation');
-						}
-
-			  	}
+			// Bind form submit handlers
+			$('form.validate-rel').submit(function (e) {
+				e.preventDefault();
+				var url = $(this).find('#validate-rel-url').val();
+				console.log(url);
+				// TODO: handle empty value
+				fetchMicroformats(url, validateMicroRel, function (result) {
+					console.log('error:', result);
 				});
 			});
-
+			
+			$('form.validate-h-card').submit(function (e) {
+				e.preventDefault();
+				var url = $(this).find('#validate-h-card-url').val();
+				fetchMicroformats(url, validateMicroHCard, function (result) {
+					console.log('error:', result);
+				});
+			});
+			
+			$('form.validate-h-entry').submit(function (e) {
+				e.preventDefault();
+				var url = $(this).find('#validate-h-entry-url').val();
+				fetchMicroformats(url, validateMicroHEntry, function (result) {
+					console.log('error:', result);
+				});
+			});
+			
     });
     </script>
     

@@ -1,0 +1,6 @@
+{
+	"name": "tantek/cassis",
+	"autoload": {
+        	"files": ["cassis.js"] 
+	}
+}

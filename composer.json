@@ -1,6 +1,7 @@
 {
     "require": {
-        "mf2/mf2": "0.1.*",
-    	"kriswallsmith/buzz": "0.10"
+			"mf2/mf2": "0.1.*",
+    	"kriswallsmith/buzz": "0.10",
+			"tantek/cassis": "*"
     }
 }

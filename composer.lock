@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "ed55994ad3903145557a23b1fcafa32f",
+    "hash": "b67f978097de7d953e439db5466f5847",
     "packages": [
         {
             "name": "kriswallsmith/buzz",
@@ -100,6 +100,29 @@
                 "semantic"
             ],
             "time": "2013-09-12 18:34:32"
+        },
+        {
+            "name": "tantek/cassis",
+            "version": "v0.1.15895",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tantek/cassis.git",
+                "reference": "c158d9ebec1a5066e8ebc96f97b00658930dbf1f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tantek/cassis/zipball/c158d9ebec1a5066e8ebc96f97b00658930dbf1f",
+                "reference": "c158d9ebec1a5066e8ebc96f97b00658930dbf1f",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "cassis.js"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2013-07-09 07:52:41"
         }
     ],
     "packages-dev": [
