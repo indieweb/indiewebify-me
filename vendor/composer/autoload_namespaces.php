@@ -8,5 +8,4 @@ $baseDir = dirname($vendorDir);
 return array(
     'mf2\\Parser' => array($vendorDir . '/mf2/mf2'),
     'Buzz' => array($vendorDir . '/kriswallsmith/buzz/lib'),
-    '' => array($vendorDir . '/webignition/url/src', $vendorDir . '/webignition/absolute-url-deriver/src'),
 );

@@ -1,142 +1,5 @@
 [
     {
-        "name": "webignition/url",
-        "version": "1.4.1",
-        "version_normalized": "1.4.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/webignition/url.git",
-            "reference": "2280e4d31c7ff31c621bf24eb97081578f05fda4"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/webignition/url/zipball/2280e4d31c7ff31c621bf24eb97081578f05fda4",
-            "reference": "2280e4d31c7ff31c621bf24eb97081578f05fda4",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0"
-        },
-        "time": "2012-10-19 11:50:16",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Jon Cram",
-                "email": "jon@webignition.net"
-            }
-        ],
-        "description": "Represents a URL, a library to be used in many other places. Applies semantically-lossless normalisation for comparisons.",
-        "homepage": "https://github.com/webignition/url",
-        "keywords": [
-            "url"
-        ]
-    },
-    {
-        "name": "webignition/absolute-url-deriver",
-        "version": "1.3",
-        "version_normalized": "1.3.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/webignition/absolute-url-deriver.git",
-            "reference": "65d31ed68ae3033c70263d15b5966f799168b9dd"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/webignition/absolute-url-deriver/zipball/65d31ed68ae3033c70263d15b5966f799168b9dd",
-            "reference": "65d31ed68ae3033c70263d15b5966f799168b9dd",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0",
-            "webignition/url": ">=1.1"
-        },
-        "time": "2013-03-18 12:54:57",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Jon Cram",
-                "email": "jon@webignition.net"
-            }
-        ],
-        "description": "Derives an absolute URL from relative and source URLs",
-        "homepage": "https://github.com/webignition/absolute-url-deriver",
-        "keywords": [
-            "absolute",
-            "url"
-        ]
-    },
-    {
-        "name": "mf2/mf2",
-        "version": "v0.1.19",
-        "version_normalized": "0.1.19.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/indieweb/php-mf2.git",
-            "reference": "5c2ef4cc8f095f391660fd356911ef21b39f0eec"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/indieweb/php-mf2/zipball/5c2ef4cc8f095f391660fd356911ef21b39f0eec",
-            "reference": "5c2ef4cc8f095f391660fd356911ef21b39f0eec",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0",
-            "webignition/absolute-url-deriver": "1.3.*@stable"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "3.7.*"
-        },
-        "suggest": {
-            "barnabywalters/mf-cleaner": "To more easily handle the canonical data php-mf2 gives you"
-        },
-        "time": "2013-07-11 14:20:11",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "mf2\\Parser": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Barnaby Walters",
-                "homepage": "http://waterpigs.co.uk"
-            }
-        ],
-        "description": "A pure (generic) microformats-2 parser",
-        "keywords": [
-            "microformats",
-            "microformats 2",
-            "parser",
-            "semantic"
-        ]
-    },
-    {
         "name": "kriswallsmith/buzz",
         "version": "v0.10",
         "version_normalized": "0.10.0.0",
@@ -184,6 +47,56 @@
         "keywords": [
             "curl",
             "http client"
+        ]
+    },
+    {
+        "name": "mf2/mf2",
+        "version": "v0.1.21",
+        "version_normalized": "0.1.21.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/indieweb/php-mf2.git",
+            "reference": "c12b8b02defcb1038020efaa4fac79e45326962a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/indieweb/php-mf2/zipball/c12b8b02defcb1038020efaa4fac79e45326962a",
+            "reference": "c12b8b02defcb1038020efaa4fac79e45326962a",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "3.7.*"
+        },
+        "suggest": {
+            "barnabywalters/mf-cleaner": "To more easily handle the canonical data php-mf2 gives you"
+        },
+        "time": "2013-09-12 18:34:32",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "mf2\\Parser": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Barnaby Walters",
+                "homepage": "http://waterpigs.co.uk"
+            }
+        ],
+        "description": "A pure (generic) microformats-2 parser",
+        "keywords": [
+            "microformats",
+            "microformats 2",
+            "parser",
+            "semantic"
         ]
     }
 ]
