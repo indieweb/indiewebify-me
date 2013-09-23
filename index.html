@@ -196,16 +196,28 @@
 				<%= published %><br>
 				<%= updated %>
 			</p>
-			<p>
-				<%= author %><br>
-				<%= category %><br>
-				<%= content %><br>
-				<%= name %><br>
-				<%= summary %><br>
-				<%= syndication %><br>
-				<%= updated %><br>
-				<%= url %>
-			</p>
+			<dl>
+				<dt>Author</dt>
+				<dd><%= author %></dd>
+				<dt>Categories</dt>
+				<% _.each(category, function(cat) { %>
+				<dd><%= cat %></dd>
+				<% }); %>
+				<dt>Content</dt>
+				<dd><%= content %></dd>
+				<dt>Name</dt>
+				<dd><%= name %></dd>
+				<dt>Summary</dt>
+				<dd><%= summary %><dd>
+				<dt>Syndication</dt>
+				<% _.each(syndication, function(syn) { %>
+				<dd><%= syn %></dd>
+				<% }); %>
+				<dt>Updated</dt>
+				<dd><%= updated %></dd>
+				<dt>URL</dt>
+				<dd><%= url %></dd>
+			</dl>
 		</script>
     
     <!-- Load JS here for greater good =============================-->
@@ -243,20 +255,24 @@
 
 		var validateMicroHEntry = function(hentry) {
 		
-			var hentry_values = {};
+			var hentry_values = hentry;
 
-		
-	
-
-			
-			if (hentry.published != undefined) {
-				hentry_values.published = 'Published ' + hentry.published;
+			if (hentry.author != undefined) {
+				hentry_values.author = hentry.author[0].properties.name;
 			}
-			else {
-				hentry_values.published = 'No class named .published found';
-			}
+			hentry_values = _.defaults(hentry_values, {
+				author: 'No class named .p-author found',
+				category: ['No class named .p-category found'],
+				content: 'No class named .e-content found',
+				name: 'No class named .p-name found',
+				summary: 'No class named .p-summary found',
+				syndication: ['No class named .u-syndication found'],
+				updated: 'No class named .dt-updated found',
+				url: 'No class named .u-url found',
+				published: 'No class named .dt-published found'
+			});
 		
-			$('#validate-hentry-result').html(_.template($('#template-validate-hentry').html(), hentry)).fadeIn('slow');
+			$('#validate-hentry-result').html(_.template($('#template-validate-hentry').html(), hentry_values)).fadeIn('slow');
 		}
 
 	  $(document).ready(function(){
@@ -284,7 +300,8 @@
 							validateMicroHCard(result.items[0].properties);
 						}
 						else if (validate == 'validate-hentry') {
-							validateMicroHEntry(result.items[1].properties);
+						var hentry = _.find(result.items, function(item) { return _.contains(item.type, 'h-entry')});
+							validateMicroHEntry(hentry.properties);
 						}
 						else {
 							alert('Ooops, could not find that type of validation');
