@@ -6,8 +6,9 @@ ob_start();
 require __DIR__ . '/../vendor/autoload.php';
 ob_end_clean();
 
+use BarnabyWalters\Mf2;
 use Guzzle;
-use mf2;
+use mf2\Parser as MfParser;
 use Silex;
 use Symfony\Component\HttpFoundation as Http;
 
@@ -54,7 +55,7 @@ function fetchMf($url) {
 	if ($err)
 		return [null, $err];
 	
-	$parser = new mf2\Parser((string) $resp, $url);
+	$parser = new MfParser((string) $resp, $url);
 	return [$parser->parse(), null];
 }
 
@@ -80,7 +81,7 @@ $app->get('/validate-rels/', function (Http\Request $request) {
 		return render('validate-rels.html');
 	} else {
 		$url = $request->query->get('url');
-		list($mf, $err) = fetchMf($url);
+		list($mfs, $err) = fetchMf($url);
 		
 		if ($err)
 			return render('validate-rels.html', [
@@ -91,14 +92,41 @@ $app->get('/validate-rels/', function (Http\Request $request) {
 			]);
 		
 		return render('validate-rels.html', [
-			'rels' => $mf['rels']['me'],
+			'rels' => $mfs['rels']['me'],
 			'url' => $url
 		]);
 	}
 });
 
 $app->get('/validate-h-card/', function (Http\Request $request) {
-	
+	if (!$request->query->has('url')) {
+		return render('validate-h-card.html');
+	} else {
+		$url = $request->query->get('url');
+		list($mfs, $err) = fetchMf($url);
+		
+		$errorResponse = function($message) use ($url) {
+			return render('validate-h-card.html', [
+				'error' => [
+					'message' => $message
+				],
+				'url' => $url
+			]);
+		};
+		
+		if ($err)
+			return $errorResponse($err->getMessage());
+		
+		$hCard = Mf2\findMicroformatsByType($mfs, 'h-card');
+		
+		if (count($hCard) === 0)
+			return $errorResponse('No h-cards found — check your classnames');
+		
+		return render('validate-h-card.html', [
+			'hCard' => $hCard[0],
+			'url' => $url
+		]);
+	}
 });
 
 $app->run();

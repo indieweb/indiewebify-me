@@ -10,10 +10,10 @@
 	<h1>What is the IndieWeb?</h1>
 
 	<blockquote>			
-	We should all own the content we're creating, rather than just posting to third-party content silos. 
-	Publish on your own domain, and syndicate out to silos.
-	This is the basis of the "Indie Web" movement.
-	~<a href="http://indiewebcamp.com" target="_blank">IndieWebCamp</a>
+		We should all own the content we're creating, rather than just posting to third-party content silos. 
+		Publish on your own domain, and syndicate out to silos.
+		This is the basis of the "Indie Web" movement.
+		~<a href="http://indiewebcamp.com" target="_blank">IndieWebCamp</a>
 	</blockquote>
 
 </div>
@@ -21,30 +21,14 @@
 
 
 <!-- Level 1 -->
-<?= $render('validate-rels.html') ?>
+<?= $render('validate-rels.html', $render) ?>
 
 
 <!-- Level 2 -->
+<?= $render('validate-h-card.html', $render) ?>
+
+
 <div class="row demo-row">
-
-	<h1><span class="fui-new"></span> Publishing on the IndieWeb <small>Level 2</small></h1>
-
-	<h2>1. Markup your content (Posts, Articles, Notes, etc...) with <a href="http://microformats.org/" target="_blank">Microformats2</a></h2>
-	<p>&nbsp;</p>
-
-	<h4>Validate your <strong>homepage</strong> has a <a href="http://microformats.org/wiki/h-card" target="_blank">h-card</a> that is properly formatted</h4>
-	<form class="validate-h-card row">
-				<div class="span4">
-					<input type="text" id="validate-h-card-url" value="" placeholder="http://yoursite.com" class="span4" />
-				</div>
-				<div class="span3">
-					<button type="submit" id="validate-h-card" class="btn btn-large btn-block btn-primary">Validate profile h-card</button>
-				</div>
-	</form>
-	<div id="validate-h-card-result" class="row validate-result"></div>
-	<p>&nbsp;</p>
-
-
 	<h4>Validate your <strong>posts / notes</strong> display a <a href="http://microformats.org/wiki/h-entry" target="_blank">h-entry</a> that is properly formatted</h4>
 	<form class="validate-h-entry row">
 		<div class="span4">
@@ -55,22 +39,19 @@
 		</div>
 	</form>
 	<div id="validate-h-entry-result" class="row validate-result"></div>
-	<p>&nbsp;</p>
-
 
 
 	<h2>2. Add the ability to "send" a <a href="http://webmention.org" target="_blank">WebMention</a> to other IndieWeb sites</h2>
 	<h4>A Post / Note marked up content needs to exist at the URL with valid Microformat data 
-	<h4>Send Webmention POST request to the site you are mentioning</h4>
-	<p>&nbsp;</p>
+		<h4>Send Webmention POST request to the site you are mentioning</h4>
+		<p>&nbsp;</p>
 
-	<ul>
-		<li>Use an existing client like <a href="https://github.com/indieweb/mention-client" target="_blank">Webmention Client</a> (PHP)</li>
-		<li>Write your own client in your language of choosing ;)</li>
-	</ul>
+		<ul>
+			<li>Use an existing client like <a href="https://github.com/indieweb/mention-client" target="_blank">Webmention Client</a> (PHP)</li>
+			<li>Write your own client in your language of choosing ;)</li>
+		</ul>
 
 </div>
-<div class="row demo-row"><hr></div>
 
 
 
@@ -93,14 +74,14 @@
 
 	<h4>Send a test <strong>WebMention</strong> to your website: <span>http://yourwebsite.com</span></h4>
 	<div class="row">
-				<div class="span5">
-					<textarea name="web_mention" rows="4" class="span5"></textarea>
-				</div>
+		<div class="span5">
+			<textarea name="web_mention" rows="4" class="span5"></textarea>
+		</div>
 	</div>
 	<div class="row">
 		<div class="span3">
-					<a href="#fakelink" class="btn btn-large btn-block btn-primary">Send WebMention</a>
-				</div>
+			<a href="#fakelink" class="btn btn-large btn-block btn-primary">Send WebMention</a>
+		</div>
 	</div>
 
 </div>

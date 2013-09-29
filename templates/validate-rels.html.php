@@ -9,7 +9,7 @@
 	<div class="result">
 		<? if ($error): ?>
 		<h4>Something Went Wrong!</strong></h4>
-		<p>When fetching <code><?= $url ?></code>, we found this problem:</p>
+		<p>When fetching <code><?= $url ?></code>, we got this problem:</p>
 		<p><?= $error['message'] ?></p>
 		<? elseif ($rels): ?>
 		<h4>Success!</h4>
@@ -24,7 +24,7 @@
 		<? endif ?>
 	</div>
 	
-	<form class="row" action="/validate-rels" method="get">
+	<form class="row" action="/validate-rels/" method="get">
 		<div class="span4">
 			<input class="span4" type="text" value="<?= $url ?>" name="url" placeholder="http://yoursite.com" />
 		</div>
