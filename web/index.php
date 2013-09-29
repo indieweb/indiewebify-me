@@ -75,7 +75,7 @@ $app->get('/', function () {
 	return render('index.html');
 });
 
-$app->get('/validate-rels', function (Http\Request $request) {
+$app->get('/validate-rels/', function (Http\Request $request) {
 	if (!$request->query->has('url')) {
 		return render('validate-rels.html');
 	} else {
@@ -95,6 +95,10 @@ $app->get('/validate-rels', function (Http\Request $request) {
 			'url' => $url
 		]);
 	}
+});
+
+$app->get('/validate-h-card/', function (Http\Request $request) {
+	
 });
 
 $app->run();
