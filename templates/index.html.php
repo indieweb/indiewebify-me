@@ -21,25 +21,7 @@
 
 
 <!-- Level 1 -->
-<div class="row demo-row">
-
-	<h1><span class="fui-user"></span> Become a citizen of the IndieWeb <small>Level 1</small></h1>
-
-	<h2>1. Register a domain name to use as your personal web identity</h2>
-	<h2>2. Add ability to sign in <a href="http://indiewebcamp.com/IndieAuth" target="_blank">IndieAuth</a> using your personal domain name</h2>
-	<p>&nbsp;</p>
-
-	<h4>Once you've added the proper rel="me" links test out signing in with IndieAuth</h4>
-	<form class="validate-rel row">
-				<div class="span4">
-					<input type="text" id="validate-rel-url" value="" placeholder="http://yoursite.com" class="span4" />
-				</div>
-				<div class="span3">
-					<button type="submit" id="validate-rel" class="btn btn-large btn-block btn-primary">Test</button>
-				</div>
-	</form>
-</div>
-<div id="validate-rel-result" class="row validate-result"></div>
+<?= $render('validate-rels.html') ?>
 
 
 <!-- Level 2 -->
