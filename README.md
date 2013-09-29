@@ -4,7 +4,7 @@ This tool offers a fast and easy way to get you & your website on the Indieweb, 
 
 To learn more about the IndieWeb go to [indiewebcamp.com](http://indiewebcamp.com).
 
-Made by Brennan Novak, Barnaby Walters, and others at the 2013 IndieWebCamps in [Reykajavik](http://indiewebcamp.com/2013/#Remote_Indiewebcamp_Parties) and [Brighton](http://indiewebcamp.com/2013/UK).
+Made by Brennan Novak, Barnaby Walters, and others at the 2013 IndieWebCamps in [Reykjavik](http://indiewebcamp.com/2013/#Remote_Indiewebcamp_Parties) and [Brighton](http://indiewebcamp.com/2013/UK).
 
 ## Installation
 
@@ -21,4 +21,4 @@ How to run your own instance of indiewebify.me for development:
 1. Point your web server at `indiewebify-me/web/`.
 	* The included .htaccess should route apache requests correctly. For other servers file an issue or send us a pull request
 
-
+All of the interesting stuff is in `/web/index.php` — or at least is until that gets too big and needs moving.
