@@ -3,7 +3,7 @@
 			"mf2/mf2": "0.1.*",
 			"barnabywalters/mf-cleaner": "*",
 			"silex/silex": "*",
-    	"kriswallsmith/buzz": "0.10",
+    	"guzzle/guzzle": "*",
 			"tantek/cassis": "*"
     }
 }
