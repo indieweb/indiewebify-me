@@ -1,5 +1,15 @@
 {
-    "require": {
+    "name": "indiewebify.me",
+		"description": "Tools to help you get the best out of your indieweb site",
+		"authors": [{
+			"name": "Brennan Novak",
+			"homepage": "https://brennannovak.com"
+		},
+		{
+			"name": "Barnaby Walters",
+			"homepage": "http://waterpigs.co.uk"
+		}],
+		"require": {
 			"mf2/mf2": "0.1.*",
 			"barnabywalters/mf-cleaner": "*",
 			"silex/silex": "*",
