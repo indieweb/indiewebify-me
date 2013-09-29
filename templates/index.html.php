@@ -27,20 +27,9 @@
 <!-- Level 2 -->
 <?= $render('validate-h-card.html', $render) ?>
 
+<?= $render('validate-h-entry.html', $render) ?>
 
 <div class="row demo-row">
-	<h4>Validate your <strong>posts / notes</strong> display a <a href="http://microformats.org/wiki/h-entry" target="_blank">h-entry</a> that is properly formatted</h4>
-	<form class="validate-h-entry row">
-		<div class="span4">
-			<input type="text" id="validate-h-entry-url" value="" placeholder="http://yoursite.com/notes/123456" class="span4" />
-		</div>
-		<div class="span3">
-			<button type="submit" id="validate-h-entry" class="btn btn-large btn-block btn-primary">Validate h-entry</button>
-		</div>
-	</form>
-	<div id="validate-h-entry-result" class="row validate-result"></div>
-
-
 	<h2>2. Add the ability to "send" a <a href="http://webmention.org" target="_blank">WebMention</a> to other IndieWeb sites</h2>
 	<h4>A Post / Note marked up content needs to exist at the URL with valid Microformat data 
 		<h4>Send Webmention POST request to the site you are mentioning</h4>

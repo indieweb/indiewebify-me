@@ -17,7 +17,7 @@
 		
 		<p>We found the following <code>h-card</code> on your site:</p>
 		
-		<div class="h-card-demo">
+		<div class="preview-h-card">
 			<? if (Mf2\hasProp($hCard, 'photo')): ?>
 			<img class="u-photo" src="<?= Mf2\getProp($hCard, 'photo')?>" alt="" />
 			<? endif ?>

@@ -117,13 +117,44 @@ $app->get('/validate-h-card/', function (Http\Request $request) {
 		if ($err)
 			return $errorResponse($err->getMessage());
 		
-		$hCard = Mf2\findMicroformatsByType($mfs, 'h-card');
+		$hCards = Mf2\findMicroformatsByType($mfs, 'h-card');
 		
-		if (count($hCard) === 0)
+		if (count($hCards) === 0)
 			return $errorResponse('No h-cards found — check your classnames');
 		
 		return render('validate-h-card.html', [
-			'hCard' => $hCard[0],
+			'hCard' => $hCards[0],
+			'url' => $url
+		]);
+	}
+});
+
+$app->get('/validate-h-entry/', function (Http\Request $request) {
+	if (!$request->query->has('url')) {
+		return render('validate-h-entry.html');
+	} else {
+		$url = $request->query->get('url');
+		list($mfs, $err) = fetchMf($url);
+		
+		$errorResponse = function($message) use ($url) {
+			return render('validate-h-entry.html', [
+				'error' => [
+					'message' => $message
+				],
+				'url' => $url
+			]);
+		};
+		
+		if ($err)
+			return $errorResponse($err->getMessage());
+		
+		$hEntries = Mf2\findMicroformatsByType($mfs, 'h-entry');
+		
+		if (count($hEntries) === 0)
+			return $errorResponse('No h-entries found — check your classnames');
+		
+		return render('validate-h-entry.html', [
+			'hEntry' => $hEntries[0],
 			'url' => $url
 		]);
 	}
