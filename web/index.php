@@ -12,7 +12,7 @@ use mf2\Parser as MfParser;
 use Silex;
 use Symfony\Component\HttpFoundation as Http;
 
-function renderTemplate($template, array $__templateData = []) {
+function renderTemplate($template, array $__templateData = array()) {
 	$render = function ($__path, $render=null) use ($__templateData) {
 		ob_start();
 		extract($__templateData);
@@ -24,7 +24,7 @@ function renderTemplate($template, array $__templateData = []) {
 	return $render($template, $render);
 }
 
-function render($template, array $data = []) {
+function render($template, array $data = array()) {
 	$isHtml = pathinfo($template, PATHINFO_EXTENSION) === 'html';
 	$out = '';
 	
@@ -44,19 +44,19 @@ function httpGet($url) {
 	
 	try {
 		$response = $client->get($url)->send();
-		return [$response, null];
+		return array($response, null);
 	} catch (Guzzle\Common\Exception\GuzzleException $e) {
-		return [null, $e];
+		return array(null, $e);
 	}
 }
 
 function fetchMf($url) {
 	list($resp, $err) = httpGet($url);
 	if ($err)
-		return [null, $err];
+		return array(null, $err);
 	
 	$parser = new MfParser((string) $resp, $url);
-	return [$parser->parse(), null];
+	return array($parser->parse(), null);
 }
 
 // Web server setup
@@ -84,17 +84,17 @@ $app->get('/validate-rels/', function (Http\Request $request) {
 		list($mfs, $err) = fetchMf($url);
 		
 		if ($err)
-			return render('validate-rels.html', [
-				'error' => [
+			return render('validate-rels.html', array(
+				'error' => array(
 					'message' => $err->getMessage()
-				],
+				),
 				'url' => $url
-			]);
+			));
 		
-		return render('validate-rels.html', [
+		return render('validate-rels.html', array(
 			'rels' => $mfs['rels']['me'],
 			'url' => $url
-		]);
+		));
 	}
 });
 
@@ -106,12 +106,12 @@ $app->get('/validate-h-card/', function (Http\Request $request) {
 		list($mfs, $err) = fetchMf($url);
 		
 		$errorResponse = function($message) use ($url) {
-			return render('validate-h-card.html', [
-				'error' => [
+			return render('validate-h-card.html', array(
+				'error' => array(
 					'message' => $message
-				],
+				),
 				'url' => $url
-			]);
+			));
 		};
 		
 		if ($err)
@@ -122,10 +122,10 @@ $app->get('/validate-h-card/', function (Http\Request $request) {
 		if (count($hCards) === 0)
 			return $errorResponse('No h-cards found — check your classnames');
 		
-		return render('validate-h-card.html', [
+		return render('validate-h-card.html', array(
 			'hCard' => $hCards[0],
 			'url' => $url
-		]);
+		));
 	}
 });
 
@@ -137,12 +137,12 @@ $app->get('/validate-h-entry/', function (Http\Request $request) {
 		list($mfs, $err) = fetchMf($url);
 		
 		$errorResponse = function($message) use ($url) {
-			return render('validate-h-entry.html', [
-				'error' => [
+			return render('validate-h-entry.html', array(
+				'error' => array(
 					'message' => $message
-				],
+				),
 				'url' => $url
-			]);
+			));
 		};
 		
 		if ($err)
@@ -153,10 +153,10 @@ $app->get('/validate-h-entry/', function (Http\Request $request) {
 		if (count($hEntries) === 0)
 			return $errorResponse('No h-entries found — check your classnames');
 		
-		return render('validate-h-entry.html', [
+		return render('validate-h-entry.html', array(
 			'hEntry' => $hEntries[0],
 			'url' => $url
-		]);
+		));
 	}
 });
 
