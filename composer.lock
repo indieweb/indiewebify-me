@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "4ef0effa1da9b0196b38c16006e834c0",
+    "hash": "7984edf49f34c8961935775001518b67",
     "packages": [
         {
             "name": "barnabywalters/helpers",
@@ -41,16 +41,16 @@
         },
         {
             "name": "barnabywalters/mf-cleaner",
-            "version": "v0.1.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barnabywalters/php-mf-cleaner.git",
-                "reference": "1136d0d887b9acc4697a7dec19ce9d286c1ab051"
+                "reference": "3767401c66d11a3596208d61afb46bcdd96fd40b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barnabywalters/php-mf-cleaner/zipball/1136d0d887b9acc4697a7dec19ce9d286c1ab051",
-                "reference": "1136d0d887b9acc4697a7dec19ce9d286c1ab051",
+                "url": "https://api.github.com/repos/barnabywalters/php-mf-cleaner/zipball/3767401c66d11a3596208d61afb46bcdd96fd40b",
+                "reference": "3767401c66d11a3596208d61afb46bcdd96fd40b",
                 "shasum": ""
             },
             "require": {
@@ -81,7 +81,7 @@
                 }
             ],
             "description": "Cleans up microformats2 array structures",
-            "time": "2013-06-22 15:33:08"
+            "time": "2013-09-30 15:31:23"
         },
         {
             "name": "guzzle/guzzle",
@@ -753,9 +753,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "barnabywalters/mf-cleaner": 20
+    },
     "platform": [
 
     ],

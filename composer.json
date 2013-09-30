@@ -11,7 +11,7 @@
 		}],
 		"require": {
 			"mf2/mf2": "0.1.*",
-			"barnabywalters/mf-cleaner": "*",
+			"barnabywalters/mf-cleaner": "dev-master",
 			"silex/silex": "*",
     	"guzzle/guzzle": "*",
 			"tantek/cassis": "*"
