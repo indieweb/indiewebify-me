@@ -1,4 +1,4 @@
-<div class="row demo-row">
+<div id="validate-rel-me" class="row demo-row">
 	<h1><span class="fui-user"></span> Become a citizen of the IndieWeb <small>Level 1</small></h1>
 
 	<h2>1. Get your own domain name</h2>
@@ -27,7 +27,7 @@
 		
 		<ul>
 			<? foreach ($rels as $rel): ?>
-			<li><?= $rel ?></li>
+			<li class="rel-me-result"><a href="<?= $rel ?>"><?= $rel ?></a></li>
 			<? endforeach ?>
 		</ul>
 		<? endif ?>
@@ -42,3 +42,17 @@
 		</div>
 	</form>
 </div>
+
+<script>
+	(function ($) {
+		$('.rel-me-result').each(function () {
+			var url = this.querySelector('a').href,
+				el = $(this);
+			
+			// TODO: append loading spinner
+			el.append('<span class="progress spinner"></span>');
+			
+			// TODO: validate symmetric rels with request to /rel-me-links/
+		});
+	}($));
+</script>

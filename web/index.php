@@ -50,13 +50,17 @@ function httpGet($url) {
 	}
 }
 
+function parseMf($resp, $url) {
+	$parser = new MfParser((string) $resp, $url);
+	return $parser->parse();
+}
+
 function fetchMf($url) {
 	list($resp, $err) = httpGet($url);
 	if ($err)
 		return array(null, $err);
 	
-	$parser = new MfParser((string) $resp, $url);
-	return array($parser->parse(), null);
+	return array(parseMf($resp, $url), null);
 }
 
 function errorResponder($template, $url) {
@@ -71,11 +75,27 @@ function errorResponder($template, $url) {
 function finalUrl($url) {
 	$client = new Guzzle\Http\Client();
 	try {
-		$response = $client->head($url)->send();
-		return array($response->getEffectiveUrl(), null);
+		return array($client->head($url)->send()->getEffectiveUrl(), null);
 	} catch (Guzzle\Common\Exception\GuzzleException $e) {
 		return array(null, $e);
 	}
+}
+
+function relMeLinks($to, array $fromRelMes) {
+	foreach ($fromRelMes as $me) {
+		if ($to === $me)
+			return true;
+	}
+	
+	foreach ($fromRelMes as $me) {
+		list($meFinal, $err) = finalUrl($me);
+		if ($err)
+			continue;
+		if ($to === $meFinal)
+			return true;
+	}
+	
+	return false;
 }
 
 // Web server setup
@@ -118,39 +138,39 @@ $app->get('/validate-rel-me/', function (Http\Request $request) {
 	}
 });
 
+// TODO: determine whether or not effective (redirected) URL resolution is correct
+// Look at indieauth code, relmeauth spec to decide
 $app->get('/rel-me-links/', function (Http\Request $request) {
-	if (!$request->query->has('to') or !$request->query->has('from'))
-		return Http\Response::create('Provide both from and to parameters', 400);
+	if (!$request->query->has('url1') or !$request->query->has('url2'))
+		return Http\Response::create('Provide both url1 and url2 parameters', 400);
 	
 	ob_start();
-	$to = web_address_to_uri($request->query->get('to'), true);
-	$from = web_address_to_uri($request->query->get('from'), true);
+	$u1 = web_address_to_uri($request->query->get('url1'), true);
+	$u2 = web_address_to_uri($request->query->get('url2'), true); // lol U2
 	ob_end_clean();
 	
-	list($toFinal, $err) = finalUrl($to);
+	list($u1Resp, $err) = httpGet($u1);
 	if ($err)
-		return Http\Response::create('Couldn’t fetch to', 400);
+		return Http\Response::create("Couldn’t fetch {$u1}", 400);
+	$u1Final = $u1Resp->getEffectiveUrl();
+	$u1Mf = parseMf($u1Resp, $u1);
+	$u1RelMe = @($u1Mf['rels']['me'] ?: array());
 	
-	list($fromMfs, $err) = fetchMf($from);
+	list($u2Resp, $err) = httpGet($u2);
 	if ($err)
-		return Http\Response::create('Couldn’t fetch from', 400);
+		return Http\Response::create("Couldn’t fetch {$u2}", 400);
+	$u2Final = $u2Resp->getEffectiveUrl();
+	$u2Mf = parseMf($u2Resp, $u2);
+	$u2RelMe = @($u2Mf['rels']['me'] ?: array());
 	
-	$fromMe = @($fromMfs['rels']['me'] ?: array());
+	$link12 = relMeLinks($u2Final, $u1RelMe);
+	$link21 = relMeLinks($u1Final, $u2RelMe);
 	
-	foreach ($fromMe as $me) {
-		if ($toFinal === $me)
-			return "{$from} has a rel-me link to {$to}";
-	}
-	
-	foreach ($fromMe as $me) {
-		list($meFinal, $err) = finalUrl($me);
-		if ($err)
-			continue;
-		if ($toFinal === $meFinal)
-			return "{$from} has a redirected rel-me link to {$to}";
-	}
-	
-	return 'false';
+	if ($link12 and $link21):
+		return 'true';
+	else:
+		return 'false';
+	endif;
 });
 
 $app->get('/validate-h-card/', function (Http\Request $request) {
