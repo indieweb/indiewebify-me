@@ -67,7 +67,7 @@ function errorResponder($template, $url) {
 	return function ($message) use ($template) {
 		return render($template, array(
 			'error' => array('message' => $message),
-			'url' => $url
+			'url' => htmlspecialchars($url)
 		));
 	};
 }
