@@ -135,7 +135,7 @@ $app->get('/validate-rel-me/', function (Http\Request $request) {
 		
 		return render('validate-rel-me.html', array(
 			'rels' => $mfs['rels']['me'],
-			'url' => $url
+			'url' => htmlspecialchars($url)
 		));
 	}
 });
@@ -198,7 +198,7 @@ $app->get('/validate-h-card/', function (Http\Request $request) {
 		
 		return render('validate-h-card.html', array(
 			'hCard' => $hCards[0],
-			'url' => $url
+			'url' => htmlspecialchars($url)
 		));
 	}
 });
@@ -225,7 +225,7 @@ $app->get('/validate-h-entry/', function (Http\Request $request) {
 		
 		return render('validate-h-entry.html', array(
 			'hEntry' => $hEntries[0],
-			'url' => $url
+			'url' => htmlspecialchars($url)
 		));
 	}
 });
