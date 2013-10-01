@@ -59,8 +59,7 @@ function fetchMf($url) {
 	list($resp, $err) = httpGet($url);
 	if ($err)
 		return array(null, $err);
-	
-	return array(parseMf($resp, $url), null);
+	return array(parseMf($resp->getBody(), $url), null);
 }
 
 function errorResponder($template, $url) {
@@ -155,14 +154,14 @@ $app->get('/rel-me-links/', function (Http\Request $request) {
 	if ($err)
 		return Http\Response::create("Couldn’t fetch {$u1}", 400);
 	$u1Final = $u1Resp->getEffectiveUrl();
-	$u1Mf = parseMf($u1Resp, $u1);
+	$u1Mf = parseMf($u1Resp->getBody(), $u1);
 	$u1RelMe = @($u1Mf['rels']['me'] ?: array());
 	
 	list($u2Resp, $err) = httpGet($u2);
 	if ($err)
 		return Http\Response::create("Couldn’t fetch {$u2}", 400);
 	$u2Final = $u2Resp->getEffectiveUrl();
-	$u2Mf = parseMf($u2Resp, $u2);
+	$u2Mf = parseMf($u2Resp->getBody(), $u2);
 	$u2RelMe = @($u2Mf['rels']['me'] ?: array());
 	
 	$link12 = relMeLinks($u2Final, $u1RelMe);
@@ -224,7 +223,7 @@ $app->get('/validate-h-entry/', function (Http\Request $request) {
 		
 		if (count($hEntries) === 0)
 			return $errorResponse('No h-entries found — check your classnames');
-		print_r($mfs);
+		
 		return render('validate-h-entry.html', array(
 			'hEntry' => $hEntries[0],
 			'url' => htmlspecialchars($url)
