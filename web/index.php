@@ -224,7 +224,7 @@ $app->get('/validate-h-entry/', function (Http\Request $request) {
 		
 		if (count($hEntries) === 0)
 			return $errorResponse('No h-entries found — check your classnames');
-		
+		print_r($mfs);
 		return render('validate-h-entry.html', array(
 			'hEntry' => $hEntries[0],
 			'url' => htmlspecialchars($url)

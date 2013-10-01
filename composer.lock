@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "7984edf49f34c8961935775001518b67",
+    "hash": "53d14d6653fbaf33c67df4feab55d253",
     "packages": [
         {
             "name": "barnabywalters/helpers",
@@ -177,16 +177,16 @@
         },
         {
             "name": "mf2/mf2",
-            "version": "v0.1.21",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/indieweb/php-mf2.git",
-                "reference": "c12b8b02defcb1038020efaa4fac79e45326962a"
+                "reference": "2d9e5224593b930b84cbde6c22fb1bda1a735220"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/indieweb/php-mf2/zipball/c12b8b02defcb1038020efaa4fac79e45326962a",
-                "reference": "c12b8b02defcb1038020efaa4fac79e45326962a",
+                "url": "https://api.github.com/repos/indieweb/php-mf2/zipball/2d9e5224593b930b84cbde6c22fb1bda1a735220",
+                "reference": "2d9e5224593b930b84cbde6c22fb1bda1a735220",
                 "shasum": ""
             },
             "require": {
@@ -221,7 +221,7 @@
                 "parser",
                 "semantic"
             ],
-            "time": "2013-09-12 18:34:32"
+            "time": "2013-09-15 21:10:33"
         },
         {
             "name": "nesbot/carbon",
@@ -754,6 +754,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
+        "mf2/mf2": 20,
         "barnabywalters/mf-cleaner": 20
     },
     "platform": [
