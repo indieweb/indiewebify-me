@@ -60,7 +60,7 @@ function fetchMf($url) {
 }
 
 function errorResponder($template, $url) {
-	return function ($message) {
+	return function ($message) use ($template) {
 		return render($template, array(
 			'error' => array('message' => $message),
 			'url' => $url
