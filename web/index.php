@@ -131,7 +131,7 @@ $app->get('/validate-rel-me/', function (Http\Request $request) {
 		list($mfs, $err) = fetchMf($url);
 		
 		if ($err)
-			return $errorResponse($err->getMessage());
+			return $errorResponse(htmlspecialchars($err->getMessage()));
 		
 		return render('validate-rel-me.html', array(
 			'rels' => $mfs['rels']['me'],
@@ -189,7 +189,7 @@ $app->get('/validate-h-card/', function (Http\Request $request) {
 		list($mfs, $err) = fetchMf($url);
 		
 		if ($err)
-			return $errorResponse($err->getMessage());
+			return $errorResponse(htmlspecialchars($err->getMessage()));
 		
 		$hCards = Mf2\findMicroformatsByType($mfs, 'h-card');
 		
@@ -207,7 +207,9 @@ $app->get('/validate-h-entry/', function (Http\Request $request) {
 	if (!$request->query->has('url')) {
 		return render('validate-h-entry.html');
 	} else {
-		$url = trim($request->query->get('url'));
+		ob_start();
+		$url = web_address_to_uri($request->query->get('url'), true);
+		ob_end_clean();
 		$errorResponse = errorResponder('validate-h-entry.html', $url);
 		
 		if (empty($url))
@@ -216,7 +218,7 @@ $app->get('/validate-h-entry/', function (Http\Request $request) {
 		list($mfs, $err) = fetchMf($url);
 		
 		if ($err)
-			return $errorResponse($err->getMessage());
+			return $errorResponse(htmlspecialchars($err->getMessage()));
 		
 		$hEntries = Mf2\findMicroformatsByType($mfs, 'h-entry');
 		
