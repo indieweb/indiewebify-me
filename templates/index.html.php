@@ -23,7 +23,7 @@
 
 
 <!-- Level 1 -->
-<?= $render('validate-rels.html', $render) ?>
+<?= $render('validate-rel-me.html', $render) ?>
 
 
 <!-- Level 2 -->

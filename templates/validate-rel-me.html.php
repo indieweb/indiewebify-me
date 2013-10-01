@@ -15,15 +15,15 @@
 	
 	<p>On the wiki: <a href="http://indiewebcamp.com/How_to_set_up_web_sign-in_on_your_own_domain">How to set up Web Sign In</a>.</p>
 	
+	<? if ($error or $rels): ?>
 	<div class="result alert <? if ($error): ?>alert-warning<? else: ?>alert-success<? endif ?>">
 		<? if ($error): ?>
 		<h4>Something Went Wrong!</strong></h4>
 		<p>When fetching <code><?= $url ?></code>, we got this problem:</p>
 		<p><?= $error['message'] ?></p>
 		<? elseif ($rels): ?>
-		<h4>Success!</h4>
 		
-		<p>We found the following <code>rel=me</code> URLs on your site:</p>
+		<p>We found the following <code>rel=me</code> URLs on <a class="results-url" href="<?= $url ?>">your site</a>:</p>
 		
 		<ul>
 			<? foreach ($rels as $rel): ?>
@@ -32,6 +32,7 @@
 		</ul>
 		<? endif ?>
 	</div>
+	<? endif ?>
 	
 	<form class="row" action="/validate-rel-me/" method="get">
 		<div class="span4">
@@ -42,17 +43,3 @@
 		</div>
 	</form>
 </div>
-
-<script>
-	(function ($) {
-		$('.rel-me-result').each(function () {
-			var url = this.querySelector('a').href,
-				el = $(this);
-			
-			// TODO: append loading spinner
-			el.append('<span class="progress spinner"></span>');
-			
-			// TODO: validate symmetric rels with request to /rel-me-links/
-		});
-	}($));
-</script>

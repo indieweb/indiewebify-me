@@ -119,9 +119,11 @@ $app->get('/validate-rel-me/', function (Http\Request $request) {
 	if (!$request->query->has('url')) {
 		return render('validate-rel-me.html');
 	} else {
-		$url = trim($request->query->get('url'));
+		ob_start();
+		$url = web_address_to_uri($request->query->get('url'), true);
+		ob_end_clean();
 		
-		$errorResponse = errorResponder('validate-rels.html', $url);
+		$errorResponse = errorResponder('validate-rel-me.html', $url);
 		
 		if (empty($url))
 			return $errorResponse('Empty URLs lead nowhere');

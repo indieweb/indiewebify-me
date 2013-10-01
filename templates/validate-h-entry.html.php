@@ -2,7 +2,8 @@
 
 <div class="row demo-row">
 	<h4>Make sure your <strong>posts/notes</strong> are marked up with <a href="http://microformats.org/wiki/h-entry" target="_blank">h-entry</a>:</h4>
-
+	
+	<? if ($error or $hEntry): ?>
 	<div class="result alert <? if ($error): ?>alert-warning<? else: ?>alert-success<? endif ?>">
 		<? if ($error): ?>
 			<h4>Something Went Wrong!</strong></h4>
@@ -12,7 +13,7 @@
 			<h4>Success!</h4>
 
 			<p>We found the following <code>h-entry</code> on your site:</p>
-
+			
 			<div class="preview-h-entry">
 					<? if (Mf2\hasProp($hEntry, 'author')): $author = Mf2\getProp($hEntry, 'author') ?>
 					<div class="minicard p-author">
@@ -47,6 +48,7 @@
 			</div>
 		<? endif ?>
 	</div>
+	<? endif ?>
 
 	<form class="row" action="/validate-h-entry/" method="get">
 		<div class="span4">
