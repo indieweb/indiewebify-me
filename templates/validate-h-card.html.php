@@ -7,7 +7,7 @@
 
 	<h4>Validate your <strong>homepage</strong> has an <a href="http://microformats.org/wiki/h-card" target="_blank">h-card</a>:</h4>
 	
-	<div class="result">
+	<div class="result alert <? if ($error): ?>alert-warning<? else: ?>alert-success<? endif ?>">
 		<? if ($error): ?>
 		<h4>Something Went Wrong!</strong></h4>
 		<p>When fetching <code><?= $url ?></code>, we got this problem:</p>

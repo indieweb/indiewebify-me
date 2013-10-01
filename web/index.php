@@ -68,6 +68,16 @@ function errorResponder($template, $url) {
 	};
 }
 
+function finalUrl($url) {
+	$client = new Guzzle\Http\Client();
+	try {
+		$response = $client->head($url)->send();
+		return array($response->getEffectiveUrl(), null);
+	} catch (Guzzle\Common\Exception\GuzzleException $e) {
+		return array(null, $e);
+	}
+}
+
 // Web server setup
 
 // Route static assets from CLI server
@@ -85,9 +95,9 @@ $app->get('/', function () {
 	return render('index.html');
 });
 
-$app->get('/validate-rels/', function (Http\Request $request) {
+$app->get('/validate-rel-me/', function (Http\Request $request) {
 	if (!$request->query->has('url')) {
-		return render('validate-rels.html');
+		return render('validate-rel-me.html');
 	} else {
 		$url = trim($request->query->get('url'));
 		
@@ -101,11 +111,46 @@ $app->get('/validate-rels/', function (Http\Request $request) {
 		if ($err)
 			return $errorResponse($err->getMessage());
 		
-		return render('validate-rels.html', array(
+		return render('validate-rel-me.html', array(
 			'rels' => $mfs['rels']['me'],
 			'url' => $url
 		));
 	}
+});
+
+$app->get('/rel-me-links/', function (Http\Request $request) {
+	if (!$request->query->has('to') or !$request->query->has('from'))
+		return Http\Response::create('Provide both from and to parameters', 400);
+	
+	ob_start();
+	$to = web_address_to_uri($request->query->get('to'), true);
+	$from = web_address_to_uri($request->query->get('from'), true);
+	ob_end_clean();
+	
+	list($toFinal, $err) = finalUrl($to);
+	if ($err)
+		return Http\Response::create('Couldn’t fetch to', 400);
+	
+	list($fromMfs, $err) = fetchMf($from);
+	if ($err)
+		return Http\Response::create('Couldn’t fetch from', 400);
+	
+	$fromMe = @($fromMfs['rels']['me'] ?: array());
+	
+	foreach ($fromMe as $me) {
+		if ($toFinal === $me)
+			return "{$from} has a rel-me link to {$to}";
+	}
+	
+	foreach ($fromMe as $me) {
+		list($meFinal, $err) = finalUrl($me);
+		if ($err)
+			continue;
+		if ($toFinal === $meFinal)
+			return "{$from} has a redirected rel-me link to {$to}";
+	}
+	
+	return 'false';
 });
 
 $app->get('/validate-h-card/', function (Http\Request $request) {
