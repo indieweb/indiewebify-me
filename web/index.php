@@ -59,6 +59,15 @@ function fetchMf($url) {
 	return array($parser->parse(), null);
 }
 
+function errorResponder($template, $url) {
+	return function ($message) {
+		return render($template, array(
+			'error' => array('message' => $message),
+			'url' => $url
+		));
+	};
+}
+
 // Web server setup
 
 // Route static assets from CLI server
@@ -80,16 +89,17 @@ $app->get('/validate-rels/', function (Http\Request $request) {
 	if (!$request->query->has('url')) {
 		return render('validate-rels.html');
 	} else {
-		$url = $request->query->get('url');
+		$url = trim($request->query->get('url'));
+		
+		$errorResponse = errorResponder('validate-rels.html', $url);
+		
+		if (empty($url))
+			return $errorResponse('Empty URLs lead nowhere');
+		
 		list($mfs, $err) = fetchMf($url);
 		
 		if ($err)
-			return render('validate-rels.html', array(
-				'error' => array(
-					'message' => $err->getMessage()
-				),
-				'url' => $url
-			));
+			return $errorResponse($err->getMessage());
 		
 		return render('validate-rels.html', array(
 			'rels' => $mfs['rels']['me'],
@@ -102,17 +112,14 @@ $app->get('/validate-h-card/', function (Http\Request $request) {
 	if (!$request->query->has('url')) {
 		return render('validate-h-card.html');
 	} else {
-		$url = $request->query->get('url');
-		list($mfs, $err) = fetchMf($url);
+		$url = trim($request->query->get('url'));
 		
-		$errorResponse = function($message) use ($url) {
-			return render('validate-h-card.html', array(
-				'error' => array(
-					'message' => $message
-				),
-				'url' => $url
-			));
-		};
+		$errorResponse = errorResponder('validate-h-card.html', $url);
+		
+		if (empty($url))
+			return $errorResponse('Empty URLs lead nowhere');
+		
+		list($mfs, $err) = fetchMf($url);
 		
 		if ($err)
 			return $errorResponse($err->getMessage());
@@ -133,17 +140,13 @@ $app->get('/validate-h-entry/', function (Http\Request $request) {
 	if (!$request->query->has('url')) {
 		return render('validate-h-entry.html');
 	} else {
-		$url = $request->query->get('url');
-		list($mfs, $err) = fetchMf($url);
+		$url = trim($request->query->get('url'));
+		$errorResponse = errorResponder('validate-h-entry.html', $url);
 		
-		$errorResponse = function($message) use ($url) {
-			return render('validate-h-entry.html', array(
-				'error' => array(
-					'message' => $message
-				),
-				'url' => $url
-			));
-		};
+		if (empty($url))
+			return $errorResponse('Empty URLs lead nowhere');
+		
+		list($mfs, $err) = fetchMf($url);
 		
 		if ($err)
 			return $errorResponse($err->getMessage());
