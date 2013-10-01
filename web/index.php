@@ -154,14 +154,14 @@ $app->get('/rel-me-links/', function (Http\Request $request) {
 	if ($err)
 		return Http\Response::create("Couldn’t fetch {$u1}", 400);
 	$u1Final = $u1Resp->getEffectiveUrl();
-	$u1Mf = parseMf($u1Resp->getBody(), $u1);
+	$u1Mf = parseMf($u1Resp->getBody(true), $u1);
 	$u1RelMe = @($u1Mf['rels']['me'] ?: array());
 	
 	list($u2Resp, $err) = httpGet($u2);
 	if ($err)
 		return Http\Response::create("Couldn’t fetch {$u2}", 400);
 	$u2Final = $u2Resp->getEffectiveUrl();
-	$u2Mf = parseMf($u2Resp->getBody(), $u2);
+	$u2Mf = parseMf($u2Resp->getBody(true), $u2);
 	$u2RelMe = @($u2Mf['rels']['me'] ?: array());
 	
 	$link12 = relMeLinks($u2Final, $u1RelMe);
