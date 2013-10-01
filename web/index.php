@@ -64,7 +64,7 @@ function fetchMf($url) {
 }
 
 function errorResponder($template, $url) {
-	return function ($message) use ($template) {
+	return function ($message) use ($template, $url) {
 		return render($template, array(
 			'error' => array('message' => $message),
 			'url' => htmlspecialchars($url)
