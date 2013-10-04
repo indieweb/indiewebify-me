@@ -37,6 +37,12 @@ function render($template, array $data = array()) {
 	return $out;
 }
 
+function crossOriginResponse($resp, $code=200) {
+	$response = $resp instanceof Http\Response ? $resp : new Http\Response($resp, $code);
+	$response['Access-Control-Allow-Origin'] = '*';
+	return $response;
+}
+
 function httpGet($url) {
 	$client = new Guzzle\Http\Client();
 	ob_start();
@@ -64,11 +70,11 @@ function fetchMf($url) {
 }
 
 function errorResponder($template, $url) {
-	return function ($message) use ($template, $url) {
-		return render($template, array(
+	return function ($message, $code = 400) use ($template, $url) {
+		return crossOriginResponse(render($template, array(
 			'error' => array('message' => $message),
 			'url' => htmlspecialchars($url)
-		));
+		)), $code);
 	};
 }
 
@@ -149,10 +155,10 @@ $app->get('/validate-rel-me/', function (Http\Request $request) {
 		if ($err)
 			return $errorResponse(htmlspecialchars($err->getMessage()));
 		
-		return render('validate-rel-me.html', array(
+		return crossOriginResponse(render('validate-rel-me.html', array(
 			'rels' => $mfs['rels']['me'],
 			'url' => htmlspecialchars($url)
-		));
+		)));
 	}
 });
 
@@ -168,14 +174,14 @@ $app->get('/rel-me-links/', function (Http\Request $request) {
 	
 	list($u1Resp, $err) = httpGet($u1);
 	if ($err)
-		return Http\Response::create("Couldn’t fetch {$u1}", 400);
+		return crossOriginResponse("Couldn’t fetch {$u1}", 400);
 	$u1Final = $u1Resp->getEffectiveUrl();
 	$u1Mf = parseMf($u1Resp->getBody(true), $u1);
 	$u1RelMe = @($u1Mf['rels']['me'] ?: array());
 	
 	list($u2Resp, $err) = httpGet($u2);
 	if ($err)
-		return Http\Response::create("Couldn’t fetch {$u2}", 400);
+		return crossOriginResponse("Couldn’t fetch {$u2}", 400);
 	$u2Final = $u2Resp->getEffectiveUrl();
 	$u2Mf = parseMf($u2Resp->getBody(true), $u2);
 	$u2RelMe = @($u2Mf['rels']['me'] ?: array());
@@ -183,11 +189,7 @@ $app->get('/rel-me-links/', function (Http\Request $request) {
 	$link12 = relMeLinks($u2Final, $u1RelMe);
 	$link21 = relMeLinks($u1Final, $u2RelMe);
 	
-	if ($link12 and $link21):
-		return 'true';
-	else:
-		return 'false';
-	endif;
+	return crossOriginResponse($link12 and $link21 ? 'true' : 'false');
 });
 
 $app->get('/validate-h-card/', function (Http\Request $request) {
@@ -211,10 +213,10 @@ $app->get('/validate-h-card/', function (Http\Request $request) {
 		if (count($hCards) === 0)
 			return $errorResponse('No h-cards found — check your classnames');
 		
-		return render('validate-h-card.html', array(
+		return crossOriginResponse(render('validate-h-card.html', array(
 			'hCard' => $hCards[0],
 			'url' => htmlspecialchars($url)
-		));
+		)));
 	}
 });
 
@@ -240,10 +242,10 @@ $app->get('/validate-h-entry/', function (Http\Request $request) {
 		if (count($hEntries) === 0)
 			return $errorResponse('No h-entries found — check your classnames');
 		
-		return render('validate-h-entry.html', array(
+		return crossOriginResponse(render('validate-h-entry.html', array(
 			'hEntry' => $hEntries[0],
 			'url' => htmlspecialchars($url)
-		));
+		)));
 	}
 });
 
@@ -262,10 +264,10 @@ $app->get('/send-webmentions/', function (Http\Request $request) {
 		$mentioner = new MentionClient($url);
 		$numSent = $mentioner->sendSupportedMentions();
 		
-		return render('send-webmentions.html', array(
+		return crossOriginResponse(render('send-webmentions.html', array(
 			'numSent' => $numSent,
 			'url' => htmlspecialchars($url)
-		));
+		)));
 	}
 });
 
