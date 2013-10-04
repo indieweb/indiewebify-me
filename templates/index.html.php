@@ -21,27 +21,27 @@
 </div>
 <div class="row demo-row"><hr></div>
 
-
-<!-- Level 1 -->
 <?= $render('validate-rel-me.html', $render) ?>
 
-
-<!-- Level 2 -->
 <?= $render('validate-h-card.html', $render) ?>
 
 <?= $render('validate-h-entry.html', $render) ?>
 
 <div class="row demo-row">
-	<h2>2. Add the ability to "send" a <a href="http://webmention.org" target="_blank">WebMention</a> to other IndieWeb sites</h2>
-	<h4>A Post / Note marked up content needs to exist at the URL with valid Microformat data 
-		<h4>Send Webmention POST request to the site you are mentioning</h4>
-		<p>&nbsp;</p>
-
-		<ul>
-			<li>Use an existing client like <a href="https://github.com/indieweb/mention-client" target="_blank">Webmention Client</a> (PHP)</li>
-			<li>Write your own client in your language of choosing ;)</li>
-		</ul>
-
+	<h2>2. Add the ability to send a <a href="http://webmention.org" target="_blank">WebMentions</a> to other IndieWeb sites</h2>
+	
+	<p class="lead">When you reply to something on another indieweb site, or mention someone with an indieweb site, sending a webmention lets them know they’ve been linked to.</p>
+	
+	<p>Sending webmentions allows you to write replies to other content and participate in cross-site conversations.</p>
+	
+	<p>On the wiki: <a href="http://indiewebcamp.com/webmention">webmention</a></p>
+		
+	<ul>
+		<li>Send webmentions manually</li>
+		<li>Use one of the <a href="http://indiewebcamp.com/webmention#Webmention-related_libraries_and_tools">open source clients or libraries</a></li>
+		<li>Write your own client in your language of choosing ;)</li>
+	</ul>
+		
 </div>
 
 

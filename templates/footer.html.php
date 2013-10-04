@@ -40,7 +40,7 @@
 			$.ajax('/rel-me-links/', {
 				data: {url1: url, url2: relMeUrl}
 			}).done(function(data) {
-				if (data == 'true') {
+				if (data === 'true') {
 					spinner.text(' works perfectly');
 					successBarWidth += 100 / results.length;
 					successBar.width(successBarWidth + '%');

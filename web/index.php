@@ -71,6 +71,22 @@ function errorResponder($template, $url) {
 	};
 }
 
+function redirectUrls($url) {
+	$client = new Guzzle\Http\Client();
+	$history = new Guzzle\Plugin\History\HistoryPlugin();
+	$client->addSubscriber($history);
+	try {
+		$client->head($url)->send();
+		$urls = [];
+		foreach ($history->getAll() as $transaction) {
+			$urls[] = $transaction['response']->getEffectiveUrl();
+		}
+		return array($urls, null);
+	} catch (Guzzle\Common\Exception\GuzzleException $e) {
+		return array(null, $e);
+	}
+}
+
 function finalUrl($url) {
 	$client = new Guzzle\Http\Client();
 	try {
@@ -139,8 +155,7 @@ $app->get('/validate-rel-me/', function (Http\Request $request) {
 	}
 });
 
-// TODO: determine whether or not effective (redirected) URL resolution is correct
-// Look at indieauth code, relmeauth spec to decide
+// TODO: make this work properly — some redirect following is broken
 $app->get('/rel-me-links/', function (Http\Request $request) {
 	if (!$request->query->has('url1') or !$request->query->has('url2'))
 		return Http\Response::create('Provide both url1 and url2 parameters', 400);
