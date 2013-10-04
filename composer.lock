@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "53d14d6653fbaf33c67df4feab55d253",
+    "hash": "e86406b49bea9a87e64c93e95ee26979",
     "packages": [
         {
             "name": "barnabywalters/helpers",
@@ -45,12 +45,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/barnabywalters/php-mf-cleaner.git",
-                "reference": "3767401c66d11a3596208d61afb46bcdd96fd40b"
+                "reference": "41993e390af8df9cba2b7ee6e77273ea144891fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barnabywalters/php-mf-cleaner/zipball/3767401c66d11a3596208d61afb46bcdd96fd40b",
-                "reference": "3767401c66d11a3596208d61afb46bcdd96fd40b",
+                "url": "https://api.github.com/repos/barnabywalters/php-mf-cleaner/zipball/41993e390af8df9cba2b7ee6e77273ea144891fd",
+                "reference": "41993e390af8df9cba2b7ee6e77273ea144891fd",
                 "shasum": ""
             },
             "require": {
@@ -81,25 +81,25 @@
                 }
             ],
             "description": "Cleans up microformats2 array structures",
-            "time": "2013-09-30 15:31:23"
+            "time": "2013-10-02 16:25:32"
         },
         {
             "name": "guzzle/guzzle",
-            "version": "v3.7.3",
+            "version": "v3.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "0f16aad385528b5cf790392cb4a4d16cf600e944"
+                "reference": "b170b028c6bb5799640e46c8803015b0f9a45ed9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/0f16aad385528b5cf790392cb4a4d16cf600e944",
-                "reference": "0f16aad385528b5cf790392cb4a4d16cf600e944",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/b170b028c6bb5799640e46c8803015b0f9a45ed9",
+                "reference": "b170b028c6bb5799640e46c8803015b0f9a45ed9",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
-                "php": ">=5.3.2",
+                "php": ">=5.3.3",
                 "symfony/event-dispatcher": ">=2.1"
             },
             "replace": {
@@ -173,7 +173,45 @@
                 "rest",
                 "web service"
             ],
-            "time": "2013-09-08 21:09:18"
+            "time": "2013-10-02 20:47:00"
+        },
+        {
+            "name": "indieweb/mention-client",
+            "version": "0.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/indieweb/mention-client-php.git",
+                "reference": "dc88d797a54c0f138ab202acfeb4a1fb9aa38fff"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/indieweb/mention-client-php/zipball/dc88d797a54c0f138ab202acfeb4a1fb9aa38fff",
+                "reference": "dc88d797a54c0f138ab202acfeb4a1fb9aa38fff",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "IndieWeb": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Aaron Parecki",
+                    "email": "aaron@parecki.com",
+                    "homepage": "http://aaronparecki.com/"
+                }
+            ],
+            "description": "Client library for sending webmention and pingback notifications",
+            "homepage": "https://github.com/indieweb/mention-client-php",
+            "time": "2013-09-14 20:30:04"
         },
         {
             "name": "mf2/mf2",

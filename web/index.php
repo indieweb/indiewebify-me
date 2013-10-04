@@ -8,6 +8,7 @@ ob_end_clean();
 
 use BarnabyWalters\Mf2;
 use Guzzle;
+use IndieWeb\MentionClient;
 use mf2\Parser as MfParser;
 use Silex;
 use Symfony\Component\HttpFoundation as Http;
@@ -241,6 +242,28 @@ $app->get('/validate-h-entry/', function (Http\Request $request) {
 		
 		return render('validate-h-entry.html', array(
 			'hEntry' => $hEntries[0],
+			'url' => htmlspecialchars($url)
+		));
+	}
+});
+
+$app->get('/send-webmentions/', function (Http\Request $request) {
+	if (!$request->query->has('url')) {
+		return render('send-webmentions.html');
+	} else {
+		ob_start();
+		$url = web_address_to_uri($request->query->get('url'), true);
+		ob_end_clean();
+		$errorResponse = errorResponder('send-webmentions.html', $url);
+		
+		if (empty($url))
+			return $errorResponse('Empty URLs lead nowhere');
+		
+		$mentioner = new MentionClient($url);
+		$numSent = $mentioner->sendSupportedMentions();
+		
+		return render('send-webmentions.html', array(
+			'numSent' => $numSent,
 			'url' => htmlspecialchars($url)
 		));
 	}

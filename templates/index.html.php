@@ -27,24 +27,7 @@
 
 <?= $render('validate-h-entry.html', $render) ?>
 
-<div class="row demo-row">
-	<h2>2. Add the ability to send a <a href="http://webmention.org" target="_blank">WebMentions</a> to other IndieWeb sites</h2>
-	
-	<p class="lead">When you reply to something on another indieweb site, or mention someone with an indieweb site, sending a webmention lets them know they’ve been linked to.</p>
-	
-	<p>Sending webmentions allows you to write replies to other content and participate in cross-site conversations.</p>
-	
-	<p>On the wiki: <a href="http://indiewebcamp.com/webmention">webmention</a></p>
-		
-	<ul>
-		<li>Send webmentions manually</li>
-		<li>Use one of the <a href="http://indiewebcamp.com/webmention#Webmention-related_libraries_and_tools">open source clients or libraries</a></li>
-		<li>Write your own client in your language of choosing ;)</li>
-	</ul>
-		
-</div>
-
-
+<?= $render('send-webmentions.html', $render) ?>
 
 <!-- Level 3 -->
 <div class="row demo-row">
