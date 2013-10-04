@@ -38,7 +38,7 @@ function render($template, array $data = array()) {
 }
 
 function crossOriginResponse($resp, $code=200) {
-	$response = $resp instanceof Http\Response ? $resp : new Http\Response($resp, $code);
+	$response = ($resp instanceof Http\Response) ? $resp : new Http\Response($resp, $code);
 	$response->headers->set('Access-Control-Allow-Origin', '*');
 	return $response;
 }
@@ -165,7 +165,7 @@ $app->get('/validate-rel-me/', function (Http\Request $request) {
 // TODO: make this work properly — some redirect following is broken
 $app->get('/rel-me-links/', function (Http\Request $request) {
 	if (!$request->query->has('url1') or !$request->query->has('url2'))
-		return Http\Response::create('Provide both url1 and url2 parameters', 400);
+		return crossOriginResponse('Provide both url1 and url2 parameters', 400);
 	
 	ob_start();
 	$u1 = web_address_to_uri($request->query->get('url1'), true);
@@ -189,7 +189,10 @@ $app->get('/rel-me-links/', function (Http\Request $request) {
 	$link12 = relMeLinks($u2Final, $u1RelMe);
 	$link21 = relMeLinks($u1Final, $u2RelMe);
 	
-	return crossOriginResponse($link12 and $link21 ? 'true' : 'false');
+	if ($link12 and $link21)
+		return crossOriginResponse('true');
+	else
+		return crossOriginResponse('false');
 });
 
 $app->get('/validate-h-card/', function (Http\Request $request) {
