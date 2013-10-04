@@ -39,7 +39,7 @@ function render($template, array $data = array()) {
 
 function crossOriginResponse($resp, $code=200) {
 	$response = $resp instanceof Http\Response ? $resp : new Http\Response($resp, $code);
-	$response['Access-Control-Allow-Origin'] = '*';
+	$response->headers->set('Access-Control-Allow-Origin', '*');
 	return $response;
 }
 
@@ -84,7 +84,7 @@ function redirectUrls($url) {
 	$client->addSubscriber($history);
 	try {
 		$client->head($url)->send();
-		$urls = [];
+		$urls = array();
 		foreach ($history->getAll() as $transaction) {
 			$urls[] = $transaction['response']->getEffectiveUrl();
 		}
