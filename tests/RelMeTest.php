@@ -13,6 +13,7 @@ use IndieWeb as IW;
 class RelMeTest extends PHPUnit_Framework_TestCase {
 	public function testUnparseUrl() {
 		$this->assertEquals('http://example.com/', IW\unparseUrl(parse_url('http://example.com')));
+		$this->assertEquals('http://example.com/?thing&amp;more', IW\unparseUrl(parse_url('http://example.com?thing&amp;more')));
 	}
 	
 	public function testNormaliseUrl() {
