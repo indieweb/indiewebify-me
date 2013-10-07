@@ -16,5 +16,11 @@
     	"guzzle/guzzle": "*",
 			"tantek/cassis": "*",
 			"indieweb/mention-client": "*"
-    }
+    },
+		"require-dev": {
+			"phpunit/phpunit": "*"
+		},
+		"autoload": {
+			"files": ["src/RelMe.php"]
+		}
 }
