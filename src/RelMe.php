@@ -18,9 +18,10 @@ function unparseUrl(array $parsed_url) {
 	
 	return implode('', array(
 		isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '',
+		$user,
+		($user || $pass) ? "$pass@" : '',
 		isset($parsed_url['host']) ? $parsed_url['host'] : '',
 		isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '',
-		($user || $pass) ? "$pass@" : '',
 		isset($parsed_url['path']) ? $parsed_url['path'] : '/',
 		isset($parsed_url['query']) ? '?' . $parsed_url['query'] : '',
 		isset($parsed_url['fragment']) ? '#' . $parsed_url['fragment'] : '',
@@ -29,4 +30,12 @@ function unparseUrl(array $parsed_url) {
 
 function normaliseUrl($url) {
 	return unparseUrl(parse_url($url));
+}
+
+function followOneRedirect($url) {
+	
+}
+
+function secureMatchUrlRedirects($url) {
+	
 }
