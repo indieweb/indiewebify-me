@@ -113,4 +113,12 @@ EOT
 			);
 		$this->assertEquals(array('http://example.org', 'http://twitter.com/barnabywalters'), $relMeLinks);
 	}
+	
+	public function testBacklinkingRelMeSuccessNoRedirect() {
+		$meUrl = $backlinkingMeUrl = 'http://example.com';
+		$chain = mockFollowOneRedirect(array($backlinkingMeUrl));
+		list($matches, $secure, $previous) = backlinkingRelMeUrlMatches($backlinkingMeUrl, $meUrl, $chain);
+		$this->assertTrue($matches);
+		$this->assertTrue($secure);
+	}
 }
