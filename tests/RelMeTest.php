@@ -104,4 +104,21 @@ EOT;
 		$this->assertFalse($isSecure);
 		$this->assertContains($intermediateUrl, $previous);
 	}
+	
+	public function testRelMeLinksFindsLinks() {
+		$httpGet = function () {
+			return array(
+				<<<EOT
+<link rel="me" href="http://example.org" />
+<a rel="me" href="http://twitter.com/barnabywalters">Me</a>
+EOT
+				, array('Content-Type' => 'html'),
+				array('http_code' => 200)
+			);
+		};
+		
+		list($relMeLinks, $err) = relMeLinks('', $httpGet);
+		$this->assertEquals(null, $err);
+		$this->assertEquals(array('http://example.org', 'http://twitter.com/barnabywalters'), $relMeLinks);
+	}
 }

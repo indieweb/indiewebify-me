@@ -126,6 +126,7 @@ function relMeDocumentUrl($url, $followOneRedirect = null) {
 	return array($currentUrl, $secure, $previous);
 }
 
+// TODO: should this just accept a HTML string, removing nasty network IO
 /** @returns array [array $relMeLinks, bool $err] */
 function relMeLinks($url, $httpGet = null) {
 	if (!is_callable($httpGet))
@@ -133,7 +134,7 @@ function relMeLinks($url, $httpGet = null) {
 	
 	$relMeLinks = array();
 	list($body, $headers, $info) = $httpGet($url);
-	if (!isset($headers['Content-Type']) or !strpos($headers['Content-Type'], 'html'))
+	if (!isset($headers['Content-Type']) or strpos($headers['Content-Type'], 'html') === false)
 		return array($relMeLinks, true);
 	
 	$doc = new DOMDocument();
