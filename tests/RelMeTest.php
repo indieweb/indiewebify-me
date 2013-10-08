@@ -114,6 +114,8 @@ EOT
 		$this->assertEquals(array('http://example.org', 'http://twitter.com/barnabywalters'), $relMeLinks);
 	}
 	
+	// backlinkingRelMeSuccessNoRedirect tests
+	
 	public function testBacklinkingRelMeSuccessNoRedirect() {
 		$meUrl = $backlinkingMeUrl = 'http://example.com';
 		$chain = mockFollowOneRedirect(array($backlinkingMeUrl));
@@ -138,5 +140,23 @@ EOT
 		list($matches, $secure, $previous) = backlinkingRelMeUrlMatches($backlinkingMeUrl, $meUrl, $chain);
 		$this->assertFalse($matches);
 		$this->assertFalse($secure);
+	}
+	
+	public function testBacklinkingRelMeSuccessInsecureRedirect() {
+		$meUrl = 'http://example.org';
+		$backlinkingMeUrl = 'http://example.com';
+		$chain = mockFollowOneRedirect(array($backlinkingMeUrl, 'https://example.org'));
+		list($matches, $secure, $previous) = backlinkingRelMeUrlMatches($backlinkingMeUrl, $meUrl, $chain);
+		$this->assertTrue($matches);
+		$this->assertFalse($secure);
+	}
+	
+	public function testBacklinkingRelMeSecureRedirectNoMatch() {
+		$meUrl = 'http://example.org';
+		$backlinkingMeUrl = 'http://example.com';
+		$chain = mockFollowOneRedirect(array($backlinkingMeUrl, 'http://foo.org'));
+		list($matches, $secure, $previous) = backlinkingRelMeUrlMatches($backlinkingMeUrl, $meUrl, $chain);
+		$this->assertFalse($matches);
+		$this->assertTrue($secure);
 	}
 }

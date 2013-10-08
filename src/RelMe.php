@@ -68,7 +68,7 @@ function unparseUrl(array $parsed_url) {
 }
 
 function normaliseUrl($url) {
-	return unparseUrl(parse_url($url));
+	return $url === null ? null : unparseUrl(parse_url($url));
 }
 
 function httpGet($url) {
