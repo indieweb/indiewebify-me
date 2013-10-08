@@ -112,7 +112,7 @@ $app->get('/validate-rel-me/', function (Http\Request $request) {
 		list($relMeUrl, $secure, $previous) = IndieWeb\relMeDocumentUrl($url);
 		
 		if (!$secure)
-			return $errorResponse("{$url} redirects insecurely between {$previous[count($previous)-2]} and {$previous[count($previous)-1]}");
+			return $errorResponse("Insecure redirect between <code>{$previous[count($previous)-2]}</code> and <code>{$previous[count($previous)-1]}</code>");
 		
 		list($resp, $err) = httpGet($relMeUrl);
 		
@@ -128,37 +128,34 @@ $app->get('/validate-rel-me/', function (Http\Request $request) {
 	}
 });
 
-// TODO: make this work properly — some redirect following is broken
+// TODO: currently this assumes that url2 has been found as an outbound rel-me link
+// on url1 — that url1 links to url2 is NOT checked
 $app->get('/rel-me-links/', function (Http\Request $request) {
 	if (!$request->query->has('url1') or !$request->query->has('url2'))
 		return crossOriginResponse('Provide both url1 and url2 parameters', 400);
+	// url1 is me, url2 is external profile page
+	$url1 = $request->query->get('url1');
+	$url2 = $request->query->get('url2');
 	
-	ob_start();
-	$u1 = web_address_to_uri($request->query->get('url1'), true);
-	$u2 = web_address_to_uri($request->query->get('url2'), true); // lol U2
-	ob_end_clean();
+	$meUrl = IndieWeb\normaliseUrl($url1);
 	
-	list($u1Resp, $err) = httpGet($u1);
+	list($profileUrl, $secure, $previous) = IndieWeb\relMeDocumentUrl($url2);
+	if (!$secure)
+		return crossOriginResponse("Inbound rel-me URL redirects insecurely" . print_r($previous, true), 400);
+	
+	list($resp, $err) = httpGet($profileUrl);
 	if ($err)
-		return crossOriginResponse("Couldn’t fetch {$u1}", 400);
-	$u1Final = $u1Resp->getEffectiveUrl();
-	$u1Mf = parseMf($u1Resp->getBody(true), $u1);
-	$u1RelMe = @($u1Mf['rels']['me'] ?: array());
+		return crossOriginResponse("HTTP error when fetching inbound rel me document URL {$profileUrl}: {$err->getMessage()}", 400);
 	
-	list($u2Resp, $err) = httpGet($u2);
-	if ($err)
-		return crossOriginResponse("Couldn’t fetch {$u2}", 400);
-	$u2Final = $u2Resp->getEffectiveUrl();
-	$u2Mf = parseMf($u2Resp->getBody(true), $u2);
-	$u2RelMe = @($u2Mf['rels']['me'] ?: array());
-	
-	$link12 = relMeLinks($u2Final, $u1RelMe);
-	$link21 = relMeLinks($u1Final, $u2RelMe);
-	
-	if ($link12 and $link21)
-		return crossOriginResponse('true');
-	else
-		return crossOriginResponse('false');
+	$relMeLinks = IndieWeb\relMeLinks($resp->getBody(true));
+
+	foreach ($relMeLinks as $inboundRelMeUrl) {
+		list($matches, $secure, $previous) = IndieWeb\backlinkingRelMeUrlMatches($inboundRelMeUrl, $meUrl);
+		if ($matches and $secure)
+			return crossOriginResponse('true', 200);
+	}
+
+	return crossOriginResponse('false', 200);
 });
 
 $app->get('/validate-h-card/', function (Http\Request $request) {
