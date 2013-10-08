@@ -119,7 +119,7 @@ $app->get('/validate-rel-me/', function (Http\Request $request) {
 		if ($err)
 			return $errorResponse(htmlspecialchars($err->getMessage()));
 		
-		$relMeLinks = IndieWeb\relMeLinks($resp->getBody(true));
+		$relMeLinks = IndieWeb\relMeLinks($resp->getBody(true), $relMeUrl);
 		
 		return crossOriginResponse(render('validate-rel-me.html', array(
 			'rels' => $relMeLinks,
@@ -147,8 +147,8 @@ $app->get('/rel-me-links/', function (Http\Request $request) {
 	if ($err)
 		return crossOriginResponse("HTTP error when fetching inbound rel me document URL {$profileUrl}: {$err->getMessage()}", 400);
 	
-	$relMeLinks = IndieWeb\relMeLinks($resp->getBody(true));
-
+	$relMeLinks = IndieWeb\relMeLinks($resp->getBody(true), $profileUrl);
+	
 	foreach ($relMeLinks as $inboundRelMeUrl) {
 		list($matches, $secure, $previous) = IndieWeb\backlinkingRelMeUrlMatches($inboundRelMeUrl, $meUrl);
 		if ($matches and $secure)

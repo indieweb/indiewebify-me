@@ -4,6 +4,10 @@ namespace IndieWeb;
 
 use DOMDocument;
 use DOMXPath;
+use mf2; // for relative URL resolver
+
+// force loading of resolveUrl function
+class_exists('mf2\Parser');
 
 /**
  * Adapted from php.net, added TESTING flag and header title case normalisation
@@ -109,7 +113,9 @@ function relMeDocumentUrl($url, $followOneRedirect = null) {
 	$secure = true;
 	$currentUrl = $url;
 	while (true) {
-		$redirectedUrl = $followOneRedirect($currentUrl);
+		// TODO: is resolving this URL correct behaviour here?
+		// should it be resolved just to the host?
+		$redirectedUrl = mf2\resolveUrl($followOneRedirect($currentUrl), $currentUrl);
 		if ($redirectedUrl === null):
 			break;
 		elseif (in_array($redirectedUrl, $previous)):
@@ -127,20 +133,10 @@ function relMeDocumentUrl($url, $followOneRedirect = null) {
 	return array($currentUrl, $secure, $previous);
 }
 
-function relMeLinks($html) {
-	$relMeLinks = array();
-	$doc = new DOMDocument();
-	@$doc->loadHTML($html);
-	$xpath = new DOMXPath($doc);
-	
-	foreach ($xpath->query('//*[@href and contains(concat(" ", @rel, " "), " me ")]') as $el) {
-		if (trim($el->getAttribute('href')) === '')
-			continue;
-		
-		// TODO: how to handle invalid errors?
-		// TODO: should we normalise these URLs?
-		$relMeLinks[] = $el->getAttribute('href');
-	}
+function relMeLinks($html, $url) {
+	$parser = new mf2\Parser($html, $url);
+	$mf = $parser->parse();
+	$relMeLinks = @($mf['rels']['me'] ?: array());
 	
 	return array_unique($relMeLinks);
 }
