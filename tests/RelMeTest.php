@@ -3,7 +3,6 @@
 namespace IndieWeb;
 
 use PHPUnit_Framework_TestCase;
-use IndieWeb as IW;
 
 /**
  * RelMeTest
@@ -12,13 +11,13 @@ use IndieWeb as IW;
  */
 class RelMeTest extends PHPUnit_Framework_TestCase {
 	public function testUnparseUrl() {
-		$this->assertEquals('http://example.com/', IW\unparseUrl(parse_url('http://example.com')));
-		$this->assertEquals('http://example.com/?thing&amp;more', IW\unparseUrl(parse_url('http://example.com?thing&amp;more')));
+		$this->assertEquals('http://example.com/', unparseUrl(parse_url('http://example.com')));
+		$this->assertEquals('http://example.com/?thing&amp;more', unparseUrl(parse_url('http://example.com?thing&amp;more')));
 	}
 	
 	public function testNormaliseUrl() {
-		$this->assertEquals('http://example.com/', IW\normaliseUrl('http://example.com'));
-		$this->assertEquals('http://example.com/?thing=1', IW\normaliseUrl('http://example.com?thing=1'));
+		$this->assertEquals('http://example.com/', normaliseUrl('http://example.com'));
+		$this->assertEquals('http://example.com/?thing=1', normaliseUrl('http://example.com?thing=1'));
 	}
 	
 	public function testHttpParseHeaders() {
@@ -36,12 +35,21 @@ EOT;
 			'Set-Cookie' => array('foo=bar', 'baz=quux'),
 			'Folded' => "works\r\n\ttoo"
 		);
-		$result = IW\http_parse_headers($test);
+		$result = http_parse_headers($test);
 		$this->assertEquals($expected, $result);
 	}
 	
 	/** @group network */
 	public function testFollowOneRedirect() {
-		$this->assertEquals('https://brennannovak.com/', IW\followOneRedirect('http://brennannovak.com'));
+		$this->assertEquals('https://brennannovak.com/', followOneRedirect('http://brennannovak.com'));
+	}
+	
+	public function testRelMeDocumentUrlHandlesNoRedirect() {
+		$chain = mockFollowOneRedirect(array(null));
+		$meUrl = normaliseUrl('http://example.com');
+		list($url, $isSecure, $previous) = relMeDocumentUrl($meUrl, $chain);
+		$this->assertEquals($meUrl, $url);
+		$this->assertTrue($isSecure);
+		$this->assertCount(0, $previous);
 	}
 }

@@ -90,6 +90,29 @@ function followOneRedirect($url) {
 	}
 }
 
-function secureMatchUrlRedirects($url) {
+/** return [string URL, bool isSecure, array redirectChain] */
+function relMeDocumentUrl($url, $followOneRedirect=null) {
+	if (!is_callable($followOneRedirect))
+		$followOneRedirect = __NAMESPACE__ . '\followOneRedirect';
 	
+	$stop = false;
+	$previous = array();
+	$secure = true;
+	$currentUrl = $url;
+	while (true) {
+		$redirectedUrl = $followOneRedirect($currentUrl);
+		if ($redirectedUrl === null):
+			break;
+		elseif (in_array($redirectedUrl, $previous)):
+			break;
+		elseif (parse_url($currentUrl, PHP_URL_SCHEME) !== parse_url($redirectedUrl, PHP_URL_SCHEME)):
+			$secure = false;
+			break;
+		else:
+			$currentUrl = $redirectedUrl;
+			$previous[] = $currentUrl;
+		endif;
+	}
+	
+	return array($currentUrl, $secure, $previous);
 }
