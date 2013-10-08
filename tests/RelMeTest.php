@@ -39,4 +39,9 @@ EOT;
 		$result = IW\http_parse_headers($test);
 		$this->assertEquals($expected, $result);
 	}
+	
+	/** @group network */
+	public function testFollowOneRedirect() {
+		$this->assertEquals('https://brennannovak.com/', IW\followOneRedirect('http://brennannovak.com'));
+	}
 }

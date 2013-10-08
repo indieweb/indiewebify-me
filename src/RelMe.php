@@ -70,6 +70,7 @@ function normaliseUrl($url) {
 
 function followOneRedirect($url) {
 	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_HEADER, 1);
 	$response = curl_exec($ch);
@@ -80,8 +81,12 @@ function followOneRedirect($url) {
 	$headers = http_parse_headers($rawHeaders);
 	//$body = mb_substr($response, $info['header_size']);
 	
-	if ($info[''] and isset($headers['Location'])) {
-		
+	if (strpos($info['http_code'], '3') === 0 and isset($headers['Location'])) {
+		return is_array($headers['Location'])
+			? current($headers['Location'])
+			: $headers['Location'];
+	} else {
+		return null;
 	}
 }
 
