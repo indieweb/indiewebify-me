@@ -121,7 +121,7 @@ function relMeDocumentUrl($url, $followOneRedirect = null) {
 			break;
 		elseif (parse_url($currentUrl, PHP_URL_SCHEME) !== parse_url($redirectedUrl, PHP_URL_SCHEME)):
 			$secure = false;
-			$previous[] = $redirectedUrl;
+			$previous[] = $currentUrl = $redirectedUrl;
 			break;
 		else:
 			$currentUrl = $redirectedUrl;

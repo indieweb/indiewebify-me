@@ -32,5 +32,19 @@
 			
 			<p>Given a “me” URL of <span class="p-x-parameter">http://example.org</span>, which redirects to <span class="p-x-parameter">http://example.com</span>, which in turn redirects to <span class="p-x-parameter">http://foo.com/</span>, the result should be <span class="p-x-expected-result">http://foo.com/</span> (<data class="p-x-expected-result" value="true">secure</data>).</p>
 		</div>
+		
+		<div class="p-x-test-case h-x-test-case">
+			<h2 class="p-name">Single Secure HTTPS Redirect</h2>
+			
+			<p>Just like the first case but with https.</p>
+			
+			<p>Given a “me” URL of <span class="p-x-parameter">https://example.org</span>, which doesn’t redirect anywhere, the result should be <span class="p-x-expected-result">https://example.org/</span> (<data class="p-x-expected-result" value="true">secure</data>).</p>
+		</div>
+		
+		<div class="p-x-test-case h-x-test-case">
+			<h2 class="p-name">Single Insecure Redirect</h2>
+			
+			<p>Given a “me” URL of <span class="p-x-parameter">http://example.org</span>, which redirects to <span class="p-x-parameter">https://example.com/</span> (note change from HTTP to HTTPs), the result should be <span class="p-x-expected-result">https://example.com/</span> (<data class="p-x-expected-result" value="false">insecure</data>).</p>
+		</div>
   </body>
 </html>
