@@ -2,6 +2,9 @@
 
 namespace IndieWeb;
 
+use DOMDocument;
+use DOMXPath;
+
 /**
  * Adapted from php.net, added TESTING flag and header title case normalisation
  */
@@ -68,7 +71,7 @@ function normaliseUrl($url) {
 	return unparseUrl(parse_url($url));
 }
 
-function followOneRedirect($url) {
+function httpGet($url) {
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $url);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -79,7 +82,13 @@ function followOneRedirect($url) {
 
 	$rawHeaders = mb_substr($response, 0, $info['header_size']);
 	$headers = http_parse_headers($rawHeaders);
-	//$body = mb_substr($response, $info['header_size']);
+	$body = mb_substr($response, $info['header_size']);
+	
+	return array($body, $headers, $info);
+}
+
+function followOneRedirect($url) {
+	list($body, $headers, $info) = httpGet($url);
 	
 	if (strpos($info['http_code'], '3') === 0 and isset($headers['Location'])) {
 		return is_array($headers['Location'])
@@ -91,7 +100,7 @@ function followOneRedirect($url) {
 }
 
 /** return [string URL, bool isSecure, array redirectChain] */
-function relMeDocumentUrl($url, $followOneRedirect=null) {
+function relMeDocumentUrl($url, $followOneRedirect = null) {
 	if (!is_callable($followOneRedirect))
 		$followOneRedirect = __NAMESPACE__ . '\followOneRedirect';
 	
@@ -115,4 +124,30 @@ function relMeDocumentUrl($url, $followOneRedirect=null) {
 	}
 	
 	return array($currentUrl, $secure, $previous);
+}
+
+/** @returns array [array $relMeLinks, bool $err] */
+function relMeLinks($url, $httpGet = null) {
+	if (!is_callable($httpGet))
+		$httpGet = __NAMESPACE__ . '\httpGet';
+	
+	$relMeLinks = array();
+	list($body, $headers, $info) = $httpGet($url);
+	if (!isset($headers['Content-Type']) or !strpos($headers['Content-Type'], 'html'))
+		return array($relMeLinks, true);
+	
+	$doc = new DOMDocument();
+	@$doc->loadHTML($body);
+	$xpath = new DOMXPath($doc);
+	
+	foreach ($xpath->query('//*[@href and contains(concat(" ", @rel, " "), " me ")]') as $el) {
+		if (trim($el->getAttribute('href')) === '')
+			continue;
+		
+		// TODO: how to handle invalid errors?
+		// TODO: should we normalise these URLs?
+		$relMeLinks[] = $el->getAttribute('href');
+	}
+	
+	return array(array_unique($relMeLinks), null);
 }
