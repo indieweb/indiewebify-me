@@ -130,6 +130,7 @@ $app->get('/validate-rel-me/', function (Http\Request $request) {
 
 // TODO: currently this assumes that url2 has been found as an outbound rel-me link
 // on url1 — that url1 links to url2 is NOT checked
+// TODO: maybe encapsulate the one-directional checking into a function
 $app->get('/rel-me-links/', function (Http\Request $request) {
 	if (!$request->query->has('url1') or !$request->query->has('url2'))
 		return crossOriginResponse('Provide both url1 and url2 parameters', 400);

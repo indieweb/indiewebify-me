@@ -4,7 +4,33 @@
     <title>rel-me test suite</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   </head>
-  <body>
+  <body class="h-x-test-suite">
+		<h1 class="p-name">rel-me Document URL Tests</h1>
 		
+		<p class="p-description">Given the raw “me” URL the use is trying to authenticate as, fetch it and follow redirects until either the end of the chain is reached, a redirect loop is encountered or the scheme changes.</p>
+		
+		<div class="p-x-test-case h-x-test-case">
+			<h2 class="p-name">No Redirect</h2>
+			
+			<p>The simplest case, where fetching the given “me” URL results in no redirect.</p>
+			
+			<p>Given a “me” URL of <span class="p-x-parameter">http://waterpigs.co.uk</span>, which redirects nowhere, the result should be <span class="p-x-expected-result">http://waterpigs.co.uk/</span> (<data class="p-x-expected-result" value="true">secure</data>) — note the trailing slash, a product of normalising the URL.</p>
+		</div>
+		
+		<div class="p-x-test-case h-x-test-case">
+			<h2 class="p-name">Single Secure HTTP Redirect</h2>
+			
+			<p>Just like the previous case except with one, non-scheme-altering redirect between the me URL and the final rel-me document URL.</p>
+			
+			<p>Given a “me” URL of <span class="p-x-parameter">http://example.org</span>, which redirects to <span class="p-x-parameter">http://foo.com/</span>, the result should be <span class="p-x-expected-result">http://foo.com/</span> (<data class="p-x-expected-result" value="true">secure</data>).</p>
+		</div>
+		
+		<div class="p-x-test-case h-x-test-case">
+			<h2 class="p-name">Multiple Secure HTTP Redirects</h2>
+			
+			<p>Just like the previous case but with multiple non-scheme-altering redirects.</p>
+			
+			<p>Given a “me” URL of <span class="p-x-parameter">http://example.org</span>, which redirects to <span class="p-x-parameter">http://example.com</span>, which in turn redirects to <span class="p-x-parameter">http://foo.com/</span>, the result should be <span class="p-x-expected-result">http://foo.com/</span> (<data class="p-x-expected-result" value="true">secure</data>).</p>
+		</div>
   </body>
 </html>

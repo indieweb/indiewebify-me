@@ -108,14 +108,13 @@ function relMeDocumentUrl($url, $followOneRedirect = null) {
 	if (!is_callable($followOneRedirect))
 		$followOneRedirect = __NAMESPACE__ . '\followOneRedirect';
 	
-	$stop = false;
 	$previous = array();
 	$secure = true;
 	$currentUrl = $url;
 	while (true) {
 		// TODO: is resolving this URL correct behaviour here?
 		// should it be resolved just to the host?
-		$redirectedUrl = mf2\resolveUrl($followOneRedirect($currentUrl), $currentUrl);
+		$redirectedUrl = mf2\resolveUrl($currentUrl, $followOneRedirect($currentUrl));
 		if ($redirectedUrl === null):
 			break;
 		elseif (in_array($redirectedUrl, $previous)):

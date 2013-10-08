@@ -50,7 +50,6 @@ EOT;
 		list($url, $isSecure, $previous) = relMeDocumentUrl($meUrl, $chain);
 		$this->assertEquals($meUrl, $url);
 		$this->assertTrue($isSecure);
-		$this->assertCount(0, $previous);
 	}
 	
 	public function testRelMeDocumentUrlHandlesSingleSecureHttpRedirect() {
@@ -110,7 +109,7 @@ EOT;
 <link rel="me" href="http://example.org" />
 <a rel="me" href="http://twitter.com/barnabywalters">Me</a>
 EOT
-			);
+			, 'http://example.com');
 		$this->assertEquals(array('http://example.org', 'http://twitter.com/barnabywalters'), $relMeLinks);
 	}
 	
