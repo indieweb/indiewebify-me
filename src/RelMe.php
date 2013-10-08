@@ -144,3 +144,40 @@ function relMeLinks($html) {
 	return array_unique($relMeLinks);
 }
 
+// TODO: write tests for this
+function urlsMatchOtherThanScheme($url1, $url2) {
+	$p1 = parse_url($url1);
+	$p2 = parse_url($url2);
+	$p1['scheme'] = 'http';
+	$p2['scheme'] = 'http';
+	
+	return unparseUrl($p1) === unparseUrl($p2);
+}
+
+function backlinkingRelMeUrlMatches($backlinking, $meUrl, $followOneRedirect=null) {
+	if ($followOneRedirect === null)
+		$followOneRedirect = __NAMESPACE__ . '\followOneRedirect';
+	
+	$meUrl = normaliseUrl($meUrl);
+	$previous = array();
+	$currentUrl = normaliseUrl($backlinking);
+	while (true) {
+		if ($currentUrl === $meUrl)
+			return array(true, true, $previous); // the URLs match and are secure
+		
+		$redirectedUrl = $followOneRedirect($currentUrl);
+		
+		if ($redirectedUrl === null or in_array($redirectedUrl, $previous)):
+			return array(false, true, $previous); // The URLs don’t match but are secure
+		elseif (parse_url($redirectedUrl, PHP_URL_SCHEME) !== parse_url($currentUrl, PHP_URL_SCHEME)):
+			if (urlsMatchOtherThanScheme($redirectedUrl, $currentUrl)):
+				return array(true, false, $previous);
+			else:
+				return array(false, false, $previous);
+			endif;
+		else:
+			$currentUrl = $redirectedUrl;
+			$previous[] = $currentUrl;
+		endif;
+	}
+}
