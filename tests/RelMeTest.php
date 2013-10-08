@@ -94,4 +94,14 @@ EOT;
 		$this->assertTrue($isSecure);
 		$this->assertContains($intermediateUrl, $previous);
 	}
+	
+	public function testRelMeDocumentUrlReportsInsecureRedirect() {
+		$finalUrl = normaliseUrl('http://example.org');
+		$intermediateUrl = normaliseUrl('https://www.example.org');
+		$chain = mockFollowOneRedirect(array($intermediateUrl, $finalUrl));
+		$meUrl = normaliseUrl('https://example.com');
+		list($url, $isSecure, $previous) = relMeDocumentUrl($meUrl, $chain);
+		$this->assertFalse($isSecure);
+		$this->assertContains($intermediateUrl, $previous);
+	}
 }
