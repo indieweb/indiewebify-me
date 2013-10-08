@@ -165,12 +165,12 @@ function backlinkingRelMeUrlMatches($backlinking, $meUrl, $followOneRedirect=nul
 		if ($currentUrl === $meUrl)
 			return array(true, true, $previous); // the URLs match and are secure
 		
-		$redirectedUrl = $followOneRedirect($currentUrl);
+		$redirectedUrl = normaliseUrl($followOneRedirect($currentUrl));
 		
 		if ($redirectedUrl === null or in_array($redirectedUrl, $previous)):
 			return array(false, true, $previous); // The URLs don’t match but are secure
 		elseif (parse_url($redirectedUrl, PHP_URL_SCHEME) !== parse_url($currentUrl, PHP_URL_SCHEME)):
-			if (urlsMatchOtherThanScheme($redirectedUrl, $currentUrl)):
+			if (urlsMatchOtherThanScheme($redirectedUrl, $meUrl)):
 				return array(true, false, $previous);
 			else:
 				return array(false, false, $previous);

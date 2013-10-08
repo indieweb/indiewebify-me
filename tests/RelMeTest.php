@@ -121,4 +121,22 @@ EOT
 		$this->assertTrue($matches);
 		$this->assertTrue($secure);
 	}
+	
+	public function testBacklinkingRelMeSuccessOneRedirect() {
+		$meUrl = 'http://example.com';
+		$backlinkingMeUrl = 'http://example.org';
+		$chain = mockFollowOneRedirect(array($backlinkingMeUrl, $meUrl));
+		list($matches, $secure, $previous) = backlinkingRelMeUrlMatches($backlinkingMeUrl, $meUrl, $chain);
+		$this->assertTrue($matches);
+		$this->assertTrue($secure);
+	}
+	
+	public function testBacklinkingRelMeNoMatchInsecureRedirect() {
+		$meUrl = 'http://example.com';
+		$backlinkingMeUrl = 'http://example.org';
+		$chain = mockFollowOneRedirect(array($backlinkingMeUrl, 'https://example.org'));
+		list($matches, $secure, $previous) = backlinkingRelMeUrlMatches($backlinkingMeUrl, $meUrl, $chain);
+		$this->assertFalse($matches);
+		$this->assertFalse($secure);
+	}
 }
