@@ -126,19 +126,10 @@ function relMeDocumentUrl($url, $followOneRedirect = null) {
 	return array($currentUrl, $secure, $previous);
 }
 
-// TODO: should this just accept a HTML string, removing nasty network IO
-/** @returns array [array $relMeLinks, bool $err] */
-function relMeLinks($url, $httpGet = null) {
-	if (!is_callable($httpGet))
-		$httpGet = __NAMESPACE__ . '\httpGet';
-	
+function relMeLinks($html) {
 	$relMeLinks = array();
-	list($body, $headers, $info) = $httpGet($url);
-	if (!isset($headers['Content-Type']) or strpos($headers['Content-Type'], 'html') === false)
-		return array($relMeLinks, true);
-	
 	$doc = new DOMDocument();
-	@$doc->loadHTML($body);
+	@$doc->loadHTML($html);
 	$xpath = new DOMXPath($doc);
 	
 	foreach ($xpath->query('//*[@href and contains(concat(" ", @rel, " "), " me ")]') as $el) {
@@ -150,5 +141,6 @@ function relMeLinks($url, $httpGet = null) {
 		$relMeLinks[] = $el->getAttribute('href');
 	}
 	
-	return array(array_unique($relMeLinks), null);
+	return array_unique($relMeLinks);
 }
+
