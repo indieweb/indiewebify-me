@@ -8,6 +8,7 @@ ob_end_clean();
 
 use BarnabyWalters\Mf2;
 use Guzzle;
+use IndieWeb;
 use IndieWeb\MentionClient;
 use mf2\Parser as MfParser;
 use Silex;
@@ -78,48 +79,6 @@ function errorResponder($template, $url) {
 	};
 }
 
-function redirectUrls($url) {
-	$client = new Guzzle\Http\Client();
-	$history = new Guzzle\Plugin\History\HistoryPlugin();
-	$client->addSubscriber($history);
-	try {
-		$client->head($url)->send();
-		$urls = array();
-		foreach ($history->getAll() as $transaction) {
-			$urls[] = $transaction['response']->getEffectiveUrl();
-		}
-		return array($urls, null);
-	} catch (Guzzle\Common\Exception\GuzzleException $e) {
-		return array(null, $e);
-	}
-}
-
-function finalUrl($url) {
-	$client = new Guzzle\Http\Client();
-	try {
-		return array($client->head($url)->send()->getEffectiveUrl(), null);
-	} catch (Guzzle\Common\Exception\GuzzleException $e) {
-		return array(null, $e);
-	}
-}
-
-function relMeLinks($to, array $fromRelMes) {
-	foreach ($fromRelMes as $me) {
-		if ($to === $me)
-			return true;
-	}
-	
-	foreach ($fromRelMes as $me) {
-		list($meFinal, $err) = finalUrl($me);
-		if ($err)
-			continue;
-		if ($to === $meFinal)
-			return true;
-	}
-	
-	return false;
-}
-
 // Web server setup
 
 // Route static assets from CLI server
@@ -150,13 +109,20 @@ $app->get('/validate-rel-me/', function (Http\Request $request) {
 		if (empty($url))
 			return $errorResponse('Empty URLs lead nowhere');
 		
-		list($mfs, $err) = fetchMf($url);
+		list($relMeUrl, $secure, $previous) = IndieWeb\relMeDocumentUrl($url);
+		
+		if (!$secure)
+			return $errorResponse("{$url} redirects insecurely between {$previous[count($previous)-2]} and {$previous[count($previous)-1]}");
+		
+		list($resp, $err) = httpGet($relMeUrl);
 		
 		if ($err)
 			return $errorResponse(htmlspecialchars($err->getMessage()));
 		
+		$relMeLinks = IndieWeb\relMeLinks($resp->getBody(true));
+		
 		return crossOriginResponse(render('validate-rel-me.html', array(
-			'rels' => $mfs['rels']['me'],
+			'rels' => $relMeLinks,
 			'url' => htmlspecialchars($url)
 		)));
 	}
