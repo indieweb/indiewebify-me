@@ -12,7 +12,9 @@ function mockFollowOneRedirect(array $responses) {
 	$i = 0;
 	$responses = array_values($responses);
 	
-	return function () use ($i, $responses) {
-		return $responses[$i];
+	return function () use (&$i, $responses) {
+		$out = array_key_exists($i, $responses) ? $responses[$i] : null;
+		$i = $i + 1;
+		return $out;
 	};
 }

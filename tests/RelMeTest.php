@@ -52,4 +52,25 @@ EOT;
 		$this->assertTrue($isSecure);
 		$this->assertCount(0, $previous);
 	}
+	
+	public function testRelMeDocumentUrlHandlesSingleSecureHttpRedirect() {
+		$finalUrl = normaliseUrl('http://example.org');
+		$chain = mockFollowOneRedirect(array($finalUrl));
+		$meUrl = normaliseUrl('http://example.com');
+		list($url, $isSecure, $previous) = relMeDocumentUrl($meUrl, $chain);
+		$this->assertEquals($finalUrl, $url);
+		$this->assertTrue($isSecure);		
+		$this->assertContains($finalUrl, $previous);
+	}
+	
+	public function testRelMeDocumentUrlHandlesMultipleSecureHttpRedirects() {
+		$finalUrl = normaliseUrl('http://example.org');
+		$intermediateUrl = normaliseUrl('http://www.example.org');
+		$chain = mockFollowOneRedirect(array($intermediateUrl, $finalUrl));
+		$meUrl = normaliseUrl('http://example.com');
+		list($url, $isSecure, $previous) = relMeDocumentUrl($meUrl, $chain);
+		$this->assertEquals($finalUrl, $url);
+		$this->assertTrue($isSecure);
+		$this->assertContains($intermediateUrl, $previous);
+	}
 }
