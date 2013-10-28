@@ -21,6 +21,10 @@
 		<style>
 		/* CSS here temporarily while we figure out how to structure it */
 		
+		* {
+			max-width: 100%;
+		}
+		
 		.empty-property-block {
 			background: #555;
 			color: #efefef;

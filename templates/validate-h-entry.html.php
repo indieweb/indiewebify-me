@@ -68,7 +68,8 @@
 					<? endforeach ?>
 				</ul>
 				<? else: ?>
-				</p><p class="empty-property-block">Add URLs of <a href="http://indiewebcamp.com/POSSE">POSSEd</a> copies! <code class="pull-right">&lt;a rel=&quot;syndication&quot; class=&quot;u-syndication&quot; href=&quot;…&quot;>…&lt;/a></code></p>
+				<p class="empty-property-block">Add URLs of <a href="http://indiewebcamp.com/POSSE">POSSEd</a> copies!</p>
+				<p><code class="pull-right">&lt;a rel=&quot;syndication&quot; class=&quot;u-syndication&quot; href=&quot;…&quot;>…&lt;/a></code></p>
 				<? endif ?>
 				
 				<p class="property-block-name">Categories</p>
@@ -79,7 +80,7 @@
 					<? endforeach ?>
 				</ul>
 				<? else: ?>
-				</p><p class="empty-property-block">Add some categories! <code class="pull-right">&lt;a rel=&quot;tag&quot; class=&quot;p-category&quot; href=&quot;…&quot;>…&lt;/a></code></p>
+				<p class="empty-property-block">Add some categories! <code class="pull-right">&lt;a rel=&quot;tag&quot; class=&quot;p-category&quot; href=&quot;…&quot;>…&lt;/a></code></p>
 				<? endif ?>
 			</div>
 		<? endif ?>
