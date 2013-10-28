@@ -20,10 +20,50 @@
 		
 		<div class="preview-h-card">
 			<? if (Mf2\hasProp($hCard, 'photo')): ?>
-			<img class="u-photo" src="<?= Mf2\getProp($hCard, 'photo')?>" alt="" />
+			<img class="photo-block" src="<?= Mf2\getProp($hCard, 'photo')?>" alt="" />
+			<? else: ?>
+			<div class="empty-property-block photo-block">
+				<p>Add a photo!</p>
+				<p><code>&lt;img class=&quot;u-photo&quot; src=&quot;…&quot /></code></p>
+			</div>
 			<? endif ?>
 			<p class="p-name"><?= Mf2\getProp($hCard, 'name') ?></p>
-			<!-- TODO: add more properties here -->
+			
+			<p class="property-block-name">URL</p>
+			<? if (Mf2\hasProp($hCard, 'url')): ?>
+			<ul>
+				<? foreach ($hCard['properties']['url'] as $pUrl): ?>
+				<li><a href="<?= $Url ?>"><?= $pUrl ?></a></li>
+				<? endforeach ?>
+			</ul>
+			<? else: ?>
+			<div class="empty-property-block">
+				<p>Add your URLs! <code class="pull-right">&lt;a rel=&quot;me&quot; class=&quot;u-url&quot;>…</code></p>
+			</div>
+			<? endif ?>
+			
+			<p class="property-block-name">Email</p>
+			<? if (Mf2\hasProp($hCard, 'email')): ?>
+			<ul>
+				<? foreach ($hCard['properties']['email'] as $email): ?>
+				<li><a href="<?= $email ?>"><?= $email ?></a></li>
+				<? endforeach ?>
+			</ul>
+			<? else: ?>
+			<div class="empty-property-block">
+				<p>Add your Email! <code class="pull-right">&lt;a rel=&quot;me&quot; class=&quot;u-email&quot;>…</code></p>
+			</div>
+			<? endif ?>
+			
+			<p class="property-block-name">Note</p>
+			<? if (Mf2\hasProp($hCard, 'note')): ?>
+			<p><?= Mf2\getProp($hCard, 'note') ?></p>
+			<? else: ?>
+			<div class="empty-property-block">
+				<p>Add a note/bio! <code class="pull-right">&lt;p class=&quot;p-note&quot;>…</code></p>
+			</div>
+			<? endif ?>
+			
 		</div>
 		<? endif ?>
 	</div>
