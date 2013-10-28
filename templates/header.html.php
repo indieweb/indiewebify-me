@@ -39,13 +39,14 @@
 			clear: both;
 		}
 		
-		.preview-h-card {
+		.preview-block {
 			background: #efefef;
 			padding: 1em;
 			max-width: 30em;
 			border: 2px solid #DDD;
 		}
 		
+		/* h-card validation */
 		.preview-h-card .photo-block {
 			max-width: 13em;
 			max-height: 7em;
@@ -56,6 +57,19 @@
 		.preview-h-card .p-name {
 			float: left;
 			font-size: 2em;
+		}
+		
+		/* h-entry validation */
+		.preview-h-entry .p-author .u-photo {
+			max-height: 2em;
+		}
+		
+		.preview-h-entry .e-content {
+			border-left: 0.5em #ddd solid;
+			padding: 0.1em 0.5em;
+			font-size: 0.9em;
+			color: #333;
+			background: #fff;
 		}
 		
 		</style>

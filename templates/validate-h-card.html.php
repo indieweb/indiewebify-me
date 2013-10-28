@@ -18,7 +18,7 @@
 		
 		<p>We found the following <code>h-card</code> on your site:</p>
 		
-		<div class="preview-h-card">
+		<div class="preview-h-card preview-block">
 			<? if (Mf2\hasProp($hCard, 'photo')): ?>
 			<img class="photo-block" src="<?= Mf2\getProp($hCard, 'photo')?>" alt="" />
 			<? else: ?>
@@ -38,7 +38,7 @@
 			</ul>
 			<? else: ?>
 			<div class="empty-property-block">
-				<p>Add your URLs! <code class="pull-right">&lt;a rel=&quot;me&quot; class=&quot;u-url&quot;>…</code></p>
+				<p>Add your URLs! <code class="pull-right">&lt;a rel=&quot;me&quot; class=&quot;u-url&quot;>…&lt;/a></code></p>
 			</div>
 			<? endif ?>
 			
@@ -51,7 +51,7 @@
 			</ul>
 			<? else: ?>
 			<div class="empty-property-block">
-				<p>Add your Email! <code class="pull-right">&lt;a rel=&quot;me&quot; class=&quot;u-email&quot;>…</code></p>
+				<p>Add your Email! <code class="pull-right">&lt;a rel=&quot;me&quot; class=&quot;u-email&quot;>…&lt;/a></code></p>
 			</div>
 			<? endif ?>
 			
@@ -60,7 +60,7 @@
 			<p><?= Mf2\getProp($hCard, 'note') ?></p>
 			<? else: ?>
 			<div class="empty-property-block">
-				<p>Add a note/bio! <code class="pull-right">&lt;p class=&quot;p-note&quot;>…</code></p>
+				<p>Add a note/bio! <code class="pull-right">&lt;p class=&quot;p-note&quot;>…&lt/p></code></p>
 			</div>
 			<? endif ?>
 			
