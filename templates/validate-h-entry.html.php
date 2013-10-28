@@ -68,8 +68,10 @@
 					<? endforeach ?>
 				</ul>
 				<? else: ?>
-				<p class="empty-property-block">Add URLs of <a href="http://indiewebcamp.com/POSSE">POSSEd</a> copies!</p>
-				<p><code class="pull-right">&lt;a rel=&quot;syndication&quot; class=&quot;u-syndication&quot; href=&quot;…&quot;>…&lt;/a></code></p>
+				<div class="empty-property-block">
+					<p>Add URLs of <a href="http://indiewebcamp.com/POSSE">POSSEd</a> copies!</p>
+					<p><code>&lt;a rel=&quot;syndication&quot; class=&quot;u-syndication&quot; href=&quot;…&quot;>…&lt;/a></code></p>
+				</div>
 				<? endif ?>
 				
 				<p class="property-block-name">Categories</p>
