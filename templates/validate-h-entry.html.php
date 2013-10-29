@@ -37,12 +37,12 @@
 					<!-- TODO: use actual code snippet from site with h-card added -->
 					<pre><code>&lt;a class=&quot;p-author <strong>h-card</strong>&quot; href=&quot;your-url.com&quot;>Your Name&lt/a></code</pre>
 				</div>
+				<? endif ?>
 				<? else: ?>
 				<div class="empty-property-block">
 					<p>Add an author! </p>
 					<pre><code>&lt;a rel=&quot;author&quot; class=&quot;p-author h-card&quot; href=&quot;…&quot;>Your Name&lt;/a></code></pre>
 				</div>
-				<? endif ?>
 				<? endif ?>
 				
 				<p class="property-block-name">Content</p>
