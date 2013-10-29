@@ -18,6 +18,7 @@
 				
 				<p class="property-block-name">Author</p>
 				<? if (Mf2\hasProp($hEntry, 'author')): $author = Mf2\getProp($hEntry, 'author') ?>
+				<? if (Mf2\isMicroformat($author)): ?>
 				<div class="minicard p-author">
 					<? if (Mf2\hasProp($author, 'photo')): ?>
 					<img class="u-photo" src="<?= Mf2\getProp($author, 'photo')?>" alt="" />
@@ -30,11 +31,18 @@
 					<span class="p-name"><?= Mf2\getProp($author, 'name') ?></span>
 					<a href="<?= Mf2\getProp($author, 'url') ?>" rel="author" class="u-url"><?= Mf2\getProp($author, 'url') ?></a>
 				</div>
+				<? elseif (is_string($author)): ?>
+				<div class="empty-property-block">
+					<p>You’re marking up your post’s author as a string — add <code>h-card</code> to make it a full h-card!</p>
+					<!-- TODO: use actual code snippet from site with h-card added -->
+					<pre><code>&lt;a class=&quot;p-author <strong>h-card</strong>&quot; href=&quot;your-url.com&quot;>Your Name&lt/a></code</pre>
+				</div>
 				<? else: ?>
 				<div class="empty-property-block">
 					<p>Add an author! </p>
 					<pre><code>&lt;a rel=&quot;author&quot; class=&quot;p-author h-card&quot; href=&quot;…&quot;>Your Name&lt;/a></code></pre>
 				</div>
+				<? endif ?>
 				<? endif ?>
 				
 				<p class="property-block-name">Content</p>
