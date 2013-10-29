@@ -58,7 +58,11 @@
 				<? if (Mf2\hasProp($hEntry, 'published')): ?>
 				<time class="dt-published"><?= Mf2\getProp($hEntry, 'published') ?></time></p>
 				<? else: ?>
-				</p><p class="empty-property-block">Add a publication datetime! <code class="pull-right">&lt;time class=&quot;dt-published&quot; datetime=&quot;YYYY-MM-DD HH:MM:SS&quot;>The Date&quot;/datetime></code></p>
+				</p>
+				<div class="empty-property-block">
+					<p>Add a publication datetime!</p>
+					<p><code>&lt;time class=&quot;dt-published&quot; datetime=&quot;YYYY-MM-DD HH:MM:SS&quot;>The Date&lt;/datetime></code></p>
+				</div>
 				<? endif ?>
 				
 				<p class="property-block-name">URL
