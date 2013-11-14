@@ -35,7 +35,7 @@
 				<div class="empty-property-block">
 					<p>You’re marking up your post’s author as a string — add <code>h-card</code> to make it a full h-card!</p>
 					<!-- TODO: use actual code snippet from site with h-card added -->
-					<pre><code>&lt;a class=&quot;p-author <strong>h-card</strong>&quot; href=&quot;your-url.com&quot;>Your Name&lt/a></code</pre>
+					<pre><code>&lt;a class=&quot;p-author <strong>h-card</strong>&quot; href=&quot;your-url.com&quot;>Your Name&lt/a></code></pre>
 				</div>
 				<? endif ?>
 				<? else: ?>

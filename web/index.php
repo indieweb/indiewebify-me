@@ -10,7 +10,7 @@ use BarnabyWalters\Mf2;
 use Guzzle;
 use IndieWeb;
 use IndieWeb\MentionClient;
-use mf2\Parser as MfParser;
+use Mf2\Parser as MfParser;
 use Silex;
 use Symfony\Component\HttpFoundation as Http;
 
