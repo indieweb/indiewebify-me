@@ -17,7 +17,7 @@
 			<div class="preview-h-entry preview-block">
 				
 				<p class="property-block-name">Author</p>
-				<? if (Mf2\hasProp($hEntry, 'author')): $author = Mf2\getProp($hEntry, 'author') ?>
+				<? if (Mf2\hasProp($hEntry, 'author')): $author = $hEntry['properties']['author'][0] ?>
 				<? if (Mf2\isMicroformat($author)): ?>
 				<div class="minicard p-author">
 					<? if (Mf2\hasProp($author, 'photo')): ?>
