@@ -91,6 +91,20 @@ function isTumblrDomain($url) {
 	return stristr(parse_url($url, PHP_URL_HOST), '.tumblr.com') !== false;
 }
 
+function detectBloggingSoftware($response) {
+	$d = new MfParser($response->getBody(1), $response->getEffectiveUrl());
+	foreach ($d->query('//meta[@name="generator"]') as $generatorEl) {
+		if (stristr($generatorEl->getAttribute('content'), 'wordpress') !== false)
+			return 'wordpress';
+		if (stristr($generatorEl->getAttribute('content'), 'mediawiki') !== false)
+			return 'mediawiki';
+		if (stristr($generatorEl->getAttribute('content'), 'idno') !== false)
+			return 'idno';
+	}
+	
+	return null;
+}
+
 // Web server setup
 
 // Route static assets from CLI server
@@ -138,7 +152,8 @@ $app->get('/validate-rel-me/', function (Http\Request $request) {
 		
 		return crossOriginResponse(render('validate-rel-me.html', array(
 			'rels' => $relMeLinks,
-			'url' => htmlspecialchars($url)
+			'url' => htmlspecialchars($url),
+			'bloggingSoftware' => detectBloggingSoftware($resp)
 		)));
 	}
 });

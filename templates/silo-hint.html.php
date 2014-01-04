@@ -19,4 +19,10 @@
 	<p>It looks like your site is hosted on <a href="http://indiewebcamp.com/Github">Github.io Silo</a> without a custom domain name. In order to really own your content you need to own your URLs, but don’t worry — Github has <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-pages">an article</a> demonstrating how to give your web presence your own domain.</p>
 	<p>Once you’ve got your own domain, check out the IndieWebCamp <a href="http://indiewebcamp.com/Github">Github Wiki Page</a> for tips on adding indieweb functionality to your site.</p>
 </div>
+<?php elseif (isset($bloggingSoftware) and $bloggingSoftware === 'wordpress'): ?>
+<p>It looks like you’re using WordPress to power your site — check out the IndieWebCamp <a href="http://indiewebcamp.com/Wordpress">WordPress Wiki Page</a> for tips on how to indiewebify your WordPress site!</p>
+<?php elseif (isset($bloggingSoftware) and $bloggingSoftware === 'mediawiki'): ?>
+<p>It looks like you’re using MediaWiki to power your site — check out the IndieWebCamp <a href="http://indiewebcamp.com/MediaWiki">MediaWiki Page</a> for tips on how to indiewebify your MediaWiki site!</p>
+<?php elseif (isset($bloggingSoftware) and $bloggingSoftware === 'idno'): ?>
+<p>It looks like you’re using idno to power your site — check out the IndieWebCamp <a href="http://indiewebcamp.com/Idno">idno Wiki Page</a> for tips on how to indiewebify your idno site!</p>
 <?php endif ?>
