@@ -1,4 +1,4 @@
-<?php use BarnabyWalters\Mf2 ?>
+<?php namespace Indieweb\IndiewebifyMe; use BarnabyWalters\Mf2; ?>
 
 <div class="row demo-row">
 	<h4>Make sure your <strong>posts/notes</strong> are marked up with <a href="http://microformats.org/wiki/h-entry" target="_blank">h-entry</a>:</h4>
@@ -15,6 +15,11 @@
 			<p>We found the following <code>h-entry</code> on your site:</p>
 			
 			<div class="preview-h-entry preview-block">
+				
+				<?php if (hEntryName($hEntry)): ?>
+				<p class="property-block-name">Name</p>
+				<p class="p-name"><?= hEntryName($hEntry) ?></p>
+				<?php endif ?>
 				
 				<p class="property-block-name">Author</p>
 				<?php if (Mf2\hasProp($hEntry, 'author')): $author = $hEntry['properties']['author'][0]; ?>

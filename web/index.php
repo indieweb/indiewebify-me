@@ -105,6 +105,13 @@ function detectBloggingSoftware($response) {
 	return null;
 }
 
+function hEntryName(array $hEntry) {
+	$compare = Mf2\hasProp($hEntry, 'content') ? Mf2\getProp($hEntry, 'content') : (isset($hEntry['value']) ? $hEntry['value'] : null);
+	if (mb_strlen(Mf2\getProp($hEntry, 'name')) < mb_strlen($compare))
+		return Mf2\getProp($hEntry, 'name');
+	return null;
+}
+
 // Web server setup
 
 // Route static assets from CLI server
