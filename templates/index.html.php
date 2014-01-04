@@ -46,7 +46,7 @@
 	
 	<p>If you wish you can also go the extra mile and display a copy of the post you’re replying to. This is called a <a href="http://indiewebcamp.com/reply-context">reply context</a>.</p>
 
-	<h2>2. Receive WebMentions to your site</h2>
+	<h2>2. Receive WebMentions on your site</h2>
 	<p>Now you can post replies which show up as comments on other people’s sites, the next step is to be able to receive comments yourself. There are several ways to do this.</p>
 	
 	<ul>
