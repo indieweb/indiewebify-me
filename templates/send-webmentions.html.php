@@ -14,17 +14,17 @@
 	
 	<p>On the wiki: <a href="http://indiewebcamp.com/webmention">webmention</a></p>
 	
-	<? if ($error or $numSent): ?>
-	<div class="result alert <? if ($error): ?>alert-warning<? else: ?>alert-success<? endif ?>">
-		<? if ($error): ?>
+	<?php if ($error or $numSent): ?>
+	<div class="result alert <?php if ($error): ?>alert-warning<?php else: ?>alert-success<?php endif ?>">
+		<?php if ($error): ?>
 		<h4>Something Went Wrong!</strong></h4>
 		<p>When sending webmentions and pingbacks for <code><?= $url ?></code>, we got this problem:</p>
 		<p><?= $error['message'] ?></p>
-		<? elseif ($numSent): ?>
+		<?php elseif ($numSent): ?>
 		<p>Successfully sent <?= $numSent ?> webmentions/pingbacks from <code><?= $url ?></code></p>
-		<? endif ?>
+		<?php endif ?>
 	</div>
-	<? endif ?>
+	<?php endif ?>
 	
 	<form class="row" action="/send-webmentions/" method="get">
 		<div class="span4">

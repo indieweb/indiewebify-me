@@ -1,4 +1,4 @@
-<? use BarnabyWalters\Mf2 ?>
+<?php use BarnabyWalters\Mf2 ?>
 <div class="row demo-row">
 	<h1><span class="fui-new"></span> Publishing on the IndieWeb <small>Level 2</small></h1>
 
@@ -7,67 +7,69 @@
 
 	<h4>Validate your <strong>homepage</strong> has an <a href="http://microformats.org/wiki/h-card" target="_blank">h-card</a>:</h4>
 	
-	<? if ($error or $hCard): ?>
-	<div class="result alert <? if ($error): ?>alert-warning<? else: ?>alert-success<? endif ?>">
-		<? if ($error): ?>
+	<?php if ($error or $hCard): ?>
+	<div class="result alert <?php if ($error): ?>alert-warning<?php else: ?>alert-success<?php endif ?>">
+		<?php if ($error): ?>
 		<h4>Something Went Wrong!</strong></h4>
 		<p>When fetching <code><?= $url ?></code>, we got this problem:</p>
 		<p><?= $error['message'] ?></p>
-		<? elseif ($hCard): ?>
+		<?php elseif ($hCard): ?>
 		<h4>Success!</h4>
 		
 		<p>We found the following <code>h-card</code> on your site:</p>
 		
 		<div class="preview-h-card preview-block">
-			<? if (Mf2\hasProp($hCard, 'photo')): ?>
+			<?php if (Mf2\hasProp($hCard, 'photo')): ?>
 			<img class="photo-block" src="<?= Mf2\getProp($hCard, 'photo')?>" alt="" />
-			<? else: ?>
+			<?php else: ?>
 			<div class="empty-property-block photo-block">
 				<p>Add a photo!</p>
 				<p><code>&lt;img class=&quot;u-photo&quot; src=&quot;…&quot /></code></p>
 			</div>
-			<? endif ?>
+			<?php endif ?>
 			<p class="p-name"><?= Mf2\getProp($hCard, 'name') ?></p>
 			
 			<p class="property-block-name">URL</p>
-			<? if (Mf2\hasProp($hCard, 'url')): ?>
+			<?php if (Mf2\hasProp($hCard, 'url')): ?>
 			<ul>
-				<? foreach ($hCard['properties']['url'] as $pUrl): ?>
+				<?php foreach ($hCard['properties']['url'] as $pUrl): ?>
 				<li><a href="<?= $Url ?>"><?= $pUrl ?></a></li>
-				<? endforeach ?>
+				<?php endforeach ?>
 			</ul>
-			<? else: ?>
+			<?php else: ?>
 			<div class="empty-property-block">
 				<p>Add your URLs! <code class="pull-right">&lt;a rel=&quot;me&quot; class=&quot;u-url&quot;>…&lt;/a></code></p>
 			</div>
-			<? endif ?>
+			<?php endif ?>
 			
 			<p class="property-block-name">Email</p>
-			<? if (Mf2\hasProp($hCard, 'email')): ?>
+			<?php if (Mf2\hasProp($hCard, 'email')): ?>
 			<ul>
-				<? foreach ($hCard['properties']['email'] as $email): ?>
+				<?php foreach ($hCard['properties']['email'] as $email): ?>
 				<li><a href="<?= $email ?>"><?= $email ?></a></li>
-				<? endforeach ?>
+				<?php endforeach ?>
 			</ul>
-			<? else: ?>
+			<?php else: ?>
 			<div class="empty-property-block">
 				<p>Add your Email! <code class="pull-right">&lt;a rel=&quot;me&quot; class=&quot;u-email&quot;>…&lt;/a></code></p>
 			</div>
-			<? endif ?>
+			<?php endif ?>
 			
 			<p class="property-block-name">Note</p>
-			<? if (Mf2\hasProp($hCard, 'note')): ?>
+			<?php if (Mf2\hasProp($hCard, 'note')): ?>
 			<p><?= Mf2\getProp($hCard, 'note') ?></p>
-			<? else: ?>
+			<?php else: ?>
 			<div class="empty-property-block">
 				<p>Add a note/bio! <code class="pull-right">&lt;p class=&quot;p-note&quot;>…&lt/p></code></p>
 			</div>
-			<? endif ?>
+			<?php endif ?>
 			
 		</div>
-		<? endif ?>
+		<?php endif ?>
+		
+		<?= $render('silo-hint.html', ['url' => $url]) ?>
 	</div>
-	<? endif ?>
+	<?php endif ?>
 	
 	<form class="row" action="/validate-h-card/" method="get">
 		<div class="span4">

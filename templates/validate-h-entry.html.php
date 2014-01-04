@@ -1,15 +1,15 @@
-<? use BarnabyWalters\Mf2 ?>
+<?php use BarnabyWalters\Mf2 ?>
 
 <div class="row demo-row">
 	<h4>Make sure your <strong>posts/notes</strong> are marked up with <a href="http://microformats.org/wiki/h-entry" target="_blank">h-entry</a>:</h4>
 	
-	<? if ($error or $hEntry): ?>
-	<div class="result alert <? if ($error): ?>alert-warning<? else: ?>alert-success<? endif ?>">
-		<? if ($error): ?>
+	<?php if ($error or $hEntry): ?>
+	<div class="result alert <?php if ($error): ?>alert-warning<?php else: ?>alert-success<?php endif ?>">
+		<?php if ($error): ?>
 			<h4>Something Went Wrong!</strong></h4>
 			<p>When fetching <code><?= $url ?></code>, we got this problem:</p>
 			<p><?= $error['message'] ?></p>
-		<? elseif ($hEntry): ?>
+		<?php elseif ($hEntry): ?>
 			<h4>Success!</h4>
 
 			<p>We found the following <code>h-entry</code> on your site:</p>
@@ -17,89 +17,91 @@
 			<div class="preview-h-entry preview-block">
 				
 				<p class="property-block-name">Author</p>
-				<? if (Mf2\hasProp($hEntry, 'author')): $author = $hEntry['properties']['author'][0]; ?>
-				<? if (Mf2\isMicroformat($author)): ?>
+				<?php if (Mf2\hasProp($hEntry, 'author')): $author = $hEntry['properties']['author'][0]; ?>
+				<?php if (Mf2\isMicroformat($author)): ?>
 				<div class="minicard p-author">
-					<? if (Mf2\hasProp($author, 'photo')): ?>
+					<?php if (Mf2\hasProp($author, 'photo')): ?>
 					<img class="u-photo" src="<?= Mf2\getProp($author, 'photo')?>" alt="" />
-					<? else: ?>
+					<?php else: ?>
 					<div class="empty-property-block photo-block">
 						<p>Add a photo!</p>
 						<p><code>&lt;img class=&quot;u-photo&quot; src=&quot;…&quot /></code></p>
 					</div>
-					<? endif ?>
+					<?php endif ?>
 					<span class="p-name"><?= Mf2\getProp($author, 'name') ?></span>
 					<a href="<?= Mf2\getProp($author, 'url') ?>" rel="author" class="u-url"><?= Mf2\getProp($author, 'url') ?></a>
 				</div>
-				<? elseif (is_string($author)): ?>
+				<?php elseif (is_string($author)): ?>
 				<div class="empty-property-block">
 					<p>You’re marking up your post’s author as a string — add <code>h-card</code> to make it a full h-card!</p>
 					<!-- TODO: use actual code snippet from site with h-card added -->
 					<pre><code>&lt;a class=&quot;p-author <strong>h-card</strong>&quot; href=&quot;your-url.com&quot;>Your Name&lt/a></code></pre>
 				</div>
-				<? endif ?>
-				<? else: ?>
+				<?php endif ?>
+				<?php else: ?>
 				<div class="empty-property-block">
 					<p>Add an author! </p>
 					<pre><code>&lt;a rel=&quot;author&quot; class=&quot;p-author h-card&quot; href=&quot;…&quot;>Your Name&lt;/a></code></pre>
 				</div>
-				<? endif ?>
+				<?php endif ?>
 				
 				<p class="property-block-name">Content</p>
-				<? if (Mf2\hasProp($hEntry, 'content')): ?>
+				<?php if (Mf2\hasProp($hEntry, 'content')): ?>
 				<div class="e-content"><?= Mf2\getProp($hEntry, 'content') ?></div>
-				<? else: ?>
+				<?php else: ?>
 				<div class="empty-property-block">
 					<p>Add some content! <code class="pull-right">&lt;p class=&quot;e-content&quot;>…</code></p>
 				</div>
-				<? endif ?>
+				<?php endif ?>
 				
 				<p class="property-block-name">Published
-				<? if (Mf2\hasProp($hEntry, 'published')): ?>
+				<?php if (Mf2\hasProp($hEntry, 'published')): ?>
 				<time class="dt-published"><?= Mf2\getProp($hEntry, 'published') ?></time></p>
-				<? else: ?>
+				<?php else: ?>
 				</p>
 				<div class="empty-property-block">
 					<p>Add a publication datetime!</p>
 					<p><code>&lt;time class=&quot;dt-published&quot; datetime=&quot;YYYY-MM-DD HH:MM:SS&quot;>The Date&lt;/datetime></code></p>
 				</div>
-				<? endif ?>
+				<?php endif ?>
 				
 				<p class="property-block-name">URL
-				<? if (Mf2\hasProp($hEntry, 'url')): ?>
+				<?php if (Mf2\hasProp($hEntry, 'url')): ?>
 				<a href="<?= Mf2\getProp($hEntry, 'url') ?>"><?= Mf2\getProp($hEntry, 'url') ?></a></p>
-				<? else: ?>
+				<?php else: ?>
 				</p><p class="empty-property-block">Add a URL! <code class="pull-right">&lt;a class=&quot;u-url&quot; href=&quot;…&quot;>…&lt;/a></code></p>
-				<? endif ?>
+				<?php endif ?>
 				
 				<p class="property-block-name">Syndicated Copies</p>
-				<? if (Mf2\hasProp($hEntry, 'syndication')): ?>
+				<?php if (Mf2\hasProp($hEntry, 'syndication')): ?>
 				<ul>
-					<? foreach ($hEntry['properties']['syndication'] as $pSyndication): ?>
+					<?php foreach ($hEntry['properties']['syndication'] as $pSyndication): ?>
 					<li><?= $pSyndication ?></li>
-					<? endforeach ?>
+					<?php endforeach ?>
 				</ul>
-				<? else: ?>
+				<?php else: ?>
 				<div class="empty-property-block">
 					<p>Add URLs of <a href="http://indiewebcamp.com/POSSE">POSSEd</a> copies!</p>
 					<p><code>&lt;a rel=&quot;syndication&quot; class=&quot;u-syndication&quot; href=&quot;…&quot;>…&lt;/a></code></p>
 				</div>
-				<? endif ?>
+				<?php endif ?>
 				
 				<p class="property-block-name">Categories</p>
-				<? if (Mf2\hasProp($hEntry, 'category')): ?>
+				<?php if (Mf2\hasProp($hEntry, 'category')): ?>
 				<ul>
-					<? foreach ($hEntry['properties']['category'] as $pCat): ?>
+					<?php foreach ($hEntry['properties']['category'] as $pCat): ?>
 					<li><?= $pCat ?></li>
-					<? endforeach ?>
+					<?php endforeach ?>
 				</ul>
-				<? else: ?>
+				<?php else: ?>
 				<p class="empty-property-block">Add some categories! <code class="pull-right">&lt;a class=&quot;p-category&quot; href=&quot;…&quot;>…&lt;/a></code></p>
-				<? endif ?>
+				<?php endif ?>
 			</div>
-		<? endif ?>
+		<?php endif ?>
+		
+		<?= $render('silo-hint.html', ['url' => $url]) ?>
 	</div>
-	<? endif ?>
+	<?php endif ?>
 
 	<form class="row" action="/validate-h-entry/" method="get">
 		<div class="span4">

@@ -79,6 +79,18 @@ function errorResponder($template, $url) {
 	};
 }
 
+function isWordpressDomain($url) {
+	return stristr(parse_url($url, PHP_URL_HOST), '.wordpress.com') !== false;
+}
+
+function isGithubDomain($url) {
+	return stristr(parse_url($url, PHP_URL_HOST), '.github.') !== false;
+}
+
+function isTumblrDomain($url) {
+	return stristr(parse_url($url, PHP_URL_HOST), '.tumblr.com') !== false;
+}
+
 // Web server setup
 
 // Route static assets from CLI server
@@ -120,6 +132,9 @@ $app->get('/validate-rel-me/', function (Http\Request $request) {
 			return $errorResponse(htmlspecialchars($err->getMessage()));
 		
 		$relMeLinks = IndieWeb\relMeLinks($resp->getBody(true), $relMeUrl);
+		
+		if (empty($relMeLinks))
+			return $errorResponse("No <code>rel=me</code> links could be found!");
 		
 		return crossOriginResponse(render('validate-rel-me.html', array(
 			'rels' => $relMeLinks,
