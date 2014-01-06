@@ -104,7 +104,7 @@
 			</div>
 		<?php endif ?>
 		
-		<?= $render('silo-hint.html', ['url' => $url]) ?>
+		<?= $render('silo-hint.html', array('url' => $url)) ?>
 	</div>
 	<?php endif ?>
 
