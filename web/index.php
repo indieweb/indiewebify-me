@@ -79,6 +79,39 @@ function errorResponder($template, $url) {
 	};
 }
 
+function isWordpressDomain($url) {
+	return stristr(parse_url($url, PHP_URL_HOST), '.wordpress.com') !== false;
+}
+
+function isGithubDomain($url) {
+	return stristr(parse_url($url, PHP_URL_HOST), '.github.') !== false;
+}
+
+function isTumblrDomain($url) {
+	return stristr(parse_url($url, PHP_URL_HOST), '.tumblr.com') !== false;
+}
+
+function detectBloggingSoftware($response) {
+	$d = new MfParser($response->getBody(1), $response->getEffectiveUrl());
+	foreach ($d->query('//meta[@name="generator"]') as $generatorEl) {
+		if (stristr($generatorEl->getAttribute('content'), 'wordpress') !== false)
+			return 'wordpress';
+		if (stristr($generatorEl->getAttribute('content'), 'mediawiki') !== false)
+			return 'mediawiki';
+		if (stristr($generatorEl->getAttribute('content'), 'idno') !== false)
+			return 'idno';
+	}
+	
+	return null;
+}
+
+function hEntryName(array $hEntry) {
+	$compare = Mf2\hasProp($hEntry, 'content') ? Mf2\getProp($hEntry, 'content') : (isset($hEntry['value']) ? $hEntry['value'] : null);
+	if (mb_strlen(Mf2\getProp($hEntry, 'name')) < mb_strlen($compare))
+		return Mf2\getProp($hEntry, 'name');
+	return null;
+}
+
 // Web server setup
 
 // Route static assets from CLI server
@@ -121,9 +154,13 @@ $app->get('/validate-rel-me/', function (Http\Request $request) {
 		
 		$relMeLinks = IndieWeb\relMeLinks($resp->getBody(true), $relMeUrl);
 		
+		if (empty($relMeLinks))
+			return $errorResponse("No <code>rel=me</code> links could be found!");
+		
 		return crossOriginResponse(render('validate-rel-me.html', array(
 			'rels' => $relMeLinks,
-			'url' => htmlspecialchars($url)
+			'url' => htmlspecialchars($url),
+			'bloggingSoftware' => detectBloggingSoftware($resp)
 		)));
 	}
 });

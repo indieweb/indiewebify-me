@@ -47,16 +47,16 @@
         },
         {
             "name": "guzzle/guzzle",
-            "version": "v3.7.4",
+            "version": "v3.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "b170b028c6bb5799640e46c8803015b0f9a45ed9"
+                "reference": "b4a3ce8c05e777fa18b802956d5d0e38ad338a69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/b170b028c6bb5799640e46c8803015b0f9a45ed9",
-                "reference": "b170b028c6bb5799640e46c8803015b0f9a45ed9",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/b4a3ce8c05e777fa18b802956d5d0e38ad338a69",
+                "reference": "b4a3ce8c05e777fa18b802956d5d0e38ad338a69",
                 "shasum": ""
             },
             "require": {
@@ -100,7 +100,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.7-dev"
+                    "dev-master": "3.8-dev"
                 }
             },
             "autoload": {
@@ -135,7 +135,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2013-10-02 20:47:00"
+            "time": "2013-12-05 23:39:20"
         },
         {
             "name": "indieweb/mention-client",
@@ -185,8 +185,8 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/indieweb/php-mf2/zipball/0d27442b54a3a76daa0c6a43354208794f257bb8",
-                "reference": "0d27442b54a3a76daa0c6a43354208794f257bb8",
+                "url": "https://api.github.com/repos/indieweb/php-mf2/zipball/ab3ea1b30c3bf1e1d9f50d2580cb79b7e80c37a4",
+                "reference": "ab3ea1b30c3bf1e1d9f50d2580cb79b7e80c37a4",
                 "shasum": ""
             },
             "require": {
@@ -226,7 +226,11 @@
                 "parser",
                 "semantic"
             ],
+<<<<<<< HEAD
             "time": "2013-11-13 19:24:58"
+=======
+            "time": "2013-11-27 19:35:33"
+>>>>>>> df932c482f4595bd0857d43bc148619b5bec7c49
         },
         {
             "name": "pimple/pimple",
@@ -398,17 +402,30 @@
         },
         {
             "name": "symfony/debug",
+<<<<<<< HEAD
             "version": "v2.3.7",
+=======
+            "version": "v2.4.0",
+>>>>>>> df932c482f4595bd0857d43bc148619b5bec7c49
             "target-dir": "Symfony/Component/Debug",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Debug.git",
+<<<<<<< HEAD
                 "reference": "085d4fd990493a47c1d542a98fac5475326e237f"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/Debug/zipball/085d4fd990493a47c1d542a98fac5475326e237f",
                 "reference": "085d4fd990493a47c1d542a98fac5475326e237f",
+=======
+                "reference": "848565cb83d985eb77dac3f9e4486f3bce92b4a2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Debug/zipball/848565cb83d985eb77dac3f9e4486f3bce92b4a2",
+                "reference": "848565cb83d985eb77dac3f9e4486f3bce92b4a2",
+>>>>>>> df932c482f4595bd0857d43bc148619b5bec7c49
                 "shasum": ""
             },
             "require": {
@@ -419,14 +436,13 @@
                 "symfony/http-kernel": "~2.1"
             },
             "suggest": {
-                "symfony/class-loader": "",
                 "symfony/http-foundation": "",
                 "symfony/http-kernel": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -450,21 +466,38 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "http://symfony.com",
+<<<<<<< HEAD
             "time": "2013-10-30 08:30:20"
         },
         {
             "name": "symfony/event-dispatcher",
             "version": "v2.3.7",
+=======
+            "time": "2013-12-03 14:52:22"
+        },
+        {
+            "name": "symfony/event-dispatcher",
+            "version": "v2.4.0",
+>>>>>>> df932c482f4595bd0857d43bc148619b5bec7c49
             "target-dir": "Symfony/Component/EventDispatcher",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
+<<<<<<< HEAD
                 "reference": "2d8ece3c610726a73d0c95c885134efea182610e"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/2d8ece3c610726a73d0c95c885134efea182610e",
                 "reference": "2d8ece3c610726a73d0c95c885134efea182610e",
+=======
+                "reference": "acd1707236f6eb96fbb8d58f63d289b72ebc2f6e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/acd1707236f6eb96fbb8d58f63d289b72ebc2f6e",
+                "reference": "acd1707236f6eb96fbb8d58f63d289b72ebc2f6e",
+>>>>>>> df932c482f4595bd0857d43bc148619b5bec7c49
                 "shasum": ""
             },
             "require": {
@@ -480,7 +513,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -504,21 +537,38 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
+<<<<<<< HEAD
             "time": "2013-10-13 06:32:10"
         },
         {
             "name": "symfony/http-foundation",
             "version": "v2.3.7",
+=======
+            "time": "2013-12-03 14:52:22"
+        },
+        {
+            "name": "symfony/http-foundation",
+            "version": "v2.4.0",
+>>>>>>> df932c482f4595bd0857d43bc148619b5bec7c49
             "target-dir": "Symfony/Component/HttpFoundation",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
+<<<<<<< HEAD
                 "reference": "1c4b897064f4f621031a0e3bc19fd7054d5e0315"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/1c4b897064f4f621031a0e3bc19fd7054d5e0315",
                 "reference": "1c4b897064f4f621031a0e3bc19fd7054d5e0315",
+=======
+                "reference": "381245ba3e507a3e9c5b4c2cbf344a312fb6081d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/381245ba3e507a3e9c5b4c2cbf344a312fb6081d",
+                "reference": "381245ba3e507a3e9c5b4c2cbf344a312fb6081d",
+>>>>>>> df932c482f4595bd0857d43bc148619b5bec7c49
                 "shasum": ""
             },
             "require": {
@@ -527,7 +577,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -554,21 +604,38 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
+<<<<<<< HEAD
             "time": "2013-11-13 21:27:40"
         },
         {
             "name": "symfony/http-kernel",
             "version": "v2.3.7",
+=======
+            "time": "2013-11-28 10:27:26"
+        },
+        {
+            "name": "symfony/http-kernel",
+            "version": "v2.4.0",
+>>>>>>> df932c482f4595bd0857d43bc148619b5bec7c49
             "target-dir": "Symfony/Component/HttpKernel",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpKernel.git",
+<<<<<<< HEAD
                 "reference": "86fb9a609ea69d81070c2c38faf36cd545f85225"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/86fb9a609ea69d81070c2c38faf36cd545f85225",
                 "reference": "86fb9a609ea69d81070c2c38faf36cd545f85225",
+=======
+                "reference": "e5afbeabef99f916f0e0d76f68a36343aa293387"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/e5afbeabef99f916f0e0d76f68a36343aa293387",
+                "reference": "e5afbeabef99f916f0e0d76f68a36343aa293387",
+>>>>>>> df932c482f4595bd0857d43bc148619b5bec7c49
                 "shasum": ""
             },
             "require": {
@@ -576,7 +643,7 @@
                 "psr/log": "~1.0",
                 "symfony/debug": "~2.3",
                 "symfony/event-dispatcher": "~2.1",
-                "symfony/http-foundation": "~2.2"
+                "symfony/http-foundation": "~2.4"
             },
             "require-dev": {
                 "symfony/browser-kit": "~2.2",
@@ -601,7 +668,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -625,41 +692,51 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "http://symfony.com",
+<<<<<<< HEAD
             "time": "2013-11-14 07:58:51"
         },
         {
             "name": "symfony/routing",
             "version": "v2.3.7",
+=======
+            "time": "2013-12-03 15:23:03"
+        },
+        {
+            "name": "symfony/routing",
+            "version": "v2.4.0",
+>>>>>>> df932c482f4595bd0857d43bc148619b5bec7c49
             "target-dir": "Symfony/Component/Routing",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Routing.git",
-                "reference": "7d41463094752e87a0fae60316d236abecb8a034"
+                "reference": "a7a665e2a0e3a203ca9a690c021066e76295bf6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Routing/zipball/7d41463094752e87a0fae60316d236abecb8a034",
-                "reference": "7d41463094752e87a0fae60316d236abecb8a034",
+                "url": "https://api.github.com/repos/symfony/Routing/zipball/a7a665e2a0e3a203ca9a690c021066e76295bf6a",
+                "reference": "a7a665e2a0e3a203ca9a690c021066e76295bf6a",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "doctrine/common": "~2.2",
+                "doctrine/annotations": "~1.0",
                 "psr/log": "~1.0",
                 "symfony/config": "~2.2",
+                "symfony/expression-language": "~2.4",
                 "symfony/yaml": "~2.0"
             },
             "suggest": {
-                "doctrine/common": "",
-                "symfony/config": "",
-                "symfony/yaml": ""
+                "doctrine/annotations": "For using the annotation loader",
+                "symfony/config": "For using the all-in-one router or any loader",
+                "symfony/expression-language": "For using expression matching",
+                "symfony/yaml": "For using the YAML loader"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -683,7 +760,13 @@
             ],
             "description": "Symfony Routing Component",
             "homepage": "http://symfony.com",
-            "time": "2013-09-29 19:41:41"
+            "keywords": [
+                "router",
+                "routing",
+                "uri",
+                "url"
+            ],
+            "time": "2013-11-22 17:42:00"
         },
         {
             "name": "tantek/cassis",
@@ -1079,17 +1162,30 @@
         },
         {
             "name": "symfony/yaml",
+<<<<<<< HEAD
             "version": "v2.3.7",
+=======
+            "version": "v2.4.0",
+>>>>>>> df932c482f4595bd0857d43bc148619b5bec7c49
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
+<<<<<<< HEAD
                 "reference": "c1bda5b459d792cb253de12c65beba3040163b2b"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/Yaml/zipball/c1bda5b459d792cb253de12c65beba3040163b2b",
                 "reference": "c1bda5b459d792cb253de12c65beba3040163b2b",
+=======
+                "reference": "1ae235a1b9d3ad3d9f3860ff20acc072df95b7f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/1ae235a1b9d3ad3d9f3860ff20acc072df95b7f5",
+                "reference": "1ae235a1b9d3ad3d9f3860ff20acc072df95b7f5",
+>>>>>>> df932c482f4595bd0857d43bc148619b5bec7c49
                 "shasum": ""
             },
             "require": {
@@ -1098,7 +1194,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -1122,7 +1218,11 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
+<<<<<<< HEAD
             "time": "2013-10-17 11:48:01"
+=======
+            "time": "2013-11-26 16:40:27"
+>>>>>>> df932c482f4595bd0857d43bc148619b5bec7c49
         }
     ],
     "aliases": [

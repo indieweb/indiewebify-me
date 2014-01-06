@@ -2,3 +2,4 @@ composer.phar
 /nbproject/
 /vendor/
 deploy
+.DS_Store

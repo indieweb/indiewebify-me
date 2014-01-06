@@ -15,24 +15,26 @@
 	
 	<p>On the wiki: <a href="http://indiewebcamp.com/How_to_set_up_web_sign-in_on_your_own_domain">How to set up Web Sign In</a>.</p>
 	
-	<? if ($error or $rels): ?>
-	<div class="result alert <? if ($error): ?>alert-warning<? else: ?>alert-success<? endif ?>">
-		<? if ($error): ?>
+	<?php if ($error or $rels): ?>
+	<div class="result alert <?php if ($error): ?>alert-warning<?php else: ?>alert-success<?php endif ?>">
+		<?php if ($error): ?>
 		<h4>Something Went Wrong!</strong></h4>
 		<p>When fetching <code><?= $url ?></code>, we got this problem:</p>
 		<p><?= $error['message'] ?></p>
-		<? elseif ($rels): ?>
+		<?php elseif ($rels): ?>
 		
 		<p>We found the following <code>rel=me</code> URLs on <a class="results-url" href="<?= $url ?>">your site</a>:</p>
 		
 		<ul>
-			<? foreach ($rels as $rel): ?>
+			<?php foreach ($rels as $rel): ?>
 			<li class="rel-me-result"><a href="<?= $rel ?>"><?= $rel ?></a></li>
-			<? endforeach ?>
+			<?php endforeach ?>
 		</ul>
-		<? endif ?>
+		<?php endif ?>
+		
+		<?= $render('silo-hint.html', ['url' => $url]) ?>
 	</div>
-	<? endif ?>
+	<?php endif ?>
 	
 	<form class="row" action="/validate-rel-me/" method="get">
 		<div class="span4">
