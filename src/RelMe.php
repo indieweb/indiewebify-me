@@ -4,15 +4,15 @@ namespace IndieWeb;
 
 use DOMDocument;
 use DOMXPath;
-use mf2; // for relative URL resolver
+use Mf2; // for relative URL resolver
 
 // force loading of resolveUrl function
-class_exists('mf2\Parser');
+class_exists('Mf2\Parser');
 
 /**
  * Adapted from php.net, added TESTING flag and header title case normalisation
  */
-if (!function_exists('http_parse_headers') or TESTING) {
+if (!function_exists('http_parse_headers') or defined('TESTING')) {
 	function http_parse_headers($raw_headers) {
 		$headers = array();
 		$key = '';
@@ -103,7 +103,23 @@ function followOneRedirect($url) {
 	}
 }
 
-/** return [string URL, bool isSecure, array redirectChain] */
+/**
+ * rel-me Document URL
+ * 
+ * Given a URL, resolves any redirects and returns the resolved URL, whether or not
+ * the redirect chain is secure (doesn’t change protocol) and the redirect chain,
+ * for inspection.
+ * 
+ * Example usage:
+ * 
+ *     list($profileUrl, $isSecure, $redirectChain) = IndieWeb\relMeDocumentUrl($me);
+ * 
+ * $followOneRedirect defaults to IndieWeb\followOneRedirect but can be replaced for
+ * testing purposes.
+ * 
+ * Returns [string URL, bool isSecure, array redirectChain]
+ * @return array
+ */
 function relMeDocumentUrl($url, $followOneRedirect = null) {
 	if (!is_callable($followOneRedirect))
 		$followOneRedirect = __NAMESPACE__ . '\followOneRedirect';
@@ -114,7 +130,7 @@ function relMeDocumentUrl($url, $followOneRedirect = null) {
 	while (true) {
 		// TODO: is resolving this URL correct behaviour here?
 		// should it be resolved just to the host?
-		$redirectedUrl = mf2\resolveUrl($currentUrl, $followOneRedirect($currentUrl));
+		$redirectedUrl = Mf2\resolveUrl($currentUrl, $followOneRedirect($currentUrl));
 		if ($redirectedUrl === null):
 			break;
 		elseif (in_array($redirectedUrl, $previous)):
@@ -132,15 +148,25 @@ function relMeDocumentUrl($url, $followOneRedirect = null) {
 	return array($currentUrl, $secure, $previous);
 }
 
+/**
+ * rel-me links
+ * given the HTML and URL of a page, returns all the rel-me links found on that page
+ * @return array
+ */
 function relMeLinks($html, $url) {
-	$parser = new mf2\Parser($html, $url);
+	$parser = new Mf2\Parser($html, $url);
 	$mf = $parser->parse();
 	$relMeLinks = @($mf['rels']['me'] ?: array());
 	
 	return array_unique($relMeLinks);
 }
 
-// TODO: write tests for this
+/**
+ * URLs match other than scheme
+ * Given two URLs, checks if they are the same, ignorning their schemes
+ * @todo write tests for this
+ * @return bool
+ */
 function urlsMatchOtherThanScheme($url1, $url2) {
 	$p1 = parse_url($url1);
 	$p2 = parse_url($url2);
@@ -150,6 +176,21 @@ function urlsMatchOtherThanScheme($url1, $url2) {
 	return unparseUrl($p1) === unparseUrl($p2);
 }
 
+/**
+ * Backlinking rel-me URL matches
+ * 
+ * Used to check whether an inbound (silo to indie homepage) rel-me link can securely
+ * be considered to link to the indie profile URL. Given a back-linking URL and a profile
+ * URL, returns an array of [(bool) matches, (bool) secure, (array) redirect chain)]
+ * 
+ * Example Usage:
+ * 
+ *     list($matches, $secure, $previous) = IndieWeb\backlinkingRelMeUrlMatches($inboundRelMeUrl, $meUrl);
+ * 
+ * $followOneRedirect defaults to IndieWeb\followOneRedirect but can be replaced for
+ * testing purposes.
+ * @return array [matches, secure, previous]
+ */
 function backlinkingRelMeUrlMatches($backlinking, $meUrl, $followOneRedirect=null) {
 	if ($followOneRedirect === null)
 		$followOneRedirect = __NAMESPACE__ . '\followOneRedirect';

@@ -1,26 +1,26 @@
 {
-    "name": "indiewebify.me",
-		"description": "Tools to help you get the best out of your indieweb site",
-		"authors": [{
-			"name": "Brennan Novak",
-			"homepage": "https://brennannovak.com"
-		},
-		{
-			"name": "Barnaby Walters",
-			"homepage": "http://waterpigs.co.uk"
-		}],
-		"require": {
-			"mf2/mf2": "dev-master",
-			"barnabywalters/mf-cleaner": "dev-master",
-			"silex/silex": "*",
-    	"guzzle/guzzle": "*",
-			"tantek/cassis": "*",
-			"indieweb/mention-client": "*"
-    },
-		"require-dev": {
-			"phpunit/phpunit": "*"
-		},
-		"autoload": {
-			"files": ["src/RelMe.php"]
-		}
+	"name": "indiewebify.me",
+	"description": "Tools to help you get the best out of your indieweb site",
+	"authors": [{
+		"name": "Brennan Novak",
+		"homepage": "https://brennannovak.com"
+	},
+	{
+		"name": "Barnaby Walters",
+		"homepage": "http://waterpigs.co.uk"
+	}],
+	"require": {
+		"mf2/mf2": "dev-master",
+		"barnabywalters/mf-cleaner": "dev-master",
+		"silex/silex": "*",
+	"guzzle/guzzle": "*",
+		"tantek/cassis": "*",
+		"indieweb/mention-client": "*"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "*"
+	},
+	"autoload": {
+		"files": []
+	}
 }
