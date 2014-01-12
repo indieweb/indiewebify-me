@@ -181,12 +181,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/indieweb/rel-me.git",
-                "reference": "85bb4450d785143589cec55e717762e1ac31da68"
+                "reference": "d6bbbf2a4e0292ea6087fff3fed8431c858782c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/indieweb/rel-me/zipball/85bb4450d785143589cec55e717762e1ac31da68",
-                "reference": "85bb4450d785143589cec55e717762e1ac31da68",
+                "url": "https://api.github.com/repos/indieweb/rel-me/zipball/d6bbbf2a4e0292ea6087fff3fed8431c858782c0",
+                "reference": "d6bbbf2a4e0292ea6087fff3fed8431c858782c0",
                 "shasum": ""
             },
             "require": {
@@ -208,7 +208,7 @@
                 "MIT"
             ],
             "description": "Functions for discovering, consuming and verifying rel-me microformat",
-            "time": "2014-01-04 19:54:57"
+            "time": "2014-01-12 15:37:34"
         },
         {
             "name": "mf2/mf2",
