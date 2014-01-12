@@ -16,8 +16,6 @@
 		~<a href="http://indiewebcamp.com" target="_blank">IndieWebCamp</a>
 	</blockquote>
 	
-	<p>Want to get the source code? It’s <a href="https://github.com/indieweb/indiewebify-me/">on Github</a>. Found a problem? <a href="https://github.com/indieweb/indiewebify-me/issues/">file an issue or send a PR</a>.</p>
-
 </div>
 <div class="row demo-row"><hr></div>
 
@@ -66,5 +64,8 @@
 			<a href="#fakelink" class="btn btn-large btn-block btn-primary">Send WebMention</a>
 		</div>
 	</div>-->
-
 </div>
+
+<footer>
+	<p>Want to make changes to indiewebify.me? The code’s <a href="https://github.com/indieweb/indiewebify-me/">on Github</a>. Found a problem? <a href="https://github.com/indieweb/indiewebify-me/issues/">file an issue or send a PR</a>.</p>
+</footer>

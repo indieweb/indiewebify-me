@@ -1,7 +1,7 @@
 <?php namespace Indieweb\IndiewebifyMe; use BarnabyWalters\Mf2; ?>
 
 <div class="row demo-row">
-	<h4>Make sure your <strong>posts/notes</strong> are marked up with <a href="http://microformats.org/wiki/h-entry" target="_blank">h-entry</a>:</h4>
+	<h4>Check your <strong>posts</strong> (notes, articles, etc.) are marked up with <a href="http://microformats.org/wiki/h-entry" target="_blank">h-entry</a>:</h4>
 	
 	<?php if ($error or $hEntry): ?>
 	<div class="result alert <?php if ($error): ?>alert-warning<?php else: ?>alert-success<?php endif ?>">
@@ -116,4 +116,6 @@
 			<button type="submit" id="validate-h-entry" class="btn btn-large btn-block btn-primary">Validate h-entry</button>
 		</div>
 	</form>
+	
+	<small>Want to be able to use h-entry data in your code? Check out the open-source <a href="http://microformats.org/wiki/parsers">implementations</a>.</small>
 </div>

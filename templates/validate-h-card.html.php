@@ -2,10 +2,11 @@
 <div class="row demo-row">
 	<h1><span class="fui-new"></span> Publishing on the IndieWeb <small>Level 2</small></h1>
 
-	<h2>1. Markup your content (Posts, Articles, Notes, etc...) with <a href="http://microformats.org/" target="_blank">microformats2</a></h2>
-	<p>&nbsp;</p>
-
-	<h4>Validate your <strong>homepage</strong> has an <a href="http://microformats.org/wiki/h-card" target="_blank">h-card</a>:</h4>
+	<h2>1. Mark up your content (Profile, Notes, Articles, etc…) with <a href="http://microformats.org/" target="_blank">microformats2</a></h2>
+	
+	<p>Other humans can already understand your profile information, and the things you post on your site. By adding a few simple classnames to your HTML, other people’s software can understand it all too, and use it for things like <a href="http://indiewebcamp.com/reply-context">reply contexts</a>, <a href="http://indiewebcamp.com/comment">cross-site comments</a>, <a href="http://indiewebcamp.com/rsvp">event RSVPs</a> and more.</p>
+	
+	<h4>Check your <strong>homepage <a href="http://microformats.org/wiki/h-card" target="_blank">h-card</a></strong>:</h4>
 	
 	<?php if ($error or $hCard): ?>
 	<div class="result alert <?php if ($error): ?>alert-warning<?php else: ?>alert-success<?php endif ?>">
@@ -79,4 +80,6 @@
 			<button type="submit" id="validate-h-card" class="btn btn-large btn-block btn-primary">Validate h-card</button>
 		</div>
 	</form>
+	
+	<small>Want to be able to use h-card data in your code? Check out the open-source <a href="http://microformats.org/wiki/parsers">implementations</a>.</small>
 </div>
