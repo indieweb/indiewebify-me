@@ -10,12 +10,12 @@
 		"homepage": "http://waterpigs.co.uk"
 	}],
 	"require": {
-		"mf2/mf2": "dev-master",
 		"barnabywalters/mf-cleaner": "dev-master",
 		"silex/silex": "*",
-	"guzzle/guzzle": "*",
+		"guzzle/guzzle": "*",
 		"tantek/cassis": "*",
-		"indieweb/mention-client": "*"
+		"indieweb/mention-client": "*",
+		"indieweb/rel-me": "dev-master"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "*"

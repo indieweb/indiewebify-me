@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "58fb75182546a68381a6c75d0d412a30",
+    "hash": "08d6d3f12f71a1c7007bb763f07181a2",
     "packages": [
         {
             "name": "barnabywalters/mf-cleaner",
@@ -176,8 +176,43 @@
             "time": "2013-09-14 20:30:04"
         },
         {
-            "name": "mf2/mf2",
+            "name": "indieweb/rel-me",
             "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/indieweb/rel-me.git",
+                "reference": "85bb4450d785143589cec55e717762e1ac31da68"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/indieweb/rel-me/zipball/85bb4450d785143589cec55e717762e1ac31da68",
+                "reference": "85bb4450d785143589cec55e717762e1ac31da68",
+                "shasum": ""
+            },
+            "require": {
+                "mf2/mf2": "0.2.*",
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "barnabywalters/mf-cleaner": "*",
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "RelMe.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Functions for discovering, consuming and verifying rel-me microformat",
+            "time": "2014-01-04 19:54:57"
+        },
+        {
+            "name": "mf2/mf2",
+            "version": "v0.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/indieweb/php-mf2.git",
@@ -1137,8 +1172,8 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "mf2/mf2": 20,
-        "barnabywalters/mf-cleaner": 20
+        "barnabywalters/mf-cleaner": 20,
+        "indieweb/rel-me": 20
     },
     "platform": [
 
