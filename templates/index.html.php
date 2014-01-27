@@ -51,6 +51,7 @@
 		<li>If you’re using a project like WordPress, there might already be a plugin enabling receiving of indieweb comments. There’s a list of projects <a href="http://indiewebcamp.com/projects">on the wiki</a></li>
 		<li>If you’re rolling your own project and want to implement webmention yourself, have a read through <a href="http://webmention.org">the spec</a> and <a href="http://indiewebcamp.com/webmention">the wiki page</a> for tips</li>
 		<li>If you want to get started quickly without implementing receiving of webmentions yourself, take a look at a hosted service like <a href="http://webmention.io/">webmention.io</a></li>
+		<li>Once you're POSSEing and receiving webmentions, consider setting up <a href="http://indiewebcamp.com/backfeed">backfeed</a> for replies, likes, reshares, and event RSVPs inside the silos. You can use a service like <a href="https://www.brid.gy/">Bridgy</a>, a <a href="http://indiewebcamp.com/backfeed#WordPress_Plugins">server plugin</a>, or even roll your own</li>
 	</ul>
 
 	<!--<h4>Send a test <strong>WebMention</strong> to your website: <span>http://yourwebsite.com</span></h4>
