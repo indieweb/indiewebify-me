@@ -12,7 +12,7 @@
 		<?php elseif ($hEntry): ?>
 			<h4>Success!</h4>
 
-			<p>We found the following <code>h-entry</code> on your site:</p>
+			<p>We found the following <strong><?= $postType ?></strong> <code>h-entry</code> on your site:</p>
 			
 			<div class="preview-h-entry preview-block">
 				
@@ -50,9 +50,72 @@
 				</div>
 				<?php endif ?>
 				
+				
+				<?php if ($postType == 'reply'): ?>
+					<p class="property-block-name">In Reply To</p>
+					<ul>
+						<?php foreach ($hEntry['properties']['in-reply-to'] as $irt): ?>
+						<li>
+							<?php if (is_string($irt)): ?>
+								<a href="<?= $irt ?>"><?= $irt ?></a>
+							<?php elseif (Mf2\isMicroformat($irt)): ?>
+								<?php if (!in_array('h-cite', $irt['type'])): ?>
+								<p>The nested <code>in-reply-to</code> microformat should be an <a href="http://microformats.org/wiki/h-cite"><code>h-cite</code></a> as it refers to off-site content.</p>
+								<?php endif ?>
+								
+								<?php if (Mf2\hasProp($irt, 'url')): ?>
+									<a href="<?= Mf2\getProp($irt, 'url') ?>"><?= Mf2\getProp($irt, 'url') ?></a>
+								<?php else: ?>
+									<p>Give the nested microformat a URL property! <code class="pull-right">&lt;a class="u-url" href="…">&lt;/a></code></p>
+								<?php endif ?>
+							<?php else: ?>
+								The value for an <code>in-reply-to</code> property should be a URL or an embedded <a href="http://microformats.org/wiki/h-cite"><code>h-cite</code></a>.
+							<?php endif ?>
+						</li>
+						<?php endforeach ?>
+					</ul>
+					
+				<?php elseif ($postType == 'like'): ?>
+					<p class="property-block-name">Like Of</p>
+					<?php if (is_string($hEntry['properties']['like-of'][0])): ?>
+						<a href="<?= Mf2\getProp($hEntry, 'like-of') ?>"><?= Mf2\getProp($hEntry, 'like-of') ?></a>
+					<?php elseif (Mf2\isMicroformat(Mf2\getProp($hEntry, 'like-of'))): ?>
+						<?php if (!in_array('h-cite', Mf2\getProp($hEntry, 'like-of'))): ?>
+						<p>The nested <code>h-cite</code> microformat should be an <a href="http://microformats.org/wiki/h-cite"><code>h-cite</code></a> as it refers to off-site content.</p>
+						<?php endif ?>
+						
+						<?php if (Mf2\hasProp(Mf2\getProp($hEntry, 'like-of'), 'url')): ?>
+							<a href="<?= Mf2\getProp(Mf2\getProp($hEntry, 'like-of'), 'url') ?>"><?= Mf2\getProp(Mf2\getProp($hEntry, 'like-of'), 'url') ?></a>
+						<?php else: ?>
+							<p>Give the nested microformat a URL property! <code class="pull-right">&lt;a class="u-url" href="…">&lt;/a></code></p>
+						<?php endif ?>
+					<?php else: ?>
+						The value for a <code>like-of</code> property should be a URL or an embedded <a href="http://microformats.org/wiki/h-cite"><code>h-cite</code></a>.
+					<?php endif ?>
+					
+				<?php elseif ($postType == 'repost'): ?>
+					<p class="property-block-name">Repost Of</p>
+					<?php if (is_string(Mf2\getProp($hEntry, 'repost-of'))): ?>
+						<a href="<?= Mf2\getProp($hEntry, 'repost-of') ?>"><?= Mf2\getProp($hEntry, 'repost-of') ?></a>
+					<?php elseif (Mf2\isMicroformat(Mf2\getProp($hEntry, 'repost-of'))): ?>
+						<?php if (!in_array('h-cite', Mf2\getProp($hEntry, 'repost-of'))): ?>
+						<p>The nested <code>h-cite</code> microformat should be an <a href="http://microformats.org/wiki/h-cite"><code>h-cite</code></a> as it refers to off-site content.</p>
+						<?php endif ?>
+						
+						<?php if (Mf2\hasProp(Mf2\getProp($hEntry, 'repost-of'), 'url')): ?>
+							<a href="<?= Mf2\getProp(Mf2\getProp($hEntry, 'repost-of'), 'url') ?>"><?= Mf2\getProp(Mf2\getProp($hEntry, 'repost-of'), 'url') ?></a>
+						<?php else: ?>
+							<p>Give the nested microformat a URL property! <code class="pull-right">&lt;a class="u-url" href="…">&lt;/a></code></p>
+						<?php endif ?>
+					<?php else: ?>
+						The value for a <code>repost-of</code> property should be a URL or an embedded <a href="http://microformats.org/wiki/h-cite"><code>h-cite</code></a>.
+					<?php endif ?>
+				<?php endif ?>
+				
+				
 				<p class="property-block-name">Content</p>
 				<?php if (Mf2\hasProp($hEntry, 'content')): ?>
-				<div class="e-content"><?= Mf2\getProp($hEntry, 'content') ?></div>
+				<div class="e-content"><?= $purify(Mf2\getHtml($hEntry, 'content')) ?></div>
 				<?php else: ?>
 				<div class="empty-property-block">
 					<p>Add some content! <code class="pull-right">&lt;p class=&quot;e-content&quot;>…</code></p>

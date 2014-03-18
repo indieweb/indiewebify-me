@@ -8,6 +8,7 @@ ob_end_clean();
 
 use BarnabyWalters\Mf2;
 use Guzzle;
+use HTMLPurifier, HTMLPurifier_Config;
 use IndieWeb;
 use IndieWeb\MentionClient;
 use Mf2\Parser as MfParser;
@@ -29,6 +30,9 @@ function renderTemplate($template, array $__templateData = array()) {
 function render($template, array $data = array()) {
 	$isHtml = pathinfo($template, PATHINFO_EXTENSION) === 'html';
 	$out = '';
+	
+	$purifierConfig = HTMLPurifier_Config::createDefault();
+	$data['purify'] = [new HTMLPurifier($purifierConfig), 'purify'];
 	
 	if ($isHtml)
 		$out .= renderTemplate('header.html', $data);
@@ -246,8 +250,21 @@ $app->get('/validate-h-entry/', function (Http\Request $request) {
 		if (count($hEntries) === 0)
 			return $errorResponse('No h-entries found — check your classnames');
 		
+		$hEntry = $hEntries[0];
+		
+		if (Mf2\hasProp($hEntry, 'in-reply-to')) {
+			$postType = 'reply';
+		} elseif (Mf2\hasProp($hEntry, 'like-of')) {
+			$postType = 'like';
+		} elseif (Mf2\hasProp($hEntry, 'repost-of')) {
+			$postType = 'repost';
+		} else {
+			$postType = 'post';
+		}
+		
 		return crossOriginResponse(render('validate-h-entry.html', array(
-			'hEntry' => $hEntries[0],
+			'postType' => $postType,
+			'hEntry' => $hEntry,
 			'url' => htmlspecialchars($url)
 		)));
 	}
