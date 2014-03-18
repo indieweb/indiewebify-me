@@ -115,7 +115,7 @@
 				
 				<p class="property-block-name">Content</p>
 				<?php if (Mf2\hasProp($hEntry, 'content')): ?>
-				<div class="e-content"><?= $purify(Mf2\getHtml($hEntry, 'content')) ?></div>
+				<div class="e-content"><?= Mf2\getProp($hEntry, 'content') ?></div>
 				<?php else: ?>
 				<div class="empty-property-block">
 					<p>Add some content! <code class="pull-right">&lt;p class=&quot;e-content&quot;>…</code></p>
