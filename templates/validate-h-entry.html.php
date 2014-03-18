@@ -125,6 +125,9 @@
 				<p class="property-block-name">Published
 				<?php if (Mf2\hasProp($hEntry, 'published')): ?>
 				<time class="dt-published"><?= Mf2\getProp($hEntry, 'published') ?></time></p>
+					<?php if (datetimeProblem(Mf2\getProp($hEntry, 'published'))): ?>
+					<?= datetimeProblem(Mf2\getProp($hEntry, 'published')) ?>
+					<?php endif ?>
 				<?php else: ?>
 				</p>
 				<div class="empty-property-block">

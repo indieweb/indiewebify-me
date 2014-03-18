@@ -7,6 +7,7 @@ require __DIR__ . '/../vendor/autoload.php';
 ob_end_clean();
 
 use BarnabyWalters\Mf2;
+use DateTime;
 use Guzzle;
 use HTMLPurifier, HTMLPurifier_Config;
 use IndieWeb;
@@ -116,15 +117,31 @@ function hEntryName(array $hEntry) {
 	return null;
 }
 
+function datetimeProblem($datetimeStr) {
+	try {
+		$dt = new DateTime($datetimeStr);
+	} catch (Exception $e) {
+		return "The datetime is not valid ISO-8601.";
+	}
+	
+	if (strlen($datetimeStr) < 11) {
+		return "Datetimes should be precise to at least the nearest second.";
+	} elseif (strlen($datetimeStr) < 19)
+		return "The datetime has no timezone.";
+	return false;
+}
+
 // Web server setup
 
 // Route static assets from CLI server
 if (PHP_SAPI === 'cli-server') {
-	error_reporting(0);
+	error_reporting(E_ERROR | E_WARNING | E_PARSE);
 	
 	if (file_exists(__DIR__ . $_SERVER['REQUEST_URI']) and !is_dir(__DIR__ . $_SERVER['REQUEST_URI'])) {
 		return false;
 	}
+} else {
+	error_reporting(0);
 }
 
 $app = new Silex\Application();
