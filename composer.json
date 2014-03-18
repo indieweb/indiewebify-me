@@ -11,6 +11,7 @@
 	}],
 	"require": {
 		"barnabywalters/mf-cleaner": "dev-master",
+		"ezyang/htmlpurifier": "4.*",
 		"silex/silex": "*",
 		"guzzle/guzzle": "*",
 		"tantek/cassis": "*",
