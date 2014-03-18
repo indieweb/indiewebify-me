@@ -33,7 +33,7 @@ function render($template, array $data = array()) {
 	$out = '';
 	
 	$purifierConfig = HTMLPurifier_Config::createDefault();
-	$data['purify'] = [new HTMLPurifier($purifierConfig), 'purify'];
+	$data['purify'] = array(new HTMLPurifier($purifierConfig), 'purify');
 	
 	if ($isHtml)
 		$out .= renderTemplate('header.html', $data);
