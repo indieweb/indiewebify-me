@@ -132,7 +132,7 @@
 				</p>
 				<div class="empty-property-block">
 					<p>Add a publication datetime!</p>
-					<p><code>&lt;time class=&quot;dt-published&quot; datetime=&quot;YYYY-MM-DD HH:MM:SS&quot;>The Date&lt;/datetime></code></p>
+					<p><code>&lt;time class=&quot;dt-published&quot; datetime=&quot;YYYY-MM-DD HH:MM:SS&quot;>The Date&lt;/time></code></p>
 				</div>
 				<?php endif ?>
 				
