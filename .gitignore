@@ -3,3 +3,4 @@ composer.phar
 /vendor/
 deploy
 .DS_Store
+.idea/

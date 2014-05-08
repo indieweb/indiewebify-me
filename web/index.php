@@ -8,6 +8,7 @@ ob_end_clean();
 
 use BarnabyWalters\Mf2;
 use DateTime;
+use Exception;
 use Guzzle;
 use HTMLPurifier, HTMLPurifier_Config;
 use IndieWeb;
