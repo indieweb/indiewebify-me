@@ -75,7 +75,10 @@
 			color: #333;
 			background: #fff;
 		}
-		
+
+		body {
+			padding: 2em;
+		}
 		</style>
 		
   </head>
