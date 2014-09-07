@@ -51,7 +51,9 @@ function crossOriginResponse($resp, $code=200) {
 }
 
 function httpGet($url) {
-	$client = new Guzzle\Http\Client();
+	$client = new Guzzle\Http\Client(null, [
+		'ssl.certificate_authority' => __DIR__ . '/../mozilla-ca-certs.pem'
+	]);
 	ob_start();
 	$url = web_address_to_uri($url, true);
 	ob_end_clean();
