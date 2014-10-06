@@ -1,4 +1,4 @@
-<?php use BarnabyWalters\Mf2 ?>
+<?php use BarnabyWalters\Mf2; ?>
 <div class="row demo-row">
 	<h1><span class="fui-new"></span> Publishing on the IndieWeb <small>Level 2</small></h1>
 
@@ -8,7 +8,7 @@
 	
 	<h4>Check your <strong>homepage <a href="http://microformats.org/wiki/h-card" target="_blank">h-card</a></strong>:</h4>
 	
-	<?php if ($error or $hCard): ?>
+	<?php if ($error or $firstHCard): ?>
 	<div class="result alert <?php if ($error): ?>alert-warning<?php else: ?>alert-success<?php endif ?>">
 		<?php if ($error): ?>
 		<h4>Something Went Wrong!</strong></h4>
@@ -16,9 +16,23 @@
 		<p><?= $error['message'] ?></p>
 		<?php elseif ($hCard): ?>
 		<h4>Success!</h4>
-		
-		<p>We found the following <code>h-card</code> on your site:</p>
-		
+
+		<?php if (count($representativeHCards) == 1): $hCard = $representativeHCards[0]; ?>
+			<p>This representative <code>h-card</code> was found on your site:</p>
+		<?php elseif (count($representativeHCards) > 1): $hCard = $representativeHCards[0] ?>
+			<p>Multiple representative h-cards were found on your site! Consider only having one. Here’s the first one:</p>
+		<?php elseif (count($representativeHCards) == 0 and $firstHCard !== null): $hCard = $firstHCard; ?>
+			<p>A h-card was found on your site, but it’s not marked up as the <a href="http://microformats.org/wiki/representative-hcard-parsing">representative h-card</a>!</p>
+			<p>Add a <code>u-url</code> property which matches a <code>rel=me</code> link on the same page so this h-card can be identified as the h-card which <em>represents</em> the page.</code></p>
+		<?php else: $hCard = null; ?>
+			<p>No h-cards were found on your site! Adding one can be as simple as this:</p>
+
+			<pre><code>&lt;a class=&quot;h-card&quot; rel=&quot;me&quot; href=&quot;<?= $url ?>&quot;>Your Name&lt;/a></code></pre>
+
+			<p>But you can also add other properties for a more detailed profile — see <a href="http://microformats.org/wiki/h-card">h-card on the microformats wiki</a> for a full list.</p>
+		<?php endif ?>
+
+		<?php if ($hCard): ?>
 		<div class="preview-h-card preview-block">
 			<?php if (Mf2\hasProp($hCard, 'photo')): ?>
 			<img class="photo-block" src="<?= Mf2\getProp($hCard, 'photo')?>" alt="" />

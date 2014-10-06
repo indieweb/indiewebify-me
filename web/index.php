@@ -239,10 +239,22 @@ $app->get('/validate-h-card/', function (Http\Request $request) {
 		$hCards = Mf2\findMicroformatsByType($mfs, 'h-card');
 		
 		if (count($hCards) === 0)
-			return $errorResponse('No h-cards found — check your classnames');
+			$firstHCard = null;
+		else
+			$firstHCard = $hCards[0];
+
+		$representativeHCards = [];
+		$relMeUrls = empty($mfs['rels']['me']) ? [] : $mfs['rels']['me'];
+
+		foreach ($hCards as $hCard) {
+			if (Mf2\getProp($hCard, 'url') == $url or (Mf2\hasProp($hCard, 'url') and count(array_intersect($hCard['properties']['url'], $relMeUrls)))) {
+				$representativeHCards[] = $hCard;
+			}
+		}
 		
 		return crossOriginResponse(render('validate-h-card.html', array(
-			'hCard' => $hCards[0],
+			'firstHCard' => $firstHCard,
+			'representativeHCards' => $representativeHCards,
 			'url' => htmlspecialchars($url)
 		)));
 	}
