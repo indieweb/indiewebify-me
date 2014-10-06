@@ -9,7 +9,7 @@
 
 	<h1>What is the IndieWeb?</h1>
 
-	<blockquote>			
+	<blockquote>
 		We should all own the content we're creating, rather than just posting to third-party content silos. 
 		Publish on your own domain, and syndicate out to silos.
 		This is the basis of the "Indie Web" movement.
