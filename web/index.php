@@ -243,8 +243,8 @@ $app->get('/validate-h-card/', function (Http\Request $request) {
 		else
 			$firstHCard = $hCards[0];
 
-		$representativeHCards = [];
-		$relMeUrls = empty($mfs['rels']['me']) ? [] : $mfs['rels']['me'];
+		$representativeHCards = array();
+		$relMeUrls = empty($mfs['rels']['me']) ? array() : $mfs['rels']['me'];
 
 		foreach ($hCards as $hCard) {
 			if (Mf2\getProp($hCard, 'url') == $url or (Mf2\hasProp($hCard, 'url') and count(array_intersect($hCard['properties']['url'], $relMeUrls)))) {
