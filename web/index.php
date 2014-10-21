@@ -319,14 +319,22 @@ $app->get('/send-webmentions/', function (Http\Request $request) {
 		$errorResponse = errorResponder('send-webmentions.html', $url);
 		
 		if (empty($url))
-			return $errorResponse('Empty URLs lead nowhere');
-		
+			return $errorResponse('Empty URLs lead nowhere!');
+
+		list($mfs, $err) = fetchMf($url);
+		if ($err) {
+			return $errorResponse(htmlspecialchars($err->getMessage()));
+		}
+
+		$hEntries = Mf2\findMicroformatsByType($mfs, 'h-entry');
+
 		$mentioner = new MentionClient($url);
 		$numSent = $mentioner->sendSupportedMentions();
 		
 		return crossOriginResponse(render('send-webmentions.html', array(
 			'numSent' => $numSent,
-			'url' => htmlspecialchars($url)
+			'url' => htmlspecialchars($url),
+			'hEntriesFound' => count($hEntries)
 		)));
 	}
 });

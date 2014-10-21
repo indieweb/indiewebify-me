@@ -22,6 +22,13 @@
 		<p><?= $error['message'] ?></p>
 		<?php elseif ($numSent): ?>
 		<p>Successfully sent <?= $numSent ?> webmentions/pingbacks from <code><?= $url ?></code></p>
+
+		<?php if ($hEntriesFound == 0): ?>
+		<div class="alert alert-warning">
+			<p>No h-entries were found on <?= $url ?>!</p>
+
+			<p>When you send webmentions from a page, the pages you’ve mentioned will usually fetch it and parse it for h-entry markup, to display as comments or notifications. You should <a href="/validate-h-entry/?url=<?= htmlspecialchars(urlencode(htmlspecialchars_decode($url))) ?>">mark up your posts with h-entry</a> so the people you mention can do something useful with the information.</p>
+		</div>
 		<?php endif ?>
 	</div>
 	<?php endif ?>
