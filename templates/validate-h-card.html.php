@@ -6,27 +6,36 @@
 	
 	<p>Other humans can already understand your profile information, and the things you post on your site. By adding a few simple classnames to your HTML, other people’s software can understand it all too, and use it for things like <a href="http://indiewebcamp.com/reply-context">reply contexts</a>, <a href="http://indiewebcamp.com/comment">cross-site comments</a>, <a href="http://indiewebcamp.com/rsvp">event RSVPs</a> and more.</p>
 	
-	<h4>Check your <strong>homepage <a href="http://microformats.org/wiki/h-card" target="_blank">h-card</a></strong>:</h4>
+	<h3>Check your <strong>homepage <a href="http://microformats.org/wiki/h-card" target="_blank">h-card</a></strong>:</h3>
+
+	<form class="row" action="/validate-h-card/" method="get">
+		<div class="span4">
+			<input type="text" id="validate-h-card-url" name="url" value="<?= $url ?>" placeholder="http://yoursite.com" class="span4" />
+		</div>
+		<div class="span3">
+			<button type="submit" id="validate-h-card" class="btn btn-large btn-block btn-primary">Validate h-card</button>
+		</div>
+	</form>
 	
-	<?php if ($error or $firstHCard): ?>
+	<?php if ($error or $showResult): ?>
 	<div class="result alert <?php if ($error): ?>alert-warning<?php else: ?>alert-success<?php endif ?>">
 		<?php if ($error): ?>
-			<h4>Something Went Wrong!</strong></h4>
+			<h3>Something Went Wrong!</h3>
 			<p>When fetching <code><?= $url ?></code>, we got this problem:</p>
 			<p><?= $error['message'] ?></p>
 		<?php else: ?>
 			<?php if (count($representativeHCards) == 1): $hCard = $representativeHCards[0]; ?>
-				<h4>Success!</h4>
+				<h3>Success!</h3>
 				<p>This representative <code>h-card</code> was found on your site:</p>
 			<?php elseif (count($representativeHCards) > 1): $hCard = $representativeHCards[0] ?>
-				<h4>Almost there!</h4>
+				<h3>Almost there!</h3>
 				<p>Multiple representative h-cards were found on your site! Consider only having one. Here’s the first one:</p>
 			<?php elseif (count($representativeHCards) == 0 and $firstHCard !== null): $hCard = $firstHCard; ?>
-				<h4>Almost there!</h4>
+				<h3>Almost there!</h3>
 				<p>A h-card was found on your site, but it’s not marked up as the <a href="http://microformats.org/wiki/representative-hcard-parsing">representative h-card</a>!</p>
 				<p>Add a <code>u-url</code> property which matches a <code>rel=me</code> link on the same page so this h-card can be identified as the h-card which <em>represents</em> the page.</code></p>
 			<?php else: $hCard = null; ?>
-				<h4>No h-cards found</h4>
+				<h3>No h-cards found</h3>
 				<p>No h-cards were found on your site! Adding one can be as simple as this:</p>
 
 				<pre><code>&lt;a class=&quot;h-card&quot; rel=&quot;me&quot; href=&quot;<?= $url ?>&quot;>Your Name&lt;/a></code></pre>
@@ -88,15 +97,6 @@
 		<?php endif ?>
 	</div>
 	<?php endif ?>
-	
-	<form class="row" action="/validate-h-card/" method="get">
-		<div class="span4">
-			<input type="text" id="validate-h-card-url" name="url" value="<?= $url ?>" placeholder="http://yoursite.com" class="span4" />
-		</div>
-		<div class="span3">
-			<button type="submit" id="validate-h-card" class="btn btn-large btn-block btn-primary">Validate h-card</button>
-		</div>
-	</form>
 	
 	<small>Want to be able to use h-card data in your code? Check out the open-source <a href="http://microformats.org/wiki/parsers">implementations</a>.</small>
 </div>

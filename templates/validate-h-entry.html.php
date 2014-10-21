@@ -2,23 +2,39 @@
 
 <div class="row demo-row">
 	<h4>Check your <strong>posts</strong> (notes, articles, etc.) are marked up with <a href="http://microformats.org/wiki/h-entry" target="_blank">h-entry</a>:</h4>
-	
-	<?php if ($error or $hEntry): ?>
+
+	<form class="row" action="/validate-h-entry/" method="get">
+		<div class="span4">
+			<input type="text" id="validate-h-entry-url" name="url" value="<?= $url ?>" placeholder="http://yoursite.com/notes/123456" class="span4" />
+		</div>
+		<div class="span3">
+			<button type="submit" id="validate-h-entry" class="btn btn-large btn-block btn-primary">Validate h-entry</button>
+		</div>
+	</form>
+
+	<?php if ($error or $showResult): ?>
 	<div class="result alert <?php if ($error): ?>alert-warning<?php else: ?>alert-success<?php endif ?>">
 		<?php if ($error): ?>
-			<h4>Something Went Wrong!</strong></h4>
-			<p>When fetching <code><?= $url ?></code>, we got this problem:</p>
+			<h3>Something Went Wrong!</h3>
+			<p>When fetching <code><?= $url ?></code>, we encountered this problem:</p>
 			<p><?= $error['message'] ?></p>
-		<?php elseif ($hEntry): ?>
+		<?php elseif ($hEntry !== null): ?>
 			<h4>Success!</h4>
 
 			<p>We found the following <strong><?= $postType ?></strong> <code>h-entry</code> on your site:</p>
 			
 			<div class="preview-h-entry preview-block">
 				
-				<?php if (hEntryName($hEntry)): ?>
+				<?php if ($nameState == 'valid'): ?>
 				<p class="property-block-name">Name</p>
-				<p class="p-name"><?= hEntryName($hEntry) ?></p>
+				<p class="p-name"><?= Mf2\getProp($hEntry, 'name') ?></p>
+				<?php elseif ($nameState == 'invalid'): ?>
+				<p class="property-block-name">Name</p>
+				<div class="alert alert-warning">
+					<p>The parsed <code>name</code> name is longer than the content, which is usually a sign is it malformed due to being implicitly rather than explicitly parsed.</p>
+
+					<p>You should always manually specify what the <code>name</code> of a post is. If it doesn’t have one, make the name the same as the content, e.g. <code>&lt;div class=&quot;e-content p-name&quot;>…</code></p>
+				</div>
 				<?php endif ?>
 				
 				<p class="property-block-name">Author</p>
@@ -171,20 +187,38 @@
 				<p class="empty-property-block">Add some categories! <code class="pull-right">&lt;a class=&quot;p-category&quot; href=&quot;…&quot;>…&lt;/a></code></p>
 				<?php endif ?>
 			</div>
+		<?php else: ?>
+			<h3>No h-entry found</h3>
+
+			<p>Adding h-entry markup to posts on your site allows computers to understand them as easily as humans can, without publishing separate copies. All you need to do is add microformats2 h-entry classnames, for example:</p>
+
+			<pre><code>&lt;article class=&quot;h-entry&quot;>
+  &lt;div class=&quot;e-content p-name&quot;>Hello world! This is my first indieweb post.&lt;/div>
+
+  &lt;a class=&quot;u-url&quot; href=&quot;https://example.com/my-first-post&quot;>
+    Published &lt;time class=&quot;dt-published&quot;><?= date('Y-m-d H:i:sO') ?>&lt;/time>
+  &lt;/a>
+&lt;/article></code></pre>
 		<?php endif ?>
-		
+
 		<?= $render('silo-hint.html', array('url' => $url)) ?>
 	</div>
-	<?php endif ?>
 
-	<form class="row" action="/validate-h-entry/" method="get">
-		<div class="span4">
-			<input type="text" id="validate-h-entry-url" name="url" value="<?= $url ?>" placeholder="http://yoursite.com/notes/123456" class="span4" />
-		</div>
-		<div class="span3">
-			<button type="submit" id="validate-h-entry" class="btn btn-large btn-block btn-primary">Validate h-entry</button>
-		</div>
-	</form>
+	<p>Your h-entries should have, at minimum, the following properties:</p>
+
+	<ul>
+		<li><code>e-content</code> — the main content of the post</li>
+		<li><code>p-name</code> — if your post has a name, use this classname. Otherwise, (if for example the post is a <a href="http://indiewebcamp.com/note">note</a>), either leave it off or apply to the same element as <code>e-</code>.</li>
+		<li><code>dt-published</code> — the datetime the post was published at, in ISO8601 format, with a timezone</li>
+		<li><code>u-url</code> — the canonical URL of the post, especially important on pages listing multiple posts</li>
+	</ul>
+
+	<p>It’s a common convention for the published datetime to be a link to the post itself, but they can be separate if you want.</p>
+
+	<p>There should also be some way to discover the author of the post — either link to your homepage (which should have your h-card on)from anywhere on the page with <code>rel=author</code>, or optionally embed a <code>p-author h-card</code> in the h-entry.</p>
+
+	<p>The web is an expressive medium, and as such there are many other properties which you can add to your posts. Check out the <a href="https://microformats.org/wiki/h-entry">h-entry documentation</a> for a full list.</p>
+	<?php endif ?>
 	
 	<small>Want to be able to use h-entry data in your code? Check out the open-source <a href="http://microformats.org/wiki/parsers">implementations</a>.</small>
 </div>

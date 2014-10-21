@@ -113,13 +113,6 @@ function detectBloggingSoftware($response) {
 	return null;
 }
 
-function hEntryName(array $hEntry) {
-	$compare = Mf2\hasProp($hEntry, 'content') ? Mf2\getProp($hEntry, 'content') : (isset($hEntry['value']) ? $hEntry['value'] : null);
-	if (mb_strlen(Mf2\getProp($hEntry, 'name')) < mb_strlen($compare))
-		return Mf2\getProp($hEntry, 'name');
-	return null;
-}
-
 function datetimeProblem($datetimeStr) {
 	try {
 		$dt = new DateTime($datetimeStr);
@@ -253,6 +246,7 @@ $app->get('/validate-h-card/', function (Http\Request $request) {
 		}
 		
 		return crossOriginResponse(render('validate-h-card.html', array(
+			'showResult' => true,
 			'firstHCard' => $firstHCard,
 			'representativeHCards' => $representativeHCards,
 			'url' => htmlspecialchars($url)
@@ -270,7 +264,7 @@ $app->get('/validate-h-entry/', function (Http\Request $request) {
 		$errorResponse = errorResponder('validate-h-entry.html', $url);
 		
 		if (empty($url))
-			return $errorResponse('Empty URLs lead nowhere');
+			return $errorResponse('Empty URLs lead nowhere!');
 		
 		list($mfs, $err) = fetchMf($url);
 		
@@ -278,25 +272,36 @@ $app->get('/validate-h-entry/', function (Http\Request $request) {
 			return $errorResponse(htmlspecialchars($err->getMessage()));
 		
 		$hEntries = Mf2\findMicroformatsByType($mfs, 'h-entry');
-		
-		if (count($hEntries) === 0)
-			return $errorResponse('No h-entries found — check your classnames');
-		
-		$hEntry = $hEntries[0];
-		
-		if (Mf2\hasProp($hEntry, 'in-reply-to')) {
-			$postType = 'reply';
-		} elseif (Mf2\hasProp($hEntry, 'like-of')) {
-			$postType = 'like';
-		} elseif (Mf2\hasProp($hEntry, 'repost-of')) {
-			$postType = 'repost';
+
+		if (count($hEntries) > 0) {
+			$hEntry = $hEntries[0];
+
+			if (Mf2\hasProp($hEntry, 'in-reply-to')) {
+				$postType = 'reply';
+			} elseif (Mf2\hasProp($hEntry, 'like-of')) {
+				$postType = 'like';
+			} elseif (Mf2\hasProp($hEntry, 'repost-of')) {
+				$postType = 'repost';
+			} else {
+				$postType = 'post';
+			}
+
+			// Determine the state of the post name.
+			$content = Mf2\hasProp($hEntry, 'content') ? Mf2\getProp($hEntry, 'content') : (isset($hEntry['value']) ? $hEntry['value'] : null);
+			$parsedName = Mf2\getProp($hEntry, 'name');
+			$nameState = null;
+			if ($content != null and $content != $parsedName) {
+				$nameState = mb_strlen($parsedName) > mb_strlen($content) ? 'invalid' : 'valid';
+			}
 		} else {
-			$postType = 'post';
+			$postType = $hEntry = $nameState = null;
 		}
 		
 		return crossOriginResponse(render('validate-h-entry.html', array(
+			'showResult' => true,
 			'postType' => $postType,
 			'hEntry' => $hEntry,
+			'nameState' => $nameState,
 			'url' => htmlspecialchars($url)
 		)));
 	}
