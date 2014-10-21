@@ -308,8 +308,10 @@ $app->get('/validate-h-entry/', function (Http\Request $request) {
 });
 
 $app->get('/send-webmentions/', function (Http\Request $request) {
-	if (!$request->query->has('url')) {
-		return render('send-webmentions.html');
+	if ($request->getMethod() == 'GET' or !$request->query->has('url')) {
+		return render('send-webmentions.html', array(
+			'url' => $request->query->get('url', '')
+		));
 	} else {
 		ob_start();
 		$url = web_address_to_uri($request->query->get('url'), true);

@@ -26,7 +26,7 @@
 	</div>
 	<?php endif ?>
 	
-	<form class="row" action="/send-webmentions/" method="get">
+	<form class="row" action="/send-webmentions/" method="post">
 		<div class="span4">
 			<input class="span4" type="text" value="<?= $url ?>" name="url" placeholder="http://yoursite.com" />
 		</div>
