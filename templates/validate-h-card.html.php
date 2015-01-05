@@ -59,7 +59,7 @@
 				<?php if (Mf2\hasProp($hCard, 'url')): ?>
 				<ul>
 					<?php foreach ($hCard['properties']['url'] as $pUrl): ?>
-					<li><a href="<?= $Url ?>"><?= $pUrl ?></a></li>
+					<li><a href="<?= $pUrl ?>"><?= $pUrl ?></a></li>
 					<?php endforeach ?>
 				</ul>
 				<?php else: ?>
