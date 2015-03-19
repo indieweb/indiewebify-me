@@ -46,7 +46,7 @@
 	<p>Now you can post replies which show up as comments on other people’s sites, the next step is to be able to receive comments yourself. There are several ways to do this.</p>
 	
 	<ul>
-		<li>If you’re using a project like Idno, it may already support indieweb comments — you don’t have to do anything!</li>
+		<li>If you’re using a project like <a href="http://withknown.com">Known</a>, it may already support indieweb comments — you don’t have to do anything!</li>
 		<li>If you’re using a project like WordPress, there may already be a plugin enabling receiving of indieweb comments. See if the software you’re using is on the <a href="http://indiewebcamp.com/projects">project list on the wiki</a></li>
 		<li>If you’re rolling your own project and want to implement webmention yourself, have a read through <a href="http://webmention.org">the spec</a> and <a href="http://indiewebcamp.com/webmention">the wiki page</a> for tips</li>
 		<li>If you want to get started quickly without implementing receiving of webmentions yourself, take a look at a hosted service like <a href="http://webmention.io/">webmention.io</a></li>
