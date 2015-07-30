@@ -1,5 +1,5 @@
 <div id="send-webmentions" class="row demo-row">
-	<h2>2. Add the ability to send a <a href="http://webmention.org" target="_blank">WebMentions</a> to other IndieWeb sites</h2>
+	<h2>2. Add the ability to send <a href="http://webmention.org" target="_blank">Webmentions</a> to other IndieWeb sites</h2>
 	
 	<p class="lead">When you reply to something on another indieweb site, or mention someone with an indieweb site, sending a webmention lets them know they’ve been linked to.</p>
 	
