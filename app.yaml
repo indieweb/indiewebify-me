@@ -1,0 +1,17 @@
+application: indiewebify
+version: 1
+runtime: php55
+api_version: 1
+handlers:
+- url: /bootstrap
+  static_dir: web/bootstrap
+- url: /css
+  static_dir: web/css
+- url: /fonts
+  static_dir: web/fonts
+- url: /images
+  static_dir: web/images
+- url: /js
+  static_dir: web/js
+- url: /.*
+  script: web/index.php
