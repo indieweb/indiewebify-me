@@ -22,3 +22,5 @@ How to run your own instance of indiewebify.me for development:
 	* The included .htaccess should route apache requests correctly. For other servers file an issue or send us a pull request
 
 All of the interesting stuff is in `/web/index.php` — or at least is until that gets too big and needs moving.
+
+
