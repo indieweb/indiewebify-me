@@ -1,4 +1,4 @@
-runtime: php56
+runtime: php55
 api_version: 1
 handlers:
 - url: /bootstrap
