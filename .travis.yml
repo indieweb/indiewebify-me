@@ -1,7 +1,6 @@
 language: php
 php:
 - 5.5
-sudo: false
 before_script: composer install
 before_install:
 - openssl aes-256-cbc -K $encrypted_3b574c5f323d_key -iv $encrypted_3b574c5f323d_iv
