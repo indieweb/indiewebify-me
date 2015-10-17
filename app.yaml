@@ -1,5 +1,4 @@
-application: indiewebify
-runtime: php55
+runtime: php56
 api_version: 1
 handlers:
 - url: /bootstrap
