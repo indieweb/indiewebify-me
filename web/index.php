@@ -25,17 +25,17 @@ function renderTemplate($template, array $__templateData = array()) {
 		include __DIR__ . '/../templates/' . $__path . '.php';
 		return ob_get_clean();
 	};
-	
+
 	return $render($template, $render);
 }
 
 function render($template, array $data = array()) {
 	$isHtml = pathinfo($template, PATHINFO_EXTENSION) === 'html';
 	$out = '';
-	
+
 	$purifierConfig = HTMLPurifier_Config::createDefault();
 	$data['purify'] = array(new HTMLPurifier($purifierConfig), 'purify');
-	
+
 	if ($isHtml)
 		$out .= renderTemplate('header.html', $data);
 	$out .= renderTemplate($template, $data);
@@ -57,7 +57,7 @@ function httpGet($url) {
 	ob_start();
 	$url = web_address_to_uri($url, true);
 	ob_end_clean();
-	
+
 	try {
 		$response = $client->get($url)->send();
 		return array($response, null);
@@ -109,7 +109,7 @@ function detectBloggingSoftware($response) {
 		if (stristr($generatorEl->getAttribute('content'), 'idno') !== false)
 			return 'idno';
 	}
-	
+
 	return null;
 }
 
@@ -119,7 +119,7 @@ function datetimeProblem($datetimeStr) {
 	} catch (Exception $e) {
 		return "The datetime is not valid ISO-8601.";
 	}
-	
+
 	if (strlen($datetimeStr) < 11) {
 		return "Datetimes should be precise to at least the nearest second.";
 	} elseif (strlen($datetimeStr) < 19)
@@ -132,7 +132,7 @@ function datetimeProblem($datetimeStr) {
 // Route static assets from CLI server
 if (PHP_SAPI === 'cli-server') {
 	error_reporting(E_ERROR | E_WARNING | E_PARSE);
-	
+
 	if (file_exists(__DIR__ . $_SERVER['REQUEST_URI']) and !is_dir(__DIR__ . $_SERVER['REQUEST_URI'])) {
 		return false;
 	}
@@ -153,27 +153,27 @@ $app->get('/validate-rel-me/', function (Http\Request $request) {
 		ob_start();
 		$url = web_address_to_uri($request->query->get('url'), true);
 		ob_end_clean();
-		
+
 		$errorResponse = errorResponder('validate-rel-me.html', $url);
-		
+
 		if (empty($url))
 			return $errorResponse('Empty URLs lead nowhere');
-		
+
 		list($relMeUrl, $secure, $previous) = IndieWeb\relMeDocumentUrl($url);
-		
+
 		if (!$secure)
 			return $errorResponse("Insecure redirect between <code>{$previous[count($previous)-2]}</code> and <code>{$previous[count($previous)-1]}</code>");
-		
+
 		list($resp, $err) = httpGet($relMeUrl);
-		
+
 		if ($err)
 			return $errorResponse(htmlspecialchars($err->getMessage()));
-		
+
 		$relMeLinks = IndieWeb\relMeLinks($resp->getBody(true), $relMeUrl);
-		
+
 		if (empty($relMeLinks))
 			return $errorResponse("No <code>rel=me</code> links could be found!");
-		
+
 		return crossOriginResponse(render('validate-rel-me.html', array(
 			'rels' => $relMeLinks,
 			'url' => htmlspecialchars($url),
@@ -191,19 +191,19 @@ $app->get('/rel-me-links/', function (Http\Request $request) {
 	// url1 is me, url2 is external profile page
 	$url1 = $request->query->get('url1');
 	$url2 = $request->query->get('url2');
-	
+
 	$meUrl = IndieWeb\normaliseUrl($url1);
-	
+
 	list($profileUrl, $secure, $previous) = IndieWeb\relMeDocumentUrl($url2);
 	if (!$secure)
 		return crossOriginResponse("Inbound rel-me URL redirects insecurely" . print_r($previous, true), 400);
-	
+
 	list($resp, $err) = httpGet($profileUrl);
 	if ($err)
 		return crossOriginResponse("HTTP error when fetching inbound rel me document URL {$profileUrl}: {$err->getMessage()}", 400);
-	
+
 	$relMeLinks = IndieWeb\relMeLinks($resp->getBody(true), $profileUrl);
-	
+
 	foreach ($relMeLinks as $inboundRelMeUrl) {
 		list($matches, $secure, $previous) = IndieWeb\backlinkingRelMeUrlMatches($inboundRelMeUrl, $meUrl);
 		if ($matches and $secure)
@@ -218,19 +218,19 @@ $app->get('/validate-h-card/', function (Http\Request $request) {
 		return render('validate-h-card.html');
 	} else {
 		$url = trim($request->query->get('url'));
-		
+
 		$errorResponse = errorResponder('validate-h-card.html', $url);
-		
+
 		if (empty($url))
 			return $errorResponse('Empty URLs lead nowhere');
-		
+
 		list($mfs, $err) = fetchMf($url);
-		
+
 		if ($err)
 			return $errorResponse(htmlspecialchars($err->getMessage()));
-		
+
 		$hCards = Mf2\findMicroformatsByType($mfs, 'h-card');
-		
+
 		if (count($hCards) === 0)
 			$firstHCard = null;
 		else
@@ -244,7 +244,7 @@ $app->get('/validate-h-card/', function (Http\Request $request) {
 				$representativeHCards[] = $hCard;
 			}
 		}
-		
+
 		return crossOriginResponse(render('validate-h-card.html', array(
 			'showResult' => true,
 			'firstHCard' => $firstHCard,
@@ -262,15 +262,15 @@ $app->get('/validate-h-entry/', function (Http\Request $request) {
 		$url = web_address_to_uri($request->query->get('url'), true);
 		ob_end_clean();
 		$errorResponse = errorResponder('validate-h-entry.html', $url);
-		
+
 		if (empty($url))
 			return $errorResponse('Empty URLs lead nowhere!');
-		
+
 		list($mfs, $err) = fetchMf($url);
-		
+
 		if ($err)
 			return $errorResponse(htmlspecialchars($err->getMessage()));
-		
+
 		$hEntries = Mf2\findMicroformatsByType($mfs, 'h-entry');
 
 		if (count($hEntries) > 0) {
@@ -296,7 +296,7 @@ $app->get('/validate-h-entry/', function (Http\Request $request) {
 		} else {
 			$postType = $hEntry = $nameState = null;
 		}
-		
+
 		return crossOriginResponse(render('validate-h-entry.html', array(
 			'showResult' => true,
 			'postType' => $postType,
@@ -308,35 +308,35 @@ $app->get('/validate-h-entry/', function (Http\Request $request) {
 });
 
 $app->get('/send-webmentions/', function (Http\Request $request) {
-	if ($request->getMethod() == 'GET' or !$request->query->has('url')) {
-		return render('send-webmentions.html', array(
-			'url' => $request->query->get('url', '')
-		));
-	} else {
-		ob_start();
-		$url = web_address_to_uri($request->query->get('url'), true);
-		ob_end_clean();
-		$errorResponse = errorResponder('send-webmentions.html', $url);
-		
-		if (empty($url))
-			return $errorResponse('Empty URLs lead nowhere!');
+	return render('send-webmentions.html', array(
+		'url' => $request->query->get('url', '')
+	));
+});
 
-		list($mfs, $err) = fetchMf($url);
-		if ($err) {
-			return $errorResponse(htmlspecialchars($err->getMessage()));
-		}
+$app->post('/send-webmentions/', function (Http\Request $request) {
+	ob_start();
+	$url = web_address_to_uri($request->get('url'), true);
+	ob_end_clean();
+	$errorResponse = errorResponder('send-webmentions.html', $url);
 
-		$hEntries = Mf2\findMicroformatsByType($mfs, 'h-entry');
+	if (empty($url))
+		return $errorResponse('Empty URLs lead nowhere!');
 
-		$mentioner = new MentionClient($url);
-		$numSent = $mentioner->sendSupportedMentions();
-		
-		return crossOriginResponse(render('send-webmentions.html', array(
-			'numSent' => $numSent,
-			'url' => htmlspecialchars($url),
-			'hEntriesFound' => count($hEntries)
-		)));
+	list($mfs, $err) = fetchMf($url);
+	if ($err) {
+		return $errorResponse(htmlspecialchars($err->getMessage()));
 	}
+
+	$hEntries = Mf2\findMicroformatsByType($mfs, 'h-entry');
+
+	$mentioner = new MentionClient($url);
+	$numSent = $mentioner->sendSupportedMentions();
+
+	return crossOriginResponse(render('send-webmentions.html', array(
+		'numSent' => $numSent,
+		'url' => htmlspecialchars($url),
+		'hEntriesFound' => count($hEntries)
+	)));
 });
 
 $app->run();
