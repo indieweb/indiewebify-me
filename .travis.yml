@@ -6,8 +6,8 @@ before_script:
 - composer self-update
 - composer install --prefer-dist --no-interaction
 before_install:
-- openssl aes-256-cbc -K $encrypted_3b574c5f323d_key -iv $encrypted_3b574c5f323d_iv
-  -in indiewebify-8c3770012eff.json.enc -out indiewebify-8c3770012eff.json -d
+- '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && openssl aes-256-cbc -K $encrypted_3b574c5f323d_key -iv $encrypted_3b574c5f323d_iv
+  -in indiewebify-8c3770012eff.json.enc -out indiewebify-8c3770012eff.json -d || true'
 deploy:
   skip_cleanup: true
   provider: gae
