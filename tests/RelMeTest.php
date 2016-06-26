@@ -40,9 +40,10 @@ EOT;
 	}
 	
 	/** @group network */
+	/* There is already a test for this in indieweb/rel-me 
 	public function testFollowOneRedirect() {
 		$this->assertEquals('https://brennannovak.com/', followOneRedirect('http://brennannovak.com'));
-	}
+	}*/
 	
 	public function testRelMeDocumentUrlHandlesNoRedirect() {
 		$chain = mockFollowOneRedirect(array(null));
