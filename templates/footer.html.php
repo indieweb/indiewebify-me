@@ -36,25 +36,33 @@
 			el.append(spinner);
 			console.log(url, relMeUrl);
 
-			// validate symmetric rels with request to /rel-me-links/
-			$.ajax('/rel-me-links/', {
-				data: {url1: url, url2: relMeUrl}
-			}).done(function(data) {
-				if (data === 'true') {
-					spinner.text(' works perfectly');
-					successBarWidth += 100 / results.length;
-					successBar.width(successBarWidth + '%');
-				} else {
-					spinner.text(' doesn’t link back');
-					warningBarWidth += 100 / results.length;
-					warningBar.width(warningBarWidth + '%');
-				}
-			}).fail(function(xhr) {
-				console.log('HTTP request failed:', xhr);
-				spinner.text(' couldn’t be fetched');
-				errorBarWidth += 100 / results.length;
-				errorBar.width(errorBarWidth + '%');
-			});
+			var parts = relMeUrl.split('://');
+
+			if (parts[0] != 'http' && parts[0] != 'https') {
+				spinner.text(' only http and https links are validated ');
+				successBarWidth += 100 / results.length;
+				successBar.width(successBarWidth + '%');
+			} else {
+				// validate symmetric rels with request to /rel-me-links/
+				$.ajax('/rel-me-links/', {
+					data: {url1: url, url2: relMeUrl}
+				}).done(function(data) {
+					if (data === 'true') {
+						spinner.text(' works perfectly');
+						successBarWidth += 100 / results.length;
+						successBar.width(successBarWidth + '%');
+					} else {
+						spinner.text(' doesn’t link back');
+						warningBarWidth += 100 / results.length;
+						warningBar.width(warningBarWidth + '%');
+					}
+				}).fail(function(xhr) {
+					console.log('HTTP request failed:', xhr);
+					spinner.text(' couldn’t be fetched');
+					errorBarWidth += 100 / results.length;
+					errorBar.width(errorBarWidth + '%');
+				});
+			}
 		});
 	}($));
 </script>
