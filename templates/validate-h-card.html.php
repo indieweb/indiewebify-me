@@ -99,4 +99,10 @@
 	<?php endif ?>
 	
 	<small>Want to be able to use h-card data in your code? Check out the open-source <a href="http://microformats.org/wiki/parsers">implementations</a>.</small>
+
+	<?php if (empty($composite_view)): ?>
+		<hr />
+		<p> <a href="/validate-rel-me/">Previous Step</a> | <a href="/">Home</a> | <a href="/validate-h-entry/">Next Step</a> </p>
+	<?php endif ?>
+
 </div>

@@ -42,4 +42,10 @@
 			<button type="submit"class="btn btn-large btn-block btn-primary">Send Mentions</button>
 		</div>
 	</form>
+
+	<?php if (empty($composite_view)): ?>
+		<hr />
+		<p> <a href="/validate-h-entry/">Previous Step</a> | <a href="/">Home</a> </p>
+	<?php endif ?>
+
 </div>

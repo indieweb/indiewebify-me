@@ -221,4 +221,10 @@
 	<?php endif ?>
 	
 	<small>Want to be able to use h-entry data in your code? Check out the open-source <a href="http://microformats.org/wiki/parsers">implementations</a>.</small>
+
+	<?php if (empty($composite_view)): ?>
+		<hr />
+		<p> <a href="/validate-h-card/">Previous Step</a> | <a href="/">Home</a> | <a href="/send-webmentions/">Next Step</a> </p>
+	<?php endif ?>
+
 </div>

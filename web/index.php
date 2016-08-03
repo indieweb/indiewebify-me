@@ -143,7 +143,7 @@ if (PHP_SAPI === 'cli-server') {
 $app = new Silex\Application();
 
 $app->get('/', function () {
-	return render('index.html');
+	return render('index.html', array('composite_view' => true));
 });
 
 $app->get('/validate-rel-me/', function (Http\Request $request) {

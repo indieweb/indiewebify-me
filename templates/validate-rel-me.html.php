@@ -46,4 +46,10 @@
 	</form>
 	
 	<small>Want to be able to use rel-me data in your code? Check out the open source <a href="http://indiewebcamp.com/rel-me#Implementations">implementations</a>.</small>
+
+	<?php if (empty($composite_view)): ?>
+		<hr />
+		<p> <a href="/">Home</a> | <a href="/validate-h-card/">Next Step</a> </p>
+	<?php endif ?>
+
 </div>
