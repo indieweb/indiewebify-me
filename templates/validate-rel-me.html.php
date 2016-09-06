@@ -46,4 +46,4 @@
 	</form>
 	
 	<small>Want to be able to use rel-me data in your code? Check out the open source <a href="http://indiewebcamp.com/rel-me#Implementations">implementations</a>.</small>
-</div>
+</div> <!-- #validate-rel-me -->
