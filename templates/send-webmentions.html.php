@@ -42,4 +42,4 @@
 			<button type="submit" class="btn btn-large btn-block btn-primary">Send Mentions</button>
 		</div>
 	</form>
-</div>
+</div> <!-- #send-webmentions -->
