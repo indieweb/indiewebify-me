@@ -212,6 +212,33 @@ $app->get('/rel-me-links/', function (Http\Request $request) {
 
 	return crossOriginResponse('false', 200);
 });
+// more forgiving version for the badge showing code; ignores secure
+$app->get('/rel-me-links-info/', function (Http\Request $request) {
+	if (!$request->query->has('url1') or !$request->query->has('url2'))
+		return crossOriginResponse('Provide both url1 and url2 parameters', 400);
+	// url1 is me, url2 is external profile page
+	$url1 = $request->query->get('url1');
+	$url2 = $request->query->get('url2');
+
+	$meUrl = IndieWeb\normaliseUrl($url1);
+
+	list($profileUrl, $secure, $previous) = IndieWeb\relMeDocumentUrl($url2);
+
+	list($resp, $err) = httpGet($profileUrl);
+	if ($err)
+		return crossOriginResponse("HTTP error when fetching inbound rel me document URL {$profileUrl}: {$err->getMessage()}", 400);
+
+	$relMeLinks = IndieWeb\relMeLinks($resp->getBody(true), $profileUrl);
+
+	foreach ($relMeLinks as $inboundRelMeUrl) {
+		list($matches, $secure, $previous) = IndieWeb\backlinkingRelMeUrlMatches($inboundRelMeUrl, $meUrl);
+		if ($matches)
+			return crossOriginResponse('true', 200);
+	}
+
+	return crossOriginResponse('false', 200);
+});
+
 
 $app->get('/validate-h-card/', function (Http\Request $request) {
 	if (!$request->query->has('url')) {
