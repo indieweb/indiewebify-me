@@ -1,5 +1,7 @@
 runtime: php55
 api_version: 1
+automatic_scaling:
+  max_idle_instances: 1
 handlers:
 - url: /bootstrap
   static_dir: web/bootstrap
