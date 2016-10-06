@@ -48,6 +48,5 @@
 		<p> <a href="/validate-h-entry/">Previous Step</a> | <a href="/">Home</a> </p>
 	<?php endif ?>
 
-</div>
 </div> <!-- #send-webmentions -->
 
