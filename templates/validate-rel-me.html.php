@@ -52,6 +52,5 @@
 		<p> <a href="/">Home</a> | <a href="/validate-h-card/">Next Step</a> </p>
 	<?php endif ?>
 
-</div>
 </div> <!-- #validate-rel-me -->
 
