@@ -13,7 +13,7 @@
 		"barnabywalters/mf-cleaner": "dev-master",
 		"ezyang/htmlpurifier": "4.7.*",
 		"silex/silex": "*",
-		"guzzle/guzzle": "*",
+		"guzzlehttp/guzzle": "*",
 		"tantek/cassis": "*",
 		"indieweb/mention-client": "*",
 		"indieweb/rel-me": "dev-master"

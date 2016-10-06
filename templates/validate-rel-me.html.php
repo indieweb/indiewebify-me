@@ -41,7 +41,7 @@
 			<input class="span4" type="text" value="<?= $url ?>" name="url" placeholder="http://yoursite.com" />
 		</div>
 		<div class="span3">
-			<button type="submit"class="btn btn-large btn-block btn-primary">Test</button>
+			<button type="submit" class="btn btn-large btn-block btn-primary">Test</button>
 		</div>
 	</form>
 	
@@ -53,3 +53,5 @@
 	<?php endif ?>
 
 </div>
+</div> <!-- #validate-rel-me -->
+

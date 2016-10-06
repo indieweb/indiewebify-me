@@ -39,7 +39,7 @@
 			<input class="span4" type="text" value="<?= $url ?>" name="url" placeholder="http://yoursite.com" />
 		</div>
 		<div class="span3">
-			<button type="submit"class="btn btn-large btn-block btn-primary">Send Mentions</button>
+			<button type="submit" class="btn btn-large btn-block btn-primary">Send Mentions</button>
 		</div>
 	</form>
 
@@ -49,3 +49,5 @@
 	<?php endif ?>
 
 </div>
+</div> <!-- #send-webmentions -->
+
