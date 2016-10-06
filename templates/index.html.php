@@ -3,7 +3,7 @@
 		IndieWebify.Me
 		<small>A guide to getting you on the <a href="http://indiewebcamp.com" target="_blank">IndieWeb</a></small>
 	</h1>
-</div>
+</div> <!-- .demo-headline -->
 
 <div class="row demo-row">
 
@@ -16,7 +16,7 @@
 		~<a href="http://indiewebcamp.com" target="_blank">IndieWebCamp</a>
 	</blockquote>
 	
-</div>
+</div> <!-- .row.demo-row -->
 <div class="row demo-row"><hr></div>
 
 <?= $render('validate-rel-me.html', $render) ?>
@@ -60,7 +60,7 @@
 		<li>Use the <strong><a href="https://checkmention.appspot.com/">Checkmention</a></strong> tool to send some replies to a post on your site — not only does this test webmention receiving but also contains harmless XSS attacks to test the security of your implementation.</li>
 		<li>If you’re POSSEing your content, setting up <a href="http://indiewebcamp.com/backfeed">backfeed</a> so that silo replies, likes, reshares, and event RSVPs show up on your own site. You can use a service like <a href="https://www.brid.gy/">Bridgy</a>, a <a href="http://indiewebcamp.com/backfeed#WordPress_Plugins">server plugin</a>, or roll your own</li>
 	</ul>
-</div>
+</div> <!-- .row.demo-row -->
 
 <footer>
 	<p>Want to make changes to indiewebify.me? The code’s <a href="https://github.com/indieweb/indiewebify-me/">on Github</a>. Found a problem? <a href="https://github.com/indieweb/indiewebify-me/issues/">file an issue or send a PR</a>.</p>
