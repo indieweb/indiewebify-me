@@ -1,10 +1,12 @@
 <?php use BarnabyWalters\Mf2; ?>
 <div class="row demo-row">
+	<div class="span12">
+
 	<h1><span class="fui-new"></span> Publishing on the IndieWeb <small>Level 2</small></h1>
 
 	<h2>1. Mark up your content (Profile, Notes, Articles, etc…) with <a href="http://microformats.org/" target="_blank">microformats2</a></h2>
 	
-	<p>Other humans can already understand your profile information, and the things you post on your site. By adding a few simple classnames to your HTML, other people’s software can understand it all too, and use it for things like <a href="http://indiewebcamp.com/reply-context">reply contexts</a>, <a href="http://indiewebcamp.com/comment">cross-site comments</a>, <a href="http://indiewebcamp.com/rsvp">event RSVPs</a> and more.</p>
+	<p>Other humans can already understand your profile information, and the things you post on your site. By adding a few simple classnames to your HTML, other people’s software can understand it all too, and use it for things like <a href="https://indieweb.org/reply-context">reply contexts</a>, <a href="https://indieweb.org/comment">cross-site comments</a>, <a href="https://indieweb.org/rsvp">event RSVPs</a> and more.</p>
 	
 	<h3>Check your <strong>homepage <a href="http://microformats.org/wiki/h-card" target="_blank">h-card</a></strong>:</h3>
 
@@ -105,4 +107,5 @@
 		<p> <a href="/validate-rel-me/">Previous Step</a> | <a href="/">Home</a> | <a href="/validate-h-entry/">Next Step</a> </p>
 	<?php endif ?>
 
+	</div><!--/.span-->
 </div>

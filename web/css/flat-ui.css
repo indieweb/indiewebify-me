@@ -200,7 +200,7 @@ you can use the generic selector below, but it's slower:
   width: 256px;
 }
 .demo-logo small {
-  color: rgba(52, 73, 94, 0.30000000000000004);
+  color: #4c4c4c;
   display: block;
   font-size: 22px;
   font-weight: 700;
@@ -416,7 +416,7 @@ body {
   color: #34495e;
   font-family: "Lato", sans-serif;
   font-size: 18px;
-  line-height: 1.231;
+  line-height: 1.6;
 }
 input,
 button,
@@ -426,7 +426,8 @@ textarea {
   font-size: 18px;
 }
 a {
-  color: #16a085;
+  color: #177960;
+  font-weight: 700;
   text-decoration: underline;
   -webkit-transition: 0.25s;
   -moz-transition: 0.25s;
@@ -435,7 +436,7 @@ a {
   -webkit-backface-visibility: hidden;
 }
 a:hover {
-  color: #1abc9c;
+  color: #0b4f42;
   text-decoration: none;
 }
 h1 {
@@ -467,6 +468,9 @@ h6 {
   font-size: 13px;
   font-weight: 500;
   text-transform: uppercase;
+}
+h1 small {
+  color: #4c4c4c;
 }
 .btn,
 .btn-group > .btn,
@@ -542,12 +546,12 @@ h6 {
   margin-right: -2px;
 }
 .btn.btn-primary {
-  background-color: #1abc9c;
+  background-color: #177960;
 }
 .btn.btn-primary:hover,
 .btn.btn-primary:focus,
 .btn-group:focus .btn.btn-primary.dropdown-toggle {
-  background-color: #48c9b0;
+  background-color: #1c9375;
 }
 .btn.btn-primary:active,
 .btn-group.open .btn.btn-primary.dropdown-toggle,
@@ -2974,17 +2978,16 @@ input.todo-search-field.placeholder {
 }
 footer {
   background-color: #edeff1;
-  color: #bac1c8;
-  font-size: 15px;
-  padding: 0;
+  color: #000;
+  /*font-size: 15px;*/
+  padding: 1em;
 }
 footer a {
-  color: #9aa4af;
-  font-weight: 700;
+  /*color: #9aa4af;*/
+  /*font-weight: 700;*/
 }
 footer p {
-  font-size: 15px;
-  line-height: 20px;
+  margin: 0;
 }
 .footer-title {
   margin: 0 0 22px;
