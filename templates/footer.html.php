@@ -18,15 +18,15 @@
 	// rel-me UI
 	(function($) {
 		var results = $('.rel-me-result'),
-						url = document.querySelector('.results-url').href,
-						container = $('.result'),
-						progress = $('<div class="progress"><div class="bar bar-success"></div><div class="bar bar-warning"></div><div class="bar bar-danger"></div></div>'),
-						successBar = progress.children('.bar-success'),
-						errorBar = progress.children('.bar-danger'),
-						warningBar = progress.children('.bar-warning'),
-						successBarWidth = 0,
-						errorBarWidth = 0,
-						warningBarWidth = 0;
+			url = document.querySelector('.results-url').href,
+			container = $('.result'),
+			progress = $('<div class="progress"><div class="bar bar-success"></div><div class="bar bar-warning"></div><div class="bar bar-danger"></div></div>'),
+			successBar = progress.children('.bar-success'),
+			errorBar = progress.children('.bar-danger'),
+			warningBar = progress.children('.bar-warning'),
+			successBarWidth = 0,
+			errorBarWidth = 0,
+			warningBarWidth = 0;
 
 		container.prepend(progress);
 
@@ -36,7 +36,6 @@
 							spinner = $('<span class="spinner danger"> loading…</span>');
 
 			el.append(spinner);
-			console.log(url, relMeUrl);
 
 			var parts = relMeUrl.split('://');
 
@@ -45,22 +44,21 @@
 				successBarWidth += 100 / results.length;
 				successBar.width(successBarWidth + '%');
 			} else {
-				// validate symmetric rels with request to /rel-me-links/
-				$.ajax('/rel-me-links/', {
-					data: {url1: url, url2: relMeUrl}
-				}).done(function(data) {
-					if (data === 'true') {
-						spinner.text(' works perfectly');
+				$.getJSON('/indiewebify-me/web/rel-me-check/', {
+					url1: url, url2: relMeUrl
+				}).done( function(data) {
+					console.log(data);
+					spinner.text(' ' + data.response);
+
+					if ( data.pass ) {
 						successBarWidth += 100 / results.length;
 						successBar.width(successBarWidth + '%');
 					} else {
-						spinner.text(' doesn’t link back');
 						warningBarWidth += 100 / results.length;
 						warningBar.width(warningBarWidth + '%');
 					}
-				}).fail(function(xhr) {
-					console.log('HTTP request failed:', xhr);
-					spinner.text(' couldn’t be fetched');
+				}).fail( function(xhr, textStatus, errorThrown) {
+					spinner.text(' ' + data.response);
 					errorBarWidth += 100 / results.length;
 					errorBar.width(errorBarWidth + '%');
 				});
