@@ -44,7 +44,7 @@
 				successBarWidth += 100 / results.length;
 				successBar.width(successBarWidth + '%');
 			} else {
-				$.getJSON('/indiewebify-me/web/rel-me-check/', {
+				$.getJSON('/rel-me-check/', {
 					url1: url, url2: relMeUrl
 				}).done( function(data) {
 					console.log(data);
