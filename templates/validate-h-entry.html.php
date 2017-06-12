@@ -1,6 +1,8 @@
 <?php namespace Indieweb\IndiewebifyMe; use BarnabyWalters\Mf2; ?>
 
 <div class="row demo-row">
+	<div class="span12">
+
 	<h4>Check your <strong>posts</strong> (notes, articles, etc.) are marked up with <a href="http://microformats.org/wiki/h-entry" target="_blank">h-entry</a>:</h4>
 
 	<form class="row" action="/validate-h-entry/" method="get">
@@ -171,7 +173,7 @@
 				</ul>
 				<?php else: ?>
 				<div class="empty-property-block">
-					<p>Add URLs of <a href="http://indiewebcamp.com/POSSE">POSSEd</a> copies!</p>
+					<p>Add URLs of <a href="https://indieweb.org/POSSE">POSSEd</a> copies!</p>
 					<p><code>&lt;a rel=&quot;syndication&quot; class=&quot;u-syndication&quot; href=&quot;…&quot;>…&lt;/a></code></p>
 				</div>
 				<?php endif ?>
@@ -208,7 +210,7 @@
 
 	<ul>
 		<li><code>e-content</code> — the main content of the post</li>
-		<li><code>p-name</code> — if your post has a name, use this classname. Otherwise, (if for example the post is a <a href="http://indiewebcamp.com/note">note</a>), either leave it off or apply to the same element as <code>e-</code>.</li>
+		<li><code>p-name</code> — if your post has a name, use this classname. Otherwise, (if for example the post is a <a href="https://indieweb.org/note">note</a>), either leave it off or apply to the same element as <code>e-</code>.</li>
 		<li><code>dt-published</code> — the datetime the post was published at, in ISO8601 format, with a timezone</li>
 		<li><code>u-url</code> — the canonical URL of the post, especially important on pages listing multiple posts</li>
 	</ul>
@@ -227,4 +229,5 @@
 		<p> <a href="/validate-h-card/">Previous Step</a> | <a href="/">Home</a> | <a href="/send-webmentions/">Next Step</a> </p>
 	<?php endif ?>
 
+	</div><!--/.span-->
 </div>

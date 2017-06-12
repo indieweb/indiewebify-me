@@ -1,4 +1,6 @@
 <div id="send-webmentions" class="row demo-row">
+	<div class="span12">
+
 	<h2>2. Add the ability to send <a href="http://webmention.org" target="_blank">Webmentions</a> to other IndieWeb sites</h2>
 
 	<p class="lead">When you reply to something on another indieweb site, or mention someone with an indieweb site, sending a webmention lets them know they’ve been linked to.</p>
@@ -7,12 +9,12 @@
 
 	<ul>
 		<li>Send webmentions and pingbacks manually using the form below</li>
-		<li>Send webmentions from the command line <a href="http://indiewebcamp.com/webmention#How_to_Test_Webmentions">using Curl</a> or <a href="https://github.com/vrypan/webmention-tools">webmention-tools</a></li>
-		<li>Make your publishing software send webmentions for you automatically using one of the <a href="http://indiewebcamp.com/webmention#Implementations">open source libraries</a></li>
-		<li>Or, get down and dirty with the <a href="http://webmention.org">WebMention spec</a> and implement it yourself</li>
+		<li>Send webmentions from the command line <a href="https://indieweb.org/webmention#How_to_Test_Webmentions">using Curl</a> or <a href="https://github.com/vrypan/webmention-tools">webmention-tools</a></li>
+		<li>Make your publishing software send webmentions for you automatically using one of the <a href="https://indieweb.org/Webmention-developer#Libraries">open source libraries</a></li>
+		<li>Or, get down and dirty with the <a href="http://webmention.net">WebMention spec</a> and implement it yourself</li>
 	</ul>
 
-	<p>On the wiki: <a href="http://indiewebcamp.com/webmention">webmention</a></p>
+	<p>On the wiki: <a href="https://indieweb.org/webmention">webmention</a></p>
 
 	<?php if ($error or $numSent): ?>
 	<div class="result alert <?php if ($error): ?>alert-warning<?php else: ?>alert-success<?php endif ?>">
@@ -48,5 +50,6 @@
 		<p> <a href="/validate-h-entry/">Previous Step</a> | <a href="/">Home</a> </p>
 	<?php endif ?>
 
+	</div><!--/.span-->
 </div> <!-- #send-webmentions -->
 
