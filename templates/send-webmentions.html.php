@@ -9,7 +9,7 @@
 
 	<ul>
 		<li>Send webmentions and pingbacks manually using the form below</li>
-		<li>Send webmentions from the command line <a href="https://indieweb.org/webmention#How_to_Test_Webmentions">using Curl</a> or <a href="https://github.com/vrypan/webmention-tools">webmention-tools</a></li>
+		<li>Send webmentions from the command line <a href="https://indieweb.org/webmention-implementation-guide">using Curl</a> or <a href="https://github.com/vrypan/webmention-tools">webmention-tools</a></li>
 		<li>Make your publishing software send webmentions for you automatically using one of the <a href="https://indieweb.org/Webmention-developer#Libraries">open source libraries</a></li>
 		<li>Or, get down and dirty with the <a href="http://webmention.net">WebMention spec</a> and implement it yourself</li>
 	</ul>
