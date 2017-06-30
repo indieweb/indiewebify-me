@@ -2,9 +2,9 @@
 
 This tool offers a fast and easy way to get you & your website on the Indieweb, to use go to [indiewebify.me](http://indiewebify.me).
 
-To learn more about the IndieWeb go to [indiewebcamp.com](http://indiewebcamp.com).
+To learn more about the IndieWeb go to [indieweb.org](https://indieweb.org).
 
-Made by Brennan Novak, Barnaby Walters, and others at the 2013 IndieWebCamps in [Reykjavik](http://indiewebcamp.com/2013/#Remote_Indiewebcamp_Parties) and [Brighton](http://indiewebcamp.com/2013/UK).
+Made by Brennan Novak, Barnaby Walters, and others at the 2013 IndieWebCamps in [Reykjavik](http://indieweb.org/2013/#Remote_Indiewebcamp_Parties) and [Brighton](http://indieweb.org/2013/UK).
 
 ## Installation
 
