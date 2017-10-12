@@ -219,7 +219,7 @@
 
 	<p>There should also be some way to discover the author of the post — either link to your homepage (which should have your h-card on)from anywhere on the page with <code>rel=author</code>, or optionally embed a <code>p-author h-card</code> in the h-entry.</p>
 
-	<p>The web is an expressive medium, and as such there are many other properties which you can add to your posts. Check out the <a href="https://microformats.org/wiki/h-entry">h-entry documentation</a> for a full list.</p>
+	<p>The web is an expressive medium, and as such there are many other properties which you can add to your posts. Check out the <a href="http://microformats.org/wiki/h-entry">h-entry documentation</a> for a full list.</p>
 	<?php endif ?>
 	
 	<small>Want to be able to use h-entry data in your code? Check out the open-source <a href="http://microformats.org/wiki/parsers">implementations</a>.</small>
