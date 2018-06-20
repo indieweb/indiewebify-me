@@ -212,6 +212,48 @@ $app->get('/rel-me-links/', function (Http\Request $request) {
 
 	return crossOriginResponse('false', 200);
 });
+
+# validate that url2 links back to url1 with rel=me
+$app->get('/rel-me-check/', function (Http\Request $request) {
+	if (!$request->query->has('url1') or !$request->query->has('url2')) {
+		return crossOriginResponse('Provide both url1 and url2 parameters', 400);
+	}
+
+	$url = IndieWeb\normaliseUrl($request->query->get('url1'));
+	$is_url_https = ( parse_url($url, PHP_URL_SCHEME) == 'https' ) ? true : false;
+
+	list($inbound_url, $secure, $previous) = IndieWeb\relMeDocumentUrl($request->query->get('url2'));
+
+	list($response, $error) = httpGet($inbound_url);
+
+	$response_array = array(
+		'pass' => false,
+		'response' => '',
+		'status' => $response->getStatusCode(),
+		'secure' => null,
+	);
+
+	if ($error) {
+		$response_array['response'] = sprintf('HTTP error when fetching rel-me URL: %s - %s', $inbound_url, $error->getMessage());
+		return crossOriginResponse(json_encode($response_array), 200);
+	}
+
+	$relMeLinks = IndieWeb\relMeLinks($response->getBody(true), $inbound_url);
+
+	foreach ($relMeLinks as $inboundRelMeUrl) {
+		list($matches, $secure, $previous) = IndieWeb\backlinkingRelMeUrlMatches($inboundRelMeUrl, $url);
+		if ($matches) {
+			$response_array['pass'] = true;
+			$response_array['response'] = ( $is_url_https && !$secure ) ? 'link back is to http:// not https://' : 'works perfectly';
+			$response_array['secure'] = $secure;
+			return crossOriginResponse(json_encode($response_array), 200);
+		}
+	}
+
+	$response_array['response'] = 'does not link back';
+	return crossOriginResponse(json_encode($response_array), 200);
+});
+
 // more forgiving version for the badge showing code; ignores secure
 $app->get('/rel-me-links-info/', function (Http\Request $request) {
 	if (!$request->query->has('url1') or !$request->query->has('url2'))
