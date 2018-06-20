@@ -137,7 +137,7 @@ if (PHP_SAPI === 'cli-server') {
 		return false;
 	}
 } else {
-	error_reporting(0);
+	#error_reporting(0);
 }
 
 $app = new Silex\Application();
