@@ -398,8 +398,8 @@ $app->post('/send-webmentions/', function (Http\Request $request) {
 
 	$hEntries = Mf2\findMicroformatsByType($mfs, 'h-entry');
 
-	$mentioner = new MentionClient($url);
-	$numSent = $mentioner->sendSupportedMentions();
+	$mentioner = new MentionClient();
+	$numSent = $mentioner->sendMentions($url);
 
 	return crossOriginResponse(render('send-webmentions.html', array(
 		'numSent' => $numSent,

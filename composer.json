@@ -15,7 +15,7 @@
 		"silex/silex": "*",
 		"guzzlehttp/guzzle": "*",
 		"tantek/cassis": "*",
-		"indieweb/mention-client": "*",
+		"indieweb/mention-client": ">=1.1.6",
 		"indieweb/rel-me": "dev-master"
 	},
 	"require-dev": {

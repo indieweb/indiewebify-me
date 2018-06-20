@@ -16,7 +16,7 @@
 
 	<p>On the wiki: <a href="https://indieweb.org/webmention">webmention</a></p>
 
-	<?php if ($error or $numSent): ?>
+	<?php if (!empty($error) or !empty($numSent)): ?>
 	<div class="result alert <?php if ($error): ?>alert-warning<?php else: ?>alert-success<?php endif ?>">
 		<?php if ($error): ?>
 		<h4>Something Went Wrong!</strong></h4>
