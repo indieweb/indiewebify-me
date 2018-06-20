@@ -5,13 +5,14 @@
 
 	<p class="lead">When you reply to something on another indieweb site, or mention someone with an indieweb site, sending a webmention lets them know they’ve been linked to.</p>
 
-	<p>Sending webmentions allows you to write replies to other content and participate in cross-site conversations.</p>
+	<p>Sending webmentions allows you to write replies to other content and participate in cross-site conversations. You can send webmentions by:</p>
 
 	<ul>
-		<li>Send webmentions and pingbacks manually using the form below</li>
-		<li>Send webmentions from the command line <a href="https://indieweb.org/webmention-implementation-guide">using Curl</a> or <a href="https://github.com/vrypan/webmention-tools">webmention-tools</a></li>
+		<li>using the form below</li>
+		<li>using <a href="https://telegraph.p3k.io/">Telegraph</a>, which lets you choose which links to send to</li>
+		<li>from the command line <a href="https://indieweb.org/webmention-implementation-guide">using Curl</a> or <a href="https://github.com/vrypan/webmention-tools">webmention-tools</a></li>
 		<li>Make your publishing software send webmentions for you automatically using one of the <a href="https://indieweb.org/Webmention-developer#Libraries">open source libraries</a></li>
-		<li>Or, get down and dirty with the <a href="http://webmention.net">WebMention spec</a> and implement it yourself</li>
+		<li>Or, get down and dirty with the <a href="http://webmention.net">Webmention spec</a> and implement it yourself</li>
 	</ul>
 
 	<p>On the wiki: <a href="https://indieweb.org/webmention">webmention</a></p>
