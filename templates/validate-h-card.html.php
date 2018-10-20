@@ -34,7 +34,7 @@
 				<p>Multiple representative h-cards were found on your site! Consider only having one. Here’s the first one:</p>
 			<?php elseif (count($representativeHCards) == 0 and $firstHCard !== null): $hCard = $firstHCard; ?>
 				<h3>Almost there!</h3>
-				<p>A h-card was found on your site, but it’s not marked up as the <a href="http://microformats.org/wiki/representative-hcard-parsing">representative h-card</a>!</p>
+				<p>A h-card was found on your site, but it’s not marked up as the <a href="http://microformats.org/wiki/representative-h-card-parsing">representative h-card</a>!</p>
 				<p>Add a <code>u-url</code> property which matches a <code>rel=me</code> link on the same page so this h-card can be identified as the h-card which <em>represents</em> the page.</code></p>
 			<?php else: $hCard = null; ?>
 				<h3>No h-cards found</h3>
