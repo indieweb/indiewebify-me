@@ -35,7 +35,11 @@
 			<?php elseif (count($representativeHCards) == 0 and $firstHCard !== null): $hCard = $firstHCard; ?>
 				<h3>Almost there!</h3>
 				<p>A h-card was found on your site, but it’s not marked up as the <a href="http://microformats.org/wiki/representative-h-card-parsing">representative h-card</a>!</p>
-				<p>Add a <code>u-url</code> property which matches a <code>rel=me</code> link on the same page so this h-card can be identified as the h-card which <em>represents</em> the page.</code></p>
+				<p> To identify the h-card that <em>represents</em> the page, you can: </p>
+				<ul>
+					<li> Add <code>class=&quot;u-url u-uid&quot;</code> on the h-card's link to <?=htmlspecialchars($url);?> </li>
+					<li> <b>Or:</b> add <code>class=&quot;u-url&quot; rel=&quot;me&quot;</code> on the h-card's link to <?=htmlspecialchars($url);?> </li>
+				</ul>
 			<?php else: $hCard = null; ?>
 				<h3>No h-cards found</h3>
 				<p>No h-cards were found on your site! Adding one can be as simple as this:</p>

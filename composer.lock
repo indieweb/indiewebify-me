@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2428f8f15ac9de44167bce47923f725c",
+    "content-hash": "37cb0d754ead0fbe2a861675cd826285",
     "packages": [
         {
             "name": "barnabywalters/mf-cleaner",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/barnabywalters/php-mf-cleaner.git",
-                "reference": "eeffa8a1b07b3e98db3622b8fe6861cac1075b6c"
+                "reference": "e70b7b9a74b734527aa7e62d36fdbf3607559ad5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barnabywalters/php-mf-cleaner/zipball/eeffa8a1b07b3e98db3622b8fe6861cac1075b6c",
-                "reference": "eeffa8a1b07b3e98db3622b8fe6861cac1075b6c",
+                "url": "https://api.github.com/repos/barnabywalters/php-mf-cleaner/zipball/e70b7b9a74b734527aa7e62d36fdbf3607559ad5",
+                "reference": "e70b7b9a74b734527aa7e62d36fdbf3607559ad5",
                 "shasum": ""
             },
             "require-dev": {
@@ -44,7 +44,7 @@
                 }
             ],
             "description": "Cleans up microformats2 array structures",
-            "time": "2015-04-29T10:10:27+00:00"
+            "time": "2018-11-14T20:44:19+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -524,6 +524,7 @@
             "keywords": [
                 "microframework"
             ],
+            "abandoned": "symfony/flex",
             "time": "2016-01-06T14:59:35+00:00"
         },
         {

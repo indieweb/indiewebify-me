@@ -286,32 +286,63 @@ $app->get('/validate-h-card/', function (Http\Request $request) {
 	if (!$request->query->has('url')) {
 		return render('validate-h-card.html');
 	} else {
-		$url = trim($request->query->get('url'));
+		$url = IndieWeb\normaliseUrl($request->query->get('url'));
 
 		$errorResponse = errorResponder('validate-h-card.html', $url);
 
-		if (empty($url))
+		if (empty($url)) {
 			return $errorResponse('Empty URLs lead nowhere');
+		}
 
 		list($mfs, $err) = fetchMf($url);
 
-		if ($err)
+		if ($err) {
 			return $errorResponse(htmlspecialchars($err->getMessage()));
-
-		$hCards = Mf2\findMicroformatsByType($mfs, 'h-card');
-
-		if (count($hCards) === 0)
-			$firstHCard = null;
-		else
-			$firstHCard = $hCards[0];
+		}
 
 		$representativeHCards = array();
+		$allhCards = $hCards = Mf2\findMicroformatsByType($mfs, 'h-card');
+		
 		$relMeUrls = empty($mfs['rels']['me']) ? array() : $mfs['rels']['me'];
 
-		foreach ($hCards as $hCard) {
-			if (Mf2\getProp($hCard, 'url') == $url or (Mf2\hasProp($hCard, 'url') and count(array_intersect($hCard['properties']['url'], $relMeUrls)))) {
+		# check for `url` and `uid` properties matching the page URL
+		foreach ($hCards as $index => $hCard) {
+			if (Mf2\hasProp($hCard, 'uid') && Mf2\hasProp($hCard, 'url')
+				&& Mf2\urlsMatch(Mf2\getPlaintext($hCard, 'uid'), $url)
+				&& count(array_filter($hCard['properties']['url'], function ($u) use ($url) {
+					return Mf2\urlsMatch($u, $url);
+				})) > 0) {
+				$representativeHCards[] = $hCard;
+				unset($hCards[$index]);
+			}
+		}
+
+		# check for `url` property that matches a `rel=me` URL
+		if ($relMeUrls) {
+			foreach ($hCards as $index => $hCard) {
+				if (Mf2\hasProp($hCard, 'url') && count(array_filter($hCard['properties']['url'], function ($u) use ($relMeUrls) {
+					return in_array(Indieweb\normaliseUrl($u), $relMeUrls);
+				})) > 0) {
+					$representativeHCards[] = $hCard;
+					unset($hCards[$index]);
+				}
+			}
+		}
+
+		# check if the page has *one single h-card* and the `url` matches the page URL
+		if (count($hCards) == 1) {
+			$hCard = reset($hCards);
+			if (Mf2\hasProp($hCard, 'url') && count(array_filter($hCard['properties']['url'], function ($u) use ($url) {
+				return Mf2\urlsMatch($u, $url);
+			})) > 0) {
 				$representativeHCards[] = $hCard;
 			}
+		}
+
+		$firstHCard = null;
+
+		if (count($allhCards) > 0) {
+			$firstHCard = $allhCards[0];
 		}
 
 		return crossOriginResponse(render('validate-h-card.html', array(
