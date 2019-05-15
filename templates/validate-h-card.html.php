@@ -1,4 +1,4 @@
-<?php 
+<?php
 	use BarnabyWalters\Mf2;
 
 	$optional_properties = [
@@ -9,6 +9,7 @@
 		'sort-string' => 'String to sort by',
 		'honorific-suffix' => 'Honorific suffix',
 		'nickname' => 'Nickname',
+		'email' => 'Email address',
 		'logo' => 'Logo',
 		'uid' => 'Unique identifier',
 		'category' => 'Category/tag',
@@ -26,6 +27,7 @@
 		'longitude' => 'Longitude',
 		'altitude' => 'Altitude',
 		'tel' => 'Telephone',
+		'note' => 'Additional notes',
 		'bday' => 'Birth Date',
 		'key' => 'Cryptographic public key',
 		'org' => 'Organization',
@@ -138,19 +140,6 @@
 					}
 				}
 				?>
-
-				<h2> Additional Properties </h2>
-				<p> If you are publishing additional information about yourself, these are some h-card properties you can add: </p>
-
-				<?php if (!Mf2\hasProp($hCard, 'email')): ?>
-				<p class="property-block-name">Email</p>
-				<p>Add <code>class=&quot;u-email&quot; rel=&quot;me&quot;</code> to the link </p>
-				<?php endif; ?>
-
-				<?php if (!Mf2\hasProp($hCard, 'note')): ?>
-				<p class="property-block-name">Note</p>
-				<p>Wrap your bio/note with <code>&lt;div class=&quot;p-note&quot;&gt;…&lt;/div&gt;</code> </p>
-				<?php endif; ?>
 
 				<p> <a href="http://microformats.org/wiki/h-card#Properties">See the full list of h-card properties</a>. </p>
 
