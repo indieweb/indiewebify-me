@@ -27,7 +27,6 @@
 		'longitude' => 'Longitude',
 		'altitude' => 'Altitude',
 		'tel' => 'Telephone',
-		'note' => 'Additional notes',
 		'bday' => 'Birth Date',
 		'key' => 'Cryptographic public key',
 		'org' => 'Organization',
@@ -127,6 +126,10 @@
 				<?php if (Mf2\hasProp($hCard, 'note')): ?>
 				<p class="property-block-name">Note</p>
 				<p><?= Mf2\getProp($hCard, 'note') ?></p>
+				<?php else: ?>
+				<div class="empty-property-block">
+					<p>Got a brief bio like a Twitter/Instagram bio? Add it to your own h-card as a note property! <code class="pull-right">&lt;p class=&quot;p-note&quot;>…&lt/p></code></p>
+				</div>
 				<?php endif ?>
 
 				<?php
