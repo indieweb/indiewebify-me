@@ -282,11 +282,16 @@ $app->get('/rel-me-links-info/', function (Http\Request $request) {
 });
 
 
-$app->get('/validate-h-card/', function (Http\Request $request) {
+$app->get('/validate-h-card/', function (Http\Request $request) use($app) {
 	if (!$request->query->has('url')) {
 		return render('validate-h-card.html');
 	} else {
 		$url = IndieWeb\normaliseUrl($request->query->get('url'));
+
+		# no scheme entered; use http:// and redirect
+		if (preg_match('#^https?://#', $url) === 0) {
+			return $app->redirect('/validate-h-card/?url=http://' . $url);
+		}
 
 		$errorResponse = errorResponder('validate-h-card.html', $url);
 

@@ -9,8 +9,7 @@ Made by Brennan Novak, Barnaby Walters, and others at the 2013 IndieWebCamps in 
 ## Installation
 
 Requirements:
-
-* PHP 5.4
+* PHP 7.2
 
 How to run your own instance of indiewebify.me for development:
 
