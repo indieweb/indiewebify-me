@@ -93,6 +93,8 @@
 			<div class="preview-h-card preview-block">
 				<?php if (Mf2\hasProp($hCard, 'photo')): ?>
 				<img class="photo-block" src="<?= Mf2\getProp($hCard, 'photo')?>" alt="" />
+				<?php if (Mf2\hasProp($hCard, 'logo')): ?>
+				<img class="logo-block" src="<?= Mf2\getProp($hCard, 'logo')?>" alt="" />
 				<?php else: ?>
 				<div class="empty-property-block photo-block">
 					<p>Add a photo!</p>
