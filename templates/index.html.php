@@ -3,7 +3,7 @@
 	<div class="span12">
 		<div class="demo-headline">
 			<h1 class="demo-logo">
-				IndieWebify.Me
+				Indie<wbr>Webify<wbr>.Me
 				<small>A guide to getting you on the <a href="https://indieweb.org" target="_blank">IndieWeb</a></small>
 			</h1>
 		</div> <!-- .demo-headline -->

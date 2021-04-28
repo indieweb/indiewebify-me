@@ -7,6 +7,7 @@
 
     <!-- Loading Bootstrap -->
     <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 
     <!-- Loading Flat UI -->
     <link href="/css/flat-ui.css" rel="stylesheet">
