@@ -119,11 +119,6 @@ function datetimeProblem($datetimeStr) {
 	} catch (Exception $e) {
 		return "The datetime is not valid ISO-8601.";
 	}
-
-	if (strlen($datetimeStr) < 11) {
-		return "Datetimes should be precise to at least the nearest second.";
-	} elseif (strlen($datetimeStr) < 19)
-		return "The datetime has no timezone.";
 	return false;
 }
 
@@ -307,7 +302,7 @@ $app->get('/validate-h-card/', function (Http\Request $request) use($app) {
 
 		$representativeHCards = array();
 		$allhCards = $hCards = Mf2\findMicroformatsByType($mfs, 'h-card');
-		
+
 		$relMeUrls = empty($mfs['rels']['me']) ? array() : $mfs['rels']['me'];
 
 		# check for `url` and `uid` properties matching the page URL
