@@ -80,10 +80,16 @@
 			<h3> Success! </h3>
 			<p> This representative h-card was found on your site: </p>
 
-		<?php elseif (count($allHCards) > 0): $hCard = $allHCards[0]; ?>
+		<?php elseif (count($allHCards) > 0):
+			$hCard = $allHCards[0];
+			$intro_phrase = 'An h-card was found on your site! Consider ';
+			if (count($allHCards) > 1) {
+				$intro_phrase = 'Multiple h-cards were found on your site! Consider only having one and  ';
+			}
+		?>
 
 			<h3> Almost there! </h3>
-			<p> Multiple h-cards were found on your site! Consider only having one and marking it up as the <a href="https://microformats.org/wiki/representative-h-card-authoring">representative h-card</a>. </p>
+			<p> <?=$intro_phrase?> marking it up as the <a href="https://microformats.org/wiki/representative-h-card-authoring">representative h-card</a>. </p>
 			<p> To identify the h-card that <em>represents</em> the page, you can: </p>
 			<ul>
 				<li> Add <code>class=&quot;u-url u-uid&quot;</code> on the h-card’s link to <?=htmlspecialchars($url);?> </li>
