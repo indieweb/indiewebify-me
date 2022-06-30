@@ -2,6 +2,9 @@
 
 namespace Indieweb\IndiewebifyMe;
 
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
 ob_start();
 require __DIR__ . '/../vendor/autoload.php';
 ob_end_clean();
@@ -143,7 +146,7 @@ if (PHP_SAPI === 'cli-server') {
 $app = new Silex\Application();
 
 $app->get('/', function () {
-	return render('index.html', array('composite_view' => true));
+	return render('index.html', array('composite_view' => true, 'showResult' => false));
 });
 
 $app->get('/validate-rel-me/', function (Http\Request $request) {
@@ -284,7 +287,9 @@ $app->get('/rel-me-links-info/', function (Http\Request $request) {
 
 $app->get('/validate-h-card/', function (Http\Request $request) use($app) {
 	if (!$request->query->has('url')) {
-		return render('validate-h-card.html');
+		return render('validate-h-card.html', [
+			'showResult' => false,
+		]);
 	} else {
 		$url = IndieWeb\normaliseUrl($request->query->get('url'));
 
@@ -305,9 +310,44 @@ $app->get('/validate-h-card/', function (Http\Request $request) use($app) {
 			return $errorResponse(htmlspecialchars($err->getMessage()));
 		}
 
+		$allHCards = Mf2\findMicroformatsByType($mfs, 'h-card');
+		$representativeHCard = Mf2\getRepresentativeHCard($mfs, $url);
+
+		/*header('Content-Type: text/plain; charset=utf8');
+		var_dump($representativeHCard);
+		echo PHP_EOL . count($allHCards);
+		exit;*/
+
+		$firstHCard = null;
+		if (count($allHCards) > 0) {
+			$firstHCard = $allHCards[0];
+		}
+
+		return crossOriginResponse(
+			render(
+				'validate-h-card.html',
+				[
+					'showResult' => true,
+					'firstHCard' => $firstHCard,
+					'allHCards' => $allHCards,
+					'representativeHCards' => [],
+					'representativeHCard' => $representativeHCard,
+					'url' => htmlspecialchars($url)
+				]
+			)
+		);
+
+
+
+
+
+
+
+		print_r(Mf2\getRepresentativeHCard($mfs, $url)); exit;
+
 		$representativeHCards = array();
 		$allhCards = $hCards = Mf2\findMicroformatsByType($mfs, 'h-card');
-		
+
 		$relMeUrls = empty($mfs['rels']['me']) ? array() : $mfs['rels']['me'];
 
 		# check for `url` and `uid` properties matching the page URL
@@ -322,9 +362,28 @@ $app->get('/validate-h-card/', function (Http\Request $request) use($app) {
 			}
 		}
 
+		// print_r($representativeHCards);
+		// exit;
+
 		# check for `url` property that matches a `rel=me` URL
 		if ($relMeUrls) {
 			foreach ($hCards as $index => $hCard) {
+				#print_r($hCard); exit;
+
+				if (Mf2\hasProp($hCard, 'url')) {
+					print_r(MF2\getPlaintextArray($hCard, 'url')); exit;
+				}
+
+				print_r($hCard['properties']['url']); exit;
+
+
+				$foo = array_filter($hCard['properties']['url'], function ($u) use ($relMeUrls) {
+					print_r($u); exit;
+
+				});
+
+
+
 				if (Mf2\hasProp($hCard, 'url') && count(array_filter($hCard['properties']['url'], function ($u) use ($relMeUrls) {
 					return in_array(Indieweb\normaliseUrl($u), $relMeUrls);
 				})) > 0) {
@@ -333,6 +392,14 @@ $app->get('/validate-h-card/', function (Http\Request $request) use($app) {
 				}
 			}
 		}
+
+		print_r($representativeHCards);
+		exit;
+
+		print_r($representativeHCards);
+		print_r($hCards);
+		#var_dump($err);
+		exit;
 
 		# check if the page has *one single h-card* and the `url` matches the page URL
 		if (count($hCards) == 1) {

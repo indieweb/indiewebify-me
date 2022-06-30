@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/barnabywalters/php-mf-cleaner.git",
-                "reference": "e70b7b9a74b734527aa7e62d36fdbf3607559ad5"
+                "reference": "71566ebb40023d652f374eb80f9bd9c4c7d34cd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barnabywalters/php-mf-cleaner/zipball/e70b7b9a74b734527aa7e62d36fdbf3607559ad5",
-                "reference": "e70b7b9a74b734527aa7e62d36fdbf3607559ad5",
+                "url": "https://api.github.com/repos/barnabywalters/php-mf-cleaner/zipball/71566ebb40023d652f374eb80f9bd9c4c7d34cd6",
+                "reference": "71566ebb40023d652f374eb80f9bd9c4c7d34cd6",
                 "shasum": ""
             },
             "require-dev": {
@@ -27,6 +27,7 @@
             "suggest": {
                 "mf2/mf2": "To parse microformats2 structures from (X)HTML"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -44,7 +45,11 @@
                 }
             ],
             "description": "Cleans up microformats2 array structures",
-            "time": "2018-11-14T20:44:19+00:00"
+            "support": {
+                "issues": "https://github.com/barnabywalters/php-mf-cleaner/issues",
+                "source": "https://github.com/barnabywalters/php-mf-cleaner/tree/master"
+            },
+            "time": "2022-06-28T17:28:22+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -2021,5 +2026,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
 }
