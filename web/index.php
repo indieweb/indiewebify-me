@@ -313,116 +313,17 @@ $app->get('/validate-h-card/', function (Http\Request $request) use($app) {
 		$allHCards = Mf2\findMicroformatsByType($mfs, 'h-card');
 		$representativeHCard = Mf2\getRepresentativeHCard($mfs, $url);
 
-		/*header('Content-Type: text/plain; charset=utf8');
-		var_dump($representativeHCard);
-		echo PHP_EOL . count($allHCards);
-		exit;*/
-
-		$firstHCard = null;
-		if (count($allHCards) > 0) {
-			$firstHCard = $allHCards[0];
-		}
-
 		return crossOriginResponse(
 			render(
 				'validate-h-card.html',
 				[
 					'showResult' => true,
-					'firstHCard' => $firstHCard,
 					'allHCards' => $allHCards,
-					'representativeHCards' => [],
 					'representativeHCard' => $representativeHCard,
 					'url' => htmlspecialchars($url)
 				]
 			)
 		);
-
-
-
-
-
-
-
-		print_r(Mf2\getRepresentativeHCard($mfs, $url)); exit;
-
-		$representativeHCards = array();
-		$allhCards = $hCards = Mf2\findMicroformatsByType($mfs, 'h-card');
-
-		$relMeUrls = empty($mfs['rels']['me']) ? array() : $mfs['rels']['me'];
-
-		# check for `url` and `uid` properties matching the page URL
-		foreach ($hCards as $index => $hCard) {
-			if (Mf2\hasProp($hCard, 'uid') && Mf2\hasProp($hCard, 'url')
-				&& Mf2\urlsMatch(Mf2\getPlaintext($hCard, 'uid'), $url)
-				&& count(array_filter($hCard['properties']['url'], function ($u) use ($url) {
-					return Mf2\urlsMatch($u, $url);
-				})) > 0) {
-				$representativeHCards[] = $hCard;
-				unset($hCards[$index]);
-			}
-		}
-
-		// print_r($representativeHCards);
-		// exit;
-
-		# check for `url` property that matches a `rel=me` URL
-		if ($relMeUrls) {
-			foreach ($hCards as $index => $hCard) {
-				#print_r($hCard); exit;
-
-				if (Mf2\hasProp($hCard, 'url')) {
-					print_r(MF2\getPlaintextArray($hCard, 'url')); exit;
-				}
-
-				print_r($hCard['properties']['url']); exit;
-
-
-				$foo = array_filter($hCard['properties']['url'], function ($u) use ($relMeUrls) {
-					print_r($u); exit;
-
-				});
-
-
-
-				if (Mf2\hasProp($hCard, 'url') && count(array_filter($hCard['properties']['url'], function ($u) use ($relMeUrls) {
-					return in_array(Indieweb\normaliseUrl($u), $relMeUrls);
-				})) > 0) {
-					$representativeHCards[] = $hCard;
-					unset($hCards[$index]);
-				}
-			}
-		}
-
-		print_r($representativeHCards);
-		exit;
-
-		print_r($representativeHCards);
-		print_r($hCards);
-		#var_dump($err);
-		exit;
-
-		# check if the page has *one single h-card* and the `url` matches the page URL
-		if (count($hCards) == 1) {
-			$hCard = reset($hCards);
-			if (Mf2\hasProp($hCard, 'url') && count(array_filter($hCard['properties']['url'], function ($u) use ($url) {
-				return Mf2\urlsMatch($u, $url);
-			})) > 0) {
-				$representativeHCards[] = $hCard;
-			}
-		}
-
-		$firstHCard = null;
-
-		if (count($allhCards) > 0) {
-			$firstHCard = $allhCards[0];
-		}
-
-		return crossOriginResponse(render('validate-h-card.html', array(
-			'showResult' => true,
-			'firstHCard' => $firstHCard,
-			'representativeHCards' => $representativeHCards,
-			'url' => htmlspecialchars($url)
-		)));
 	}
 });
 
