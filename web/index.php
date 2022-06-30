@@ -2,9 +2,6 @@
 
 namespace Indieweb\IndiewebifyMe;
 
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-
 ob_start();
 require __DIR__ . '/../vendor/autoload.php';
 ob_end_clean();
