@@ -119,11 +119,6 @@ function datetimeProblem($datetimeStr) {
 	} catch (Exception $e) {
 		return "The datetime is not valid ISO-8601.";
 	}
-
-	if (strlen($datetimeStr) < 11) {
-		return "Datetimes should be precise to at least the nearest second.";
-	} elseif (strlen($datetimeStr) < 19)
-		return "The datetime has no timezone.";
 	return false;
 }
 
