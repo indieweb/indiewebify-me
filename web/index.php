@@ -9,7 +9,6 @@ ob_end_clean();
 use BarnabyWalters\Mf2;
 use DateTime;
 use Exception;
-use Guzzle;
 use HTMLPurifier, HTMLPurifier_Config;
 use IndieWeb;
 use IndieWeb\MentionClient;
@@ -51,17 +50,17 @@ function crossOriginResponse($resp, $code=200) {
 }
 
 function httpGet($url) {
-	$client = new Guzzle\Http\Client(null, array(
-		#'ssl.certificate_authority' => __DIR__ . '/../mozilla-ca-certs.pem'
+	$client = new \GuzzleHttp\Client(array(
+		#'verify' => __DIR__ . '/../mozilla-ca-certs.pem'
 	));
 	ob_start();
 	$url = web_address_to_uri($url, true);
 	ob_end_clean();
 
 	try {
-		$response = $client->get($url)->send();
+		$response = $client->get($url);
 		return array($response, null);
-	} catch (Guzzle\Common\Exception\GuzzleException $e) {
+	} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 		return array(null, $e);
 	}
 }
