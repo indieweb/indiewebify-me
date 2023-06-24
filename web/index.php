@@ -9,13 +9,14 @@ ob_end_clean();
 use BarnabyWalters\Mf2;
 use DateTime;
 use Exception;
-use Guzzle;
 use HTMLPurifier, HTMLPurifier_Config;
 use IndieWeb;
 use IndieWeb\MentionClient;
 use Mf2\Parser as MfParser;
 use Silex;
 use Symfony\Component\HttpFoundation as Http;
+use GuzzleHttp\TransferStats;
+
 
 function renderTemplate($template, array $__templateData = array()) {
 	$render = function ($__path, $render=null) use ($__templateData) {
@@ -51,18 +52,22 @@ function crossOriginResponse($resp, $code=200) {
 }
 
 function httpGet($url) {
-	$client = new Guzzle\Http\Client(null, array(
-		#'ssl.certificate_authority' => __DIR__ . '/../mozilla-ca-certs.pem'
-	));
 	ob_start();
 	$url = web_address_to_uri($url, true);
 	ob_end_clean();
 
+	$client = new \GuzzleHttp\Client(array(
+		#'verify' => __DIR__ . '/../mozilla-ca-certs.pem'
+		'on_stats' => function ($stats) use (&$url) {
+			$url = $stats->getEffectiveUri();
+		}
+	));
+
 	try {
-		$response = $client->get($url)->send();
-		return array($response, null);
-	} catch (Guzzle\Common\Exception\GuzzleException $e) {
-		return array(null, $e);
+		$response = $client->get($url);
+		return array($response, null, $url);
+	} catch (\GuzzleHttp\Exception\GuzzleException $e) {
+		return array(null, $e, null);
 	}
 }
 
@@ -99,8 +104,8 @@ function isTumblrDomain($url) {
 	return stristr(parse_url($url, PHP_URL_HOST), '.tumblr.com') !== false;
 }
 
-function detectBloggingSoftware($response) {
-	$d = new MfParser($response->getBody(1), $response->getEffectiveUrl());
+function detectBloggingSoftware($response, $effective_url) {
+	$d = new MfParser((string) $response->getBody(), $effective_url);
 	foreach ($d->query('//meta[@name="generator"]') as $generatorEl) {
 		if (stristr($generatorEl->getAttribute('content'), 'wordpress') !== false)
 			return 'wordpress';
@@ -159,12 +164,12 @@ $app->get('/validate-rel-me/', function (Http\Request $request) {
 		if (!$secure)
 			return $errorResponse("Insecure redirect between <code>{$previous[count($previous)-2]}</code> and <code>{$previous[count($previous)-1]}</code>");
 
-		list($resp, $err) = httpGet($relMeUrl);
+		list($resp, $err, $effective_url) = httpGet($relMeUrl);
 
 		if ($err)
 			return $errorResponse(htmlspecialchars($err->getMessage()));
 
-		$relMeLinks = IndieWeb\relMeLinks($resp->getBody(true), $relMeUrl);
+		$relMeLinks = IndieWeb\relMeLinks((string) $resp->getBody(), $relMeUrl);
 
 		if (empty($relMeLinks))
 			return $errorResponse("No <code>rel=me</code> links could be found!");
@@ -172,7 +177,7 @@ $app->get('/validate-rel-me/', function (Http\Request $request) {
 		return crossOriginResponse(render('validate-rel-me.html', array(
 			'rels' => $relMeLinks,
 			'url' => htmlspecialchars($url),
-			'bloggingSoftware' => detectBloggingSoftware($resp)
+			'bloggingSoftware' => detectBloggingSoftware($resp, $effective_url)
 		)));
 	}
 });
