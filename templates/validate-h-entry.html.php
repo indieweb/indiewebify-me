@@ -198,7 +198,7 @@
 			<p>Adding h-entry markup to posts on your site allows computers to understand them as easily as humans can, 
 			   without publishing separate copies. All you need to do is add microformats2 h-entry classnames, for example:</p>
 
-			<pre><code>&lt;article class=&quot;h-entry&quot;>&lt;span class=&quot;p-name&quot;>&lt;/span>
+			<pre><code>&lt;article class="h-entry"&gt;&lt;span class="p-name"&gt;&lt;/span&gt;
   &lt;div class=&quot;e-content&quot;>Hello world! This is my first indieweb post.&lt;/div>
 
   &lt;a class=&quot;u-url&quot; href=&quot;https://example.com/my-first-post&quot;>
