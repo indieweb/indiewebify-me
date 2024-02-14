@@ -35,7 +35,10 @@
 				<div class="alert alert-warning">
 					<p>The parsed <code>name</code> name is longer than the content, which is usually a sign is it malformed due to being implicitly rather than explicitly parsed.</p>
 
-					<p>You should always manually specify what the <code>name</code> of a post is. If it doesn’t have one, make the name the same as the content, e.g. <code>&lt;div class=&quot;e-content p-name&quot;>…</code></p>
+					<p>You should always manually specify what the <code>name</code> of a post is. 
+					   If it doesn’t have one, make the name explicitly empty, 
+					   e.g. <code>&lt;span class="p-name"&gt;&lt;/span&gt;…</code>
+					</p>
 				</div>
 				<?php endif ?>
 
@@ -192,10 +195,11 @@
 		<?php else: ?>
 			<h3>No h-entry found</h3>
 
-			<p>Adding h-entry markup to posts on your site allows computers to understand them as easily as humans can, without publishing separate copies. All you need to do is add microformats2 h-entry classnames, for example:</p>
+			<p>Adding h-entry markup to posts on your site allows computers to understand them as easily as humans can, 
+			   without publishing separate copies. All you need to do is add microformats2 h-entry classnames, for example:</p>
 
-			<pre><code>&lt;article class=&quot;h-entry&quot;>
-  &lt;div class=&quot;e-content p-name&quot;>Hello world! This is my first indieweb post.&lt;/div>
+			<pre><code>&lt;article class="h-entry"&gt;&lt;span class="p-name"&gt;&lt;/span&gt;
+  &lt;div class=&quot;e-content&quot;>Hello world! This is my first indieweb post.&lt;/div>
 
   &lt;a class=&quot;u-url&quot; href=&quot;https://example.com/my-first-post&quot;>
     Published &lt;time class=&quot;dt-published&quot;><?= date('Y-m-d H:i:sO') ?>&lt;/time>
@@ -210,7 +214,11 @@
 
 	<ul>
 		<li><code>e-content</code> — the main content of the post</li>
-		<li><code>p-name</code> — if your post is an article with a name, use this classname.</li>
+		<li><code>p-name</code> — if your post has a name, use this classname. Otherwise, 
+			(if for example the post is a <a href="https://indieweb.org/note">note</a>), 
+			make an explicitly empty name like: 
+			&lt;span class="p-name"&gt;&lt;/span&gt;
+			.</li>
 		<li><code>dt-published</code> — the datetime the post was published at, in ISO8601 format, with a timezone</li>
 		<li><code>u-url</code> — the canonical URL of the post, especially important on pages listing multiple posts</li>
 	</ul>
