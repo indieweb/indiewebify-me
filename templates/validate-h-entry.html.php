@@ -37,7 +37,8 @@
 
 					<p>You should always manually specify what the <code>name</code> of a post is. 
 					   If it doesn’t have one, make the name explicitly empty, 
-					   e.g. <code>&lt;span class=&quot;p-name&quot;>&lt;/span>…</code></p>
+					   e.g. <code>&lt;span class="p-name"&gt;&lt;/span&gt;…</code>
+					</p>
 				</div>
 				<?php endif ?>
 
