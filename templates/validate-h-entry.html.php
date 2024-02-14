@@ -217,7 +217,7 @@
 		<li><code>p-name</code> — if your post has a name, use this classname. Otherwise, 
 			(if for example the post is a <a href="https://indieweb.org/note">note</a>), 
 			make an explicitly empty name like: 
-			&lt;span class=&quot;p-name&quot;>&lt;/span>
+			&lt;span class="p-name"&gt;&lt;/span&gt;
 			.</li>
 		<li><code>dt-published</code> — the datetime the post was published at, in ISO8601 format, with a timezone</li>
 		<li><code>u-url</code> — the canonical URL of the post, especially important on pages listing multiple posts</li>
