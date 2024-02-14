@@ -4,25 +4,28 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "37cb0d754ead0fbe2a861675cd826285",
+    "content-hash": "6870eba124c2be3bbe8279dfcdc89292",
     "packages": [
         {
             "name": "barnabywalters/mf-cleaner",
-            "version": "dev-master",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barnabywalters/php-mf-cleaner.git",
-                "reference": "e70b7b9a74b734527aa7e62d36fdbf3607559ad5"
+                "reference": "bf86945ccb24093294bd266ee9e874917e762680"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barnabywalters/php-mf-cleaner/zipball/e70b7b9a74b734527aa7e62d36fdbf3607559ad5",
-                "reference": "e70b7b9a74b734527aa7e62d36fdbf3607559ad5",
+                "url": "https://api.github.com/repos/barnabywalters/php-mf-cleaner/zipball/bf86945ccb24093294bd266ee9e874917e762680",
+                "reference": "bf86945ccb24093294bd266ee9e874917e762680",
                 "shasum": ""
             },
+            "require": {
+                "php": ">=7.3"
+            },
             "require-dev": {
-                "php": ">=5.3",
-                "phpunit/phpunit": "*"
+                "phpunit/phpunit": "~9",
+                "vimeo/psalm": "~4"
             },
             "suggest": {
                 "mf2/mf2": "To parse microformats2 structures from (X)HTML"
@@ -30,7 +33,7 @@
             "type": "library",
             "autoload": {
                 "files": [
-                    "src/BarnabyWalters/Mf2/Functions.php"
+                    "src/functions.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -44,7 +47,11 @@
                 }
             ],
             "description": "Cleans up microformats2 array structures",
-            "time": "2018-11-14T20:44:19+00:00"
+            "support": {
+                "issues": "https://github.com/barnabywalters/php-mf-cleaner/issues",
+                "source": "https://github.com/barnabywalters/php-mf-cleaner/tree/v0.2.0"
+            },
+            "time": "2022-11-15T20:04:09+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -226,25 +233,25 @@
         },
         {
             "name": "indieweb/rel-me",
-            "version": "dev-master",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/indieweb/rel-me.git",
-                "reference": "6a6c9de41f5b18ef99243340a365949f2c47df0e"
+                "reference": "705b15f6e91f314fd26d5962dcf00fc117e42965"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/indieweb/rel-me/zipball/6a6c9de41f5b18ef99243340a365949f2c47df0e",
-                "reference": "6a6c9de41f5b18ef99243340a365949f2c47df0e",
+                "url": "https://api.github.com/repos/indieweb/rel-me/zipball/705b15f6e91f314fd26d5962dcf00fc117e42965",
+                "reference": "705b15f6e91f314fd26d5962dcf00fc117e42965",
                 "shasum": ""
             },
             "require": {
-                "mf2/mf2": "0.2.*",
-                "php": ">=5.3"
+                "mf2/mf2": "^0.5",
+                "php": ">=5.6"
             },
             "require-dev": {
-                "barnabywalters/mf-cleaner": "*",
-                "phpunit/phpunit": "*"
+                "barnabywalters/mf-cleaner": "dev-master",
+                "yoast/phpunit-polyfills": "^1.0"
             },
             "type": "library",
             "autoload": {
@@ -257,7 +264,11 @@
                 "MIT"
             ],
             "description": "Functions for discovering, consuming and verifying rel-me microformat",
-            "time": "2016-09-08T17:20:47+00:00"
+            "support": {
+                "issues": "https://github.com/indieweb/rel-me/issues",
+                "source": "https://github.com/indieweb/rel-me/tree/v0.1.1"
+            },
+            "time": "2022-10-08T21:02:51+00:00"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -303,26 +314,31 @@
         },
         {
             "name": "mf2/mf2",
-            "version": "v0.2.12",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/indieweb/php-mf2.git",
-                "reference": "6701504876d6c9242eb310b35f41d40d9785ab4e"
+                "url": "https://github.com/microformats/php-mf2.git",
+                "reference": "ddc56de6be62ed4a21f569de9b80e17af678ca50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/indieweb/php-mf2/zipball/6701504876d6c9242eb310b35f41d40d9785ab4e",
-                "reference": "6701504876d6c9242eb310b35f41d40d9785ab4e",
+                "url": "https://api.github.com/repos/microformats/php-mf2/zipball/ddc56de6be62ed4a21f569de9b80e17af678ca50",
+                "reference": "ddc56de6be62ed4a21f569de9b80e17af678ca50",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=5.6.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "3.7.*"
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+                "mf2/tests": "dev-master#e9e2b905821ba0a5b59dab1a8eaf40634ce9cd49",
+                "phpcompatibility/php-compatibility": "^9.3",
+                "phpunit/phpunit": "^5.7",
+                "squizlabs/php_codesniffer": "^3.6.2"
             },
             "suggest": {
-                "barnabywalters/mf-cleaner": "To more easily handle the canonical data php-mf2 gives you"
+                "barnabywalters/mf-cleaner": "To more easily handle the canonical data php-mf2 gives you",
+                "masterminds/html5": "Alternative HTML parser for PHP, for better HTML5 support."
             },
             "bin": [
                 "bin/fetch-mf2",
@@ -336,7 +352,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+                "CC0-1.0"
             ],
             "authors": [
                 {
@@ -352,7 +368,11 @@
                 "parser",
                 "semantic"
             ],
-            "time": "2015-07-12T14:10:01+00:00"
+            "support": {
+                "issues": "https://github.com/microformats/php-mf2/issues",
+                "source": "https://github.com/microformats/php-mf2/tree/v0.5.0"
+            },
+            "time": "2022-02-10T01:05:27+00:00"
         },
         {
             "name": "pimple/pimple",
@@ -2014,12 +2034,10 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "barnabywalters/mf-cleaner": 20,
-        "indieweb/rel-me": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
 }

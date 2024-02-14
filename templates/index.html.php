@@ -3,7 +3,7 @@
 	<div class="span12">
 		<div class="demo-headline">
 			<h1 class="demo-logo">
-				IndieWebify.Me
+				Indie<wbr>Webify<wbr>.Me
 				<small>A guide to getting you on the <a href="https://indieweb.org" target="_blank">IndieWeb</a></small>
 			</h1>
 		</div> <!-- .demo-headline -->
@@ -61,7 +61,6 @@
 	<ul>
 		<li><strong>Link to one of your own posts</strong> and send yourself a mention. This works best if you know you can send webmentions successfully</li>
 		<li><strong>Ask a friend</strong> (or a new friend in the <a href="https://indieweb.org/IRC">online #indieweb chat</a> to reply or mention one of your posts</li>
-		<li>Use the <strong><a href="https://checkmention.appspot.com/">Checkmention</a></strong> tool to send some replies to a post on your site — not only does this test webmention receiving but also contains harmless XSS attacks to test the security of your implementation.</li>
 		<li>If you’re POSSEing your content, setting up <a href="https://indieweb.org/backfeed">backfeed</a> so that silo replies, likes, reshares, and event RSVPs show up on your own site. You can use a service like <a href="https://www.brid.gy/">Bridgy</a>, a <a href="https://indieweb.org/backfeed#WordPress_Plugins">server plugin</a>, or roll your own</li>
 	</ul>
 
