@@ -17,391 +17,509 @@ use Mf2\Parser as MfParser;
 use Silex;
 use Symfony\Component\HttpFoundation as Http;
 
-function renderTemplate($template, array $__templateData = array()) {
-	$render = function ($__path, $render=null) use ($__templateData) {
-		ob_start();
-		extract($__templateData);
-		unset($__templateData);
-		include __DIR__ . '/../templates/' . $__path . '.php';
-		return ob_get_clean();
-	};
+/**
+ * Render a template with data
+ *
+ * @param $template
+ * @param array $__templateData
+ *
+ * @return false|string
+ */
+function renderTemplate($template, array $__templateData = array())
+{
+    $render = function ($__path, $render=null) use ($__templateData) {
+        ob_start();
+        extract($__templateData);
+        unset($__templateData);
+        include __DIR__ . '/../templates/' . $__path . '.php';
+        return ob_get_clean();
+    };
 
-	return $render($template, $render);
+    return $render($template, $render);
 }
 
-function render($template, array $data = array()) {
-	$isHtml = pathinfo($template, PATHINFO_EXTENSION) === 'html';
-	$out = '';
+/**
+ * Render
+ *
+ * @param $template
+ * @param array $data
+ *
+ * @return string
+ */
+function render($template, array $data = array())
+{
+    $isHtml = pathinfo($template, PATHINFO_EXTENSION) === 'html';
+    $out = '';
 
-	$purifierConfig = HTMLPurifier_Config::createDefault();
-	$data['purify'] = array(new HTMLPurifier($purifierConfig), 'purify');
+    $purifierConfig = HTMLPurifier_Config::createDefault();
+    $data['purify'] = array(new HTMLPurifier($purifierConfig), 'purify');
 
-	if ($isHtml)
-		$out .= renderTemplate('header.html', $data);
-	$out .= renderTemplate($template, $data);
-	if ($isHtml)
-		$out .= renderTemplate('footer.html', $data);
-	return $out;
+    if ($isHtml) {
+        $out .= renderTemplate('header.html', $data);
+    }
+    $out .= renderTemplate($template, $data);
+    if ($isHtml) {
+        $out .= renderTemplate('footer.html', $data);
+    }
+    return $out;
 }
 
-function crossOriginResponse($resp, $code=200) {
-	$response = ($resp instanceof Http\Response) ? $resp : new Http\Response($resp, $code);
-	$response->headers->set('Access-Control-Allow-Origin', '*');
-	return $response;
+/**
+ * Cross Origin Response
+ *
+ * @param $resp
+ * @param $code
+ *
+ * @return Http\Response
+ */
+function crossOriginResponse($resp, $code=200)
+{
+    $response = ($resp instanceof Http\Response) ? $resp : new Http\Response($resp, $code);
+    $response->headers->set('Access-Control-Allow-Origin', '*');
+    return $response;
 }
 
-function httpGet($url) {
-	$client = new Guzzle\Http\Client(null, array(
-		#'ssl.certificate_authority' => __DIR__ . '/../mozilla-ca-certs.pem'
-	));
-	ob_start();
-	$url = web_address_to_uri($url, true);
-	ob_end_clean();
+/**
+ * HTTP Get
+ *
+ * @param $url
+ *
+ * @return array
+ */
+function httpGet($url)
+{
+    $client = new Guzzle\Http\Client(
+        null, array(
+        // 'ssl.certificate_authority' => __DIR__ . '/../mozilla-ca-certs.pem'
+        )
+    );
+    ob_start();
+    $url = web_address_to_uri($url, true);
+    ob_end_clean();
 
-	try {
-		$response = $client->get($url)->send();
-		return array($response, null);
-	} catch (Guzzle\Common\Exception\GuzzleException $e) {
-		return array(null, $e);
-	}
+    try {
+        $response = $client->get($url)->send();
+        return array($response, null);
+    } catch (Guzzle\Common\Exception\GuzzleException $e) {
+        return array(null, $e);
+    }
 }
 
-function parseMf($resp, $url) {
-	$parser = new MfParser((string) $resp, $url);
-	return $parser->parse();
+/**
+ * Parse MF
+ *
+ * @param $resp
+ * @param $url
+ *
+ * @return string
+ */
+function parseMf($resp, $url)
+{
+    $parser = new MfParser((string) $resp, $url);
+    return $parser->parse();
 }
 
-function fetchMf($url) {
-	list($resp, $err) = httpGet($url);
-	if ($err)
-		return array(null, $err);
-	return array(parseMf($resp->getBody(), $url), null);
+/**
+ * Fetch MF
+ *
+ * @param $url
+ *
+ * @return array
+ */
+function fetchMf($url)
+{
+    list($resp, $err) = httpGet($url);
+    if ($err) {
+        return array(null, $err);
+    }
+    return array(parseMf($resp->getBody(), $url), null);
 }
 
-function errorResponder($template, $url) {
-	return function ($message, $code = 400) use ($template, $url) {
-		return crossOriginResponse(render($template, array(
-			'error' => array('message' => $message),
-			'url' => htmlspecialchars($url)
-		)), $code);
-	};
+function errorResponder($template, $url)
+{
+    return function ($message, $code = 400) use ($template, $url) {
+        return crossOriginResponse(
+            render(
+                $template, array(
+                'error' => array('message' => $message),
+                'url' => htmlspecialchars($url)
+                )
+            ), $code
+        );
+    };
 }
 
-function isWordpressDomain($url) {
-	return stristr(parse_url($url, PHP_URL_HOST), '.wordpress.com') !== false;
+function isWordpressDomain($url)
+{
+    return stristr(parse_url($url, PHP_URL_HOST), '.wordpress.com') !== false;
 }
 
-function isGithubDomain($url) {
-	return stristr(parse_url($url, PHP_URL_HOST), '.github.') !== false;
+function isGithubDomain($url)
+{
+    return stristr(parse_url($url, PHP_URL_HOST), '.github.') !== false;
 }
 
-function isTumblrDomain($url) {
-	return stristr(parse_url($url, PHP_URL_HOST), '.tumblr.com') !== false;
+function isTumblrDomain($url)
+{
+    return stristr(parse_url($url, PHP_URL_HOST), '.tumblr.com') !== false;
 }
 
-function detectBloggingSoftware($response) {
-	$d = new MfParser($response->getBody(1), $response->getEffectiveUrl());
-	foreach ($d->query('//meta[@name="generator"]') as $generatorEl) {
-		if (stristr($generatorEl->getAttribute('content'), 'wordpress') !== false)
-			return 'wordpress';
-		if (stristr($generatorEl->getAttribute('content'), 'mediawiki') !== false)
-			return 'mediawiki';
-		if (stristr($generatorEl->getAttribute('content'), 'idno') !== false)
-			return 'idno';
-	}
+function detectBloggingSoftware($response)
+{
+    $d = new MfParser($response->getBody(1), $response->getEffectiveUrl());
+    foreach ($d->query('//meta[@name="generator"]') as $generatorEl) {
+        if (stristr($generatorEl->getAttribute('content'), 'wordpress') !== false) {
+            return 'wordpress';
+        }
+        if (stristr($generatorEl->getAttribute('content'), 'mediawiki') !== false) {
+            return 'mediawiki';
+        }
+        if (stristr($generatorEl->getAttribute('content'), 'idno') !== false) {
+            return 'idno';
+        }
+    }
 
-	return null;
+    return null;
 }
 
-function datetimeProblem($datetimeStr) {
-	try {
-		$dt = new DateTime($datetimeStr);
-	} catch (Exception $e) {
-		return "The datetime is not valid ISO-8601.";
-	}
-	return false;
+function datetimeProblem($datetimeStr)
+{
+    try {
+        $dt = new DateTime($datetimeStr);
+    } catch (Exception $e) {
+        return "The datetime is not valid ISO-8601.";
+    }
+    return false;
 }
 
 // Web server setup
 
 // Route static assets from CLI server
 if (PHP_SAPI === 'cli-server') {
-	error_reporting(E_ERROR | E_WARNING | E_PARSE);
+    error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
-	if (file_exists(__DIR__ . $_SERVER['REQUEST_URI']) and !is_dir(__DIR__ . $_SERVER['REQUEST_URI'])) {
-		return false;
-	}
+    if (file_exists(__DIR__ . $_SERVER['REQUEST_URI']) and !is_dir(__DIR__ . $_SERVER['REQUEST_URI'])) {
+        return false;
+    }
 } else {
-	#error_reporting(0);
+    // error_reporting(0);
 }
 
 $app = new Silex\Application();
 
-$app->get('/', function () {
-	return render('index.html', array('composite_view' => true, 'showResult' => false));
-});
+$app->get(
+    '/', function () {
+        return render('index.html', array('composite_view' => true, 'showResult' => false));
+    }
+);
 
-$app->get('/validate-rel-me/', function (Http\Request $request) {
-	if (!$request->query->has('url')) {
-		return render('validate-rel-me.html');
-	} else {
-		ob_start();
-		$url = web_address_to_uri($request->query->get('url'), true);
-		ob_end_clean();
+$app->get(
+    '/validate-rel-me/', function (Http\Request $request) {
+        if (!$request->query->has('url')) {
+            return render('validate-rel-me.html');
+        } else {
+            ob_start();
+            $url = web_address_to_uri($request->query->get('url'), true);
+            ob_end_clean();
 
-		$errorResponse = errorResponder('validate-rel-me.html', $url);
+            $errorResponse = errorResponder('validate-rel-me.html', $url);
 
-		if (empty($url))
-			return $errorResponse('Empty URLs lead nowhere');
+            if (empty($url)) {
+                return $errorResponse('Empty URLs lead nowhere');
+            }
 
-		list($relMeUrl, $secure, $previous) = IndieWeb\relMeDocumentUrl($url);
+            list($relMeUrl, $secure, $previous) = IndieWeb\relMeDocumentUrl($url);
 
-		if (!$secure)
-			return $errorResponse("Insecure redirect between <code>{$previous[count($previous)-2]}</code> and <code>{$previous[count($previous)-1]}</code>");
+            if (!$secure) {
+                return $errorResponse("Insecure redirect between <code>{$previous[count($previous)-2]}</code> and <code>{$previous[count($previous)-1]}</code>");
+            }
 
-		list($resp, $err) = httpGet($relMeUrl);
+            list($resp, $err) = httpGet($relMeUrl);
 
-		if ($err)
-			return $errorResponse(htmlspecialchars($err->getMessage()));
+            if ($err) {
+                return $errorResponse(htmlspecialchars($err->getMessage()));
+            }
 
-		$relMeLinks = IndieWeb\relMeLinks($resp->getBody(true), $relMeUrl);
+            $relMeLinks = IndieWeb\relMeLinks($resp->getBody(true), $relMeUrl);
 
-		if (empty($relMeLinks))
-			return $errorResponse("No <code>rel=me</code> links could be found!");
+            if (empty($relMeLinks)) {
+                return $errorResponse("No <code>rel=me</code> links could be found!");
+            }
 
-		return crossOriginResponse(render('validate-rel-me.html', array(
-			'rels' => $relMeLinks,
-			'url' => htmlspecialchars($url),
-			'bloggingSoftware' => detectBloggingSoftware($resp)
-		)));
-	}
-});
+            return crossOriginResponse(
+                render(
+                    'validate-rel-me.html', array(
+                    'rels' => $relMeLinks,
+                    'url' => htmlspecialchars($url),
+                    'bloggingSoftware' => detectBloggingSoftware($resp)
+                    )
+                )
+            );
+        }
+    }
+);
 
 // TODO: currently this assumes that url2 has been found as an outbound rel-me link
 // on url1 — that url1 links to url2 is NOT checked
 // TODO: maybe encapsulate the one-directional checking into a function
-$app->get('/rel-me-links/', function (Http\Request $request) {
-	if (!$request->query->has('url1') or !$request->query->has('url2'))
-		return crossOriginResponse('Provide both url1 and url2 parameters', 400);
-	// url1 is me, url2 is external profile page
-	$url1 = $request->query->get('url1');
-	$url2 = $request->query->get('url2');
+$app->get(
+    '/rel-me-links/', function (Http\Request $request) {
+        if (!$request->query->has('url1') or !$request->query->has('url2')) {
+            return crossOriginResponse('Provide both url1 and url2 parameters', 400);
+        }
+        // url1 is me, url2 is external profile page
+        $url1 = $request->query->get('url1');
+        $url2 = $request->query->get('url2');
 
-	$meUrl = IndieWeb\normaliseUrl($url1);
+        $meUrl = IndieWeb\normaliseUrl($url1);
 
-	list($profileUrl, $secure, $previous) = IndieWeb\relMeDocumentUrl($url2);
-	if (!$secure)
-		return crossOriginResponse("Inbound rel-me URL redirects insecurely" . print_r($previous, true), 400);
+        list($profileUrl, $secure, $previous) = IndieWeb\relMeDocumentUrl($url2);
+        if (!$secure) {
+            return crossOriginResponse("Inbound rel-me URL redirects insecurely" . print_r($previous, true), 400);
+        }
 
-	list($resp, $err) = httpGet($profileUrl);
-	if ($err)
-		return crossOriginResponse("HTTP error when fetching inbound rel me document URL {$profileUrl}: {$err->getMessage()}", 400);
+        list($resp, $err) = httpGet($profileUrl);
+        if ($err) {
+            return crossOriginResponse("HTTP error when fetching inbound rel me document URL {$profileUrl}: {$err->getMessage()}", 400);
+        }
 
-	$relMeLinks = IndieWeb\relMeLinks($resp->getBody(true), $profileUrl);
+        $relMeLinks = IndieWeb\relMeLinks($resp->getBody(true), $profileUrl);
 
-	foreach ($relMeLinks as $inboundRelMeUrl) {
-		list($matches, $secure, $previous) = IndieWeb\backlinkingRelMeUrlMatches($inboundRelMeUrl, $meUrl);
-		if ($matches and $secure)
-			return crossOriginResponse('true', 200);
-	}
+        foreach ($relMeLinks as $inboundRelMeUrl) {
+            list($matches, $secure, $previous) = IndieWeb\backlinkingRelMeUrlMatches($inboundRelMeUrl, $meUrl);
+            if ($matches and $secure) {
+                return crossOriginResponse('true', 200);
+            }
+        }
 
-	return crossOriginResponse('false', 200);
-});
+        return crossOriginResponse('false', 200);
+    }
+);
 
-# validate that url2 links back to url1 with rel=me
-$app->get('/rel-me-check/', function (Http\Request $request) {
-	if (!$request->query->has('url1') or !$request->query->has('url2')) {
-		return crossOriginResponse('Provide both url1 and url2 parameters', 400);
-	}
+// validate that url2 links back to url1 with rel=me
+$app->get(
+    '/rel-me-check/', function (Http\Request $request) {
+        if (!$request->query->has('url1') or !$request->query->has('url2')) {
+            return crossOriginResponse('Provide both url1 and url2 parameters', 400);
+        }
 
-	$url = IndieWeb\normaliseUrl($request->query->get('url1'));
-	$is_url_https = ( parse_url($url, PHP_URL_SCHEME) == 'https' ) ? true : false;
+        $url = IndieWeb\normaliseUrl($request->query->get('url1'));
+        $is_url_https = ( parse_url($url, PHP_URL_SCHEME) == 'https' ) ? true : false;
 
-	list($inbound_url, $secure, $previous) = IndieWeb\relMeDocumentUrl($request->query->get('url2'));
+        list($inbound_url, $secure, $previous) = IndieWeb\relMeDocumentUrl($request->query->get('url2'));
 
-	list($response, $error) = httpGet($inbound_url);
+        list($response, $error) = httpGet($inbound_url);
 
-	$response_array = array(
-		'pass' => false,
-		'response' => '',
-		'status' => $response->getStatusCode(),
-		'secure' => null,
-	);
+        $response_array = array(
+        'pass' => false,
+        'response' => '',
+        'status' => $response->getStatusCode(),
+        'secure' => null,
+        );
 
-	if ($error) {
-		$response_array['response'] = sprintf('HTTP error when fetching rel-me URL: %s - %s', $inbound_url, $error->getMessage());
-		return crossOriginResponse(json_encode($response_array), 200);
-	}
+        if ($error) {
+            $response_array['response'] = sprintf('HTTP error when fetching rel-me URL: %s - %s', $inbound_url, $error->getMessage());
+            return crossOriginResponse(json_encode($response_array), 200);
+        }
 
-	$relMeLinks = IndieWeb\relMeLinks($response->getBody(true), $inbound_url);
+        $relMeLinks = IndieWeb\relMeLinks($response->getBody(true), $inbound_url);
 
-	foreach ($relMeLinks as $inboundRelMeUrl) {
-		list($matches, $secure, $previous) = IndieWeb\backlinkingRelMeUrlMatches($inboundRelMeUrl, $url);
-		if ($matches) {
-			$response_array['pass'] = true;
-			$response_array['response'] = ( $is_url_https && !$secure ) ? 'link back is to http:// not https://' : 'works perfectly';
-			$response_array['secure'] = $secure;
-			return crossOriginResponse(json_encode($response_array), 200);
-		}
-	}
+        foreach ($relMeLinks as $inboundRelMeUrl) {
+            list($matches, $secure, $previous) = IndieWeb\backlinkingRelMeUrlMatches($inboundRelMeUrl, $url);
+            if ($matches) {
+                $response_array['pass'] = true;
+                $response_array['response'] = ( $is_url_https && !$secure ) ? 'link back is to http:// not https://' : 'works perfectly';
+                $response_array['secure'] = $secure;
+                return crossOriginResponse(json_encode($response_array), 200);
+            }
+        }
 
-	$response_array['response'] = 'does not link back';
-	return crossOriginResponse(json_encode($response_array), 200);
-});
+        $response_array['response'] = 'does not link back';
+        return crossOriginResponse(json_encode($response_array), 200);
+    }
+);
 
 // more forgiving version for the badge showing code; ignores secure
-$app->get('/rel-me-links-info/', function (Http\Request $request) {
-	if (!$request->query->has('url1') or !$request->query->has('url2'))
-		return crossOriginResponse('Provide both url1 and url2 parameters', 400);
-	// url1 is me, url2 is external profile page
-	$url1 = $request->query->get('url1');
-	$url2 = $request->query->get('url2');
+$app->get(
+    '/rel-me-links-info/', function (Http\Request $request) {
+        if (!$request->query->has('url1') or !$request->query->has('url2')) {
+            return crossOriginResponse('Provide both url1 and url2 parameters', 400);
+        }
+        // url1 is me, url2 is external profile page
+        $url1 = $request->query->get('url1');
+        $url2 = $request->query->get('url2');
 
-	$meUrl = IndieWeb\normaliseUrl($url1);
+        $meUrl = IndieWeb\normaliseUrl($url1);
 
-	list($profileUrl, $secure, $previous) = IndieWeb\relMeDocumentUrl($url2);
+        list($profileUrl, $secure, $previous) = IndieWeb\relMeDocumentUrl($url2);
 
-	list($resp, $err) = httpGet($profileUrl);
-	if ($err)
-		return crossOriginResponse("HTTP error when fetching inbound rel me document URL {$profileUrl}: {$err->getMessage()}", 400);
+        list($resp, $err) = httpGet($profileUrl);
+        if ($err) {
+            return crossOriginResponse("HTTP error when fetching inbound rel me document URL {$profileUrl}: {$err->getMessage()}", 400);
+        }
 
-	$relMeLinks = IndieWeb\relMeLinks($resp->getBody(true), $profileUrl);
+        $relMeLinks = IndieWeb\relMeLinks($resp->getBody(true), $profileUrl);
 
-	foreach ($relMeLinks as $inboundRelMeUrl) {
-		list($matches, $secure, $previous) = IndieWeb\backlinkingRelMeUrlMatches($inboundRelMeUrl, $meUrl);
-		if ($matches)
-			return crossOriginResponse('true', 200);
-	}
+        foreach ($relMeLinks as $inboundRelMeUrl) {
+            list($matches, $secure, $previous) = IndieWeb\backlinkingRelMeUrlMatches($inboundRelMeUrl, $meUrl);
+            if ($matches) {
+                return crossOriginResponse('true', 200);
+            }
+        }
 
-	return crossOriginResponse('false', 200);
-});
+        return crossOriginResponse('false', 200);
+    }
+);
 
 
-$app->get('/validate-h-card/', function (Http\Request $request) use($app) {
-	if (!$request->query->has('url')) {
-		return render('validate-h-card.html', [
-			'showResult' => false,
-		]);
-	} else {
-		$url = IndieWeb\normaliseUrl($request->query->get('url'));
+$app->get(
+    '/validate-h-card/', function (Http\Request $request) use ($app) {
+        if (!$request->query->has('url')) {
+            return render(
+                'validate-h-card.html', [
+                'showResult' => false,
+                ]
+            );
+        } else {
+            $url = IndieWeb\normaliseUrl($request->query->get('url'));
 
-		# no scheme entered; use http:// and redirect
-		if (preg_match('#^https?://#', $url) === 0) {
-			return $app->redirect('/validate-h-card/?url=http://' . $url);
-		}
+            // no scheme entered; use http:// and redirect
+            if (preg_match('#^https?://#', $url) === 0) {
+                return $app->redirect('/validate-h-card/?url=http://' . $url);
+            }
 
-		$errorResponse = errorResponder('validate-h-card.html', $url);
+            $errorResponse = errorResponder('validate-h-card.html', $url);
 
-		if (empty($url)) {
-			return $errorResponse('Empty URLs lead nowhere');
-		}
+            if (empty($url)) {
+                return $errorResponse('Empty URLs lead nowhere');
+            }
 
-		list($mfs, $err) = fetchMf($url);
+            list($mfs, $err) = fetchMf($url);
 
-		if ($err) {
-			return $errorResponse(htmlspecialchars($err->getMessage()));
-		}
+            if ($err) {
+                return $errorResponse(htmlspecialchars($err->getMessage()));
+            }
 
-		$allHCards = Mf2\findMicroformatsByType($mfs, 'h-card');
-		$representativeHCard = Mf2\getRepresentativeHCard($mfs, $url);
+            $allHCards = Mf2\findMicroformatsByType($mfs, 'h-card');
+            $representativeHCard = Mf2\getRepresentativeHCard($mfs, $url);
 
-		return crossOriginResponse(
-			render(
-				'validate-h-card.html',
-				[
-					'showResult' => true,
-					'allHCards' => $allHCards,
-					'representativeHCard' => $representativeHCard,
-					'url' => htmlspecialchars($url)
-				]
-			)
-		);
-	}
-});
+            return crossOriginResponse(
+                render(
+                    'validate-h-card.html',
+                    [
+                    'showResult' => true,
+                    'allHCards' => $allHCards,
+                    'representativeHCard' => $representativeHCard,
+                    'url' => htmlspecialchars($url)
+                    ]
+                )
+            );
+        }
+    }
+);
 
-$app->get('/validate-h-entry/', function (Http\Request $request) {
-	if (!$request->query->has('url')) {
-		return render('validate-h-entry.html');
-	} else {
-		ob_start();
-		$url = web_address_to_uri($request->query->get('url'), true);
-		ob_end_clean();
-		$errorResponse = errorResponder('validate-h-entry.html', $url);
+$app->get(
+    '/validate-h-entry/', function (Http\Request $request) {
+        if (!$request->query->has('url')) {
+            return render('validate-h-entry.html');
+        } else {
+            ob_start();
+            $url = web_address_to_uri($request->query->get('url'), true);
+            ob_end_clean();
+            $errorResponse = errorResponder('validate-h-entry.html', $url);
 
-		if (empty($url))
-			return $errorResponse('Empty URLs lead nowhere!');
+            if (empty($url)) {
+                return $errorResponse('Empty URLs lead nowhere!');
+            }
 
-		list($mfs, $err) = fetchMf($url);
+            list($mfs, $err) = fetchMf($url);
 
-		if ($err)
-			return $errorResponse(htmlspecialchars($err->getMessage()));
+            if ($err) {
+                return $errorResponse(htmlspecialchars($err->getMessage()));
+            }
 
-		$hEntries = Mf2\findMicroformatsByType($mfs, 'h-entry');
+            $hEntries = Mf2\findMicroformatsByType($mfs, 'h-entry');
 
-		if (count($hEntries) > 0) {
-			$hEntry = $hEntries[0];
+            if (count($hEntries) > 0) {
+                $hEntry = $hEntries[0];
 
-			if (Mf2\hasProp($hEntry, 'in-reply-to')) {
-				$postType = 'reply';
-			} elseif (Mf2\hasProp($hEntry, 'like-of')) {
-				$postType = 'like';
-			} elseif (Mf2\hasProp($hEntry, 'repost-of')) {
-				$postType = 'repost';
-			} else {
-				$postType = 'post';
-			}
+                if (Mf2\hasProp($hEntry, 'in-reply-to')) {
+                    $postType = 'reply';
+                } elseif (Mf2\hasProp($hEntry, 'like-of')) {
+                    $postType = 'like';
+                } elseif (Mf2\hasProp($hEntry, 'repost-of')) {
+                    $postType = 'repost';
+                } else {
+                    $postType = 'post';
+                }
 
-			// Determine the state of the post name.
-			$content = Mf2\hasProp($hEntry, 'content') ? Mf2\getProp($hEntry, 'content') : (isset($hEntry['value']) ? $hEntry['value'] : null);
-			$parsedName = Mf2\getProp($hEntry, 'name');
-			$nameState = null;
-			if ($content != null and $content != $parsedName) {
-				$nameState = mb_strlen($parsedName) > mb_strlen($content) ? 'invalid' : 'valid';
-			}
-		} else {
-			$postType = $hEntry = $nameState = null;
-		}
+                // Determine the state of the post name.
+                $content = Mf2\hasProp($hEntry, 'content') ? Mf2\getProp($hEntry, 'content') : (isset($hEntry['value']) ? $hEntry['value'] : null);
+                $parsedName = Mf2\getProp($hEntry, 'name');
+                $nameState = null;
+                if ($content != null and $content != $parsedName) {
+                    $nameState = mb_strlen($parsedName) > mb_strlen($content) ? 'invalid' : 'valid';
+                }
+            } else {
+                $postType = $hEntry = $nameState = null;
+            }
 
-		return crossOriginResponse(render('validate-h-entry.html', array(
-			'showResult' => true,
-			'postType' => $postType,
-			'hEntry' => $hEntry,
-			'nameState' => $nameState,
-			'url' => htmlspecialchars($url)
-		)));
-	}
-});
+            return crossOriginResponse(
+                render(
+                    'validate-h-entry.html', array(
+                    'showResult' => true,
+                    'postType' => $postType,
+                    'hEntry' => $hEntry,
+                    'nameState' => $nameState,
+                    'url' => htmlspecialchars($url)
+                    )
+                )
+            );
+        }
+    }
+);
 
-$app->get('/send-webmentions/', function (Http\Request $request) {
-	return render('send-webmentions.html', array(
-		'url' => $request->query->get('url', '')
-	));
-});
+$app->get(
+    '/send-webmentions/', function (Http\Request $request) {
+        return render(
+            'send-webmentions.html', array(
+            'url' => $request->query->get('url', '')
+            )
+        );
+    }
+);
 
-$app->post('/send-webmentions/', function (Http\Request $request) {
-	ob_start();
-	$url = web_address_to_uri($request->get('url'), true);
-	ob_end_clean();
-	$errorResponse = errorResponder('send-webmentions.html', $url);
+$app->post(
+    '/send-webmentions/', function (Http\Request $request) {
+        ob_start();
+        $url = web_address_to_uri($request->get('url'), true);
+        ob_end_clean();
+        $errorResponse = errorResponder('send-webmentions.html', $url);
 
-	if (empty($url))
-		return $errorResponse('Empty URLs lead nowhere!');
+        if (empty($url)) {
+            return $errorResponse('Empty URLs lead nowhere!');
+        }
 
-	list($mfs, $err) = fetchMf($url);
-	if ($err) {
-		return $errorResponse(htmlspecialchars($err->getMessage()));
-	}
+        list($mfs, $err) = fetchMf($url);
+        if ($err) {
+            return $errorResponse(htmlspecialchars($err->getMessage()));
+        }
 
-	$hEntries = Mf2\findMicroformatsByType($mfs, 'h-entry');
+        $hEntries = Mf2\findMicroformatsByType($mfs, 'h-entry');
 
-	$mentioner = new MentionClient();
-	$numSent = $mentioner->sendMentions($url);
+        $mentioner = new MentionClient();
+        $numSent = $mentioner->sendMentions($url);
 
-	return crossOriginResponse(render('send-webmentions.html', array(
-		'numSent' => $numSent,
-		'url' => htmlspecialchars($url),
-		'hEntriesFound' => count($hEntries)
-	)));
-});
+        return crossOriginResponse(
+            render(
+                'send-webmentions.html', array(
+                'numSent' => $numSent,
+                'url' => htmlspecialchars($url),
+                'hEntriesFound' => count($hEntries)
+                )
+            )
+        );
+    }
+);
 
 $app->run();
