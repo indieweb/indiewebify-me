@@ -19,14 +19,14 @@
 		"indieweb/rel-me": "^0.1.1"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "*",
-		"squizlabs/php_codesniffer": "3.*",
+		"phpunit/phpunit": "^9.5",
+		"squizlabs/php_codesniffer": "3.*"
 	},
 	"autoload": {
 		"files": []
 	},
 	"scripts": {
-		"test": "phpunit --bootstrap loader.php",
+		"test": "phpunit --bootstrap tests/bootstrap.php",
 		"sniff": "phpcs --standard=phpcs.xml */*.php",
 		"snifferfix" : "phpcbf --standard=phpcs.xml  */*.php"
 	}
