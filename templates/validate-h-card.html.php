@@ -48,9 +48,9 @@
 
 		<h1><span class="fui-new"></span> Publishing on the IndieWeb <small>Level 2</small></h1>
 
-		<h2>1. Mark up your content (Profile, Notes, Articles, etc…) with <a href="https://microformats.org/" target="_blank">microformats2</a></h2>
+		<h2>1. Mark up your content with <a href="https://microformats.org/" target="_blank">microformats2</a></h2>
 
-		<p>Other humans can already understand your profile information and the things you post on your site. By adding a few simple class names to your HTML, other people’s software can understand it and use it for things like <a href="https://indieweb.org/reply-context">reply contexts</a>, <a href="https://indieweb.org/comment">cross-site comments</a>, <a href="https://indieweb.org/rsvp">event RSVPs</a>, and more.</p>
+		<p>Humans can already understand the things you post on your site. By adding a few short class names to your HTML, other people’s software can understand it and use it for things like <a href="https://indieweb.org/reply-context">reply contexts</a>, <a href="https://indieweb.org/comment">cross-site comments</a>, <a href="https://indieweb.org/rsvp">event RSVPs</a>, and more.</p>
 
 		<h3>Check your <b>homepage <a href="https://microformats.org/wiki/h-card" target="_blank">h-card</a></b>:</h3>
 
