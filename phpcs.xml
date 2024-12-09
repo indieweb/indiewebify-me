@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<ruleset name="LabRuleset">
+    <description>IndieWebify Me Coding Standard</description>
+    <rule ref="PEAR">
+        <exclude-pattern>vendor/*</exclude-pattern>
+		<exclude name="Generic.Files.LineLength.TooLong"/>
+		<exclude name="PEAR.Commenting.FileComment.Missing"/>
+		<exclude-file name="templates/header.html.php"/>
+		<exclude-file name="templates/footer.html.php"/>
+		<!-- not sure these are necessary -->
+		<exclude name="PEAR.Commenting.FileComment.MissingAuthor"/>
+		<exclude name="PEAR.Commenting.FileComment.MissingLicense"/>
+		<exclude name="PEAR.Commenting.FileComment.MissingLink"/>
+		<exclude name="PEAR.Commenting.ClassComment.MissingCategory"/>
+		<exclude name="PEAR.Commenting.ClassComment.MissingPackage"/>
+		<exclude name="PEAR.Commenting.ClassComment.MissingLink"/>
+		<exclude name="PEAR.Commenting.ClassComment.MissingLicense"/>
+		<exclude name="PEAR.Commenting.ClassComment.MissingVersion"/>
+		<exclude name="PEAR.Commenting.FunctionComment.MissingParamComment"/>
+		<exclude name="PEAR.Commenting.FunctionComment.MissingReturn"/>
+		<exclude name="PEAR.Commenting.FunctionComment.MissingThrows"/>
+		<exclude name="PEAR.Commenting.FunctionComment.MissingVar"/>
+		<exclude name="PEAR.Commenting.FunctionComment.Missing"/>
+		<exclude name="PEAR.Commenting.FunctionComment.MissingShort"/>
+		<exclude name="PEAR.Commenting.FunctionComment.MissingLong"/>
+		<exclude name="PEAR.Commenting.FunctionComment.MissingComment"/>
+		<exclude name="PEAR.Commenting.FunctionComment.MissingParamTag"/>
+		<exclude name="PEAR.Commenting.FunctionComment.MissingParamName"/>
+	</rule>
+</ruleset>

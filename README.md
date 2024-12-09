@@ -22,5 +22,10 @@ How to run your own instance of indiewebify.me for development:
 
 All of the interesting stuff is in `/web/index.php` — or at least is until that gets too big and needs moving.
 
+===
+
+![workflow](https://github.com/indieweb/indiewebify-me/actions/workflows/ci.yml/badge.svg)
+
+
 
 
