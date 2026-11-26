@@ -1,0 +1,99 @@
+# Characterization requests. {F} = fixture server base URL.
+# METHOD /path   [| urlencoded form body]
+
+# ---- static pages / routing ----
+GET /
+HEAD /
+GET /validate-rel-me/
+GET /validate-h-card/
+GET /validate-h-entry/
+GET /send-webmentions/
+GET /send-webmentions/?url=http://example.com/%22%3E%3Cscript%3E
+GET /validate-h-card
+GET /validate-rel-me
+GET /validate-h-card?url=foo
+GET /does-not-exist
+GET /does-not-exist/
+POST /validate-h-card/ | url=x
+PUT /
+DELETE /send-webmentions/
+GET /index.php
+GET /css/indiewebify.css
+GET /images/favicon.ico
+
+# ---- validate-rel-me ----
+GET /validate-rel-me/?url=
+GET /validate-rel-me/?url={F}/relme/home
+GET /validate-rel-me/?url={F}/relme/none
+GET /validate-rel-me/?url={F}/relme/wordpress
+GET /validate-rel-me/?url={F}/relme/mediawiki
+GET /validate-rel-me/?url={F}/relme/idno
+GET /validate-rel-me/?url={F}/relme/home-redirect
+GET /validate-rel-me/?url={F}/status/404
+GET /validate-rel-me/?url={F}/status/500
+GET /validate-rel-me/?url={F}/plain.txt
+GET /validate-rel-me/?url=http://127.0.0.1:1/
+GET /validate-rel-me/?url={F}/relme/home%22%3E%3Cscript%3Ealert(1)%3C/script%3E
+
+# ---- rel-me-links / rel-me-check / rel-me-links-info ----
+GET /rel-me-links/
+GET /rel-me-links/?url1={F}/relme/home
+GET /rel-me-links/?url1={F}/relme/home&url2={F}/relme/profile-back
+GET /rel-me-links/?url1={F}/relme/home&url2={F}/relme/profile-noback
+GET /rel-me-links/?url1={F}/relme/home&url2={F}/relme/profile-redirect
+GET /rel-me-links/?url1={F}/relme/home&url2={F}/relme/profile-back-redirect
+GET /rel-me-links/?url1={F}/relme/home&url2={F}/status/404
+GET /rel-me-check/
+GET /rel-me-check/?url1={F}/relme/home&url2={F}/relme/profile-back
+GET /rel-me-check/?url1={F}/relme/home&url2={F}/relme/profile-noback
+GET /rel-me-check/?url1={F}/relme/home&url2={F}/relme/profile-redirect
+GET /rel-me-check/?url1={F}/relme/home&url2={F}/relme/profile-back-redirect
+GET /rel-me-check/?url1={F}/relme/home&url2={F}/status/404
+GET /rel-me-links-info/
+GET /rel-me-links-info/?url1={F}/relme/home&url2={F}/relme/profile-back
+GET /rel-me-links-info/?url1={F}/relme/home&url2={F}/relme/profile-noback
+GET /rel-me-links-info/?url1={F}/relme/home&url2={F}/relme/profile-back-redirect
+GET /rel-me-links-info/?url1={F}/relme/home&url2={F}/status/500
+
+# ---- validate-h-card ----
+GET /validate-h-card/?url=
+GET /validate-h-card/?url=127.0.0.1:8290/hcard/representative
+GET /validate-h-card/?url={F}/hcard/representative
+GET /validate-h-card/?url={F}/hcard/relme
+GET /validate-h-card/?url={F}/hcard/nonrep
+GET /validate-h-card/?url={F}/hcard/multi
+GET /validate-h-card/?url={F}/hcard/none
+GET /validate-h-card/?url={F}/hcard/escaping
+GET /validate-h-card/?url={F}/hcard/empty-name
+GET /validate-h-card/?url={F}/redirect/once
+GET /validate-h-card/?url={F}/redirect/loop-a
+GET /validate-h-card/?url={F}/status/404
+GET /validate-h-card/?url={F}/status/410
+GET /validate-h-card/?url={F}/status/500
+GET /validate-h-card/?url=http://127.0.0.1:1/
+GET /validate-h-card/?url={F}/hcard/none?a=1%26b=%3Cx%3E
+GET /validate-h-card/?url=HTTP://127.0.0.1:8290/hcard/representative
+
+# ---- validate-h-entry ----
+GET /validate-h-entry/?url=
+GET /validate-h-entry/?url={F}/hentry/note
+GET /validate-h-entry/?url={F}/hentry/article
+GET /validate-h-entry/?url={F}/hentry/reply
+GET /validate-h-entry/?url={F}/hentry/like
+GET /validate-h-entry/?url={F}/hentry/repost
+GET /validate-h-entry/?url={F}/hentry/name-invalid
+GET /validate-h-entry/?url={F}/hentry/value-only
+GET /validate-h-entry/?url={F}/hentry/none
+GET /validate-h-entry/?url={F}/hentry/unicode
+GET /validate-h-entry/?url={F}/status/404
+GET /validate-h-entry/?url=http://127.0.0.1:1/
+GET /validate-h-entry/?url=127.0.0.1:8290/hentry/note
+
+# ---- send-webmentions ----
+POST /send-webmentions/ | url=
+POST /send-webmentions/ | url={F}/wm/source
+POST /send-webmentions/ | url={F}/wm/source-noentry
+POST /send-webmentions/ | url={F}/wm/source-nolinks
+POST /send-webmentions/ | url={F}/status/404
+POST /send-webmentions/ | url=http://127.0.0.1:1/
+POST /send-webmentions/?url={F}/wm/source
