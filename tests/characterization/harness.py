@@ -15,6 +15,9 @@ the fixture server saw while that request was being handled.
 requests.txt lines:  METHOD /path?query   [| urlencoded form body]
 `{F}` is replaced by the fixture base URL (http://127.0.0.1:<fixture-port>).
 Outbound traffic only ever goes to that fixture server, so POSTs are safe.
+Never add inputs that resolve to a real host: e.g. cassis turns `@name` into
+https://twitter.com/name, and `.invalid` hostnames are the only safe
+non-fixture hosts.
 """
 import argparse, json, os, re, shutil, subprocess, sys, time, urllib.error, urllib.parse, urllib.request
 
@@ -121,7 +124,8 @@ def record(a):
 def compare(a):
     names = sorted(set(os.listdir(a.a)) | set(os.listdir(a.b)))
     names = [n for n in names if n.endswith('.txt') and n[0].isdigit()]
-    masks = [re.compile(r) for r in (a.ignore or [])]
+    # Default masks: the h-entry template prints the current time as an example.
+    masks = [re.compile(r) for r in [r'\d{4}-\d\d-\d\d \d\d:\d\d:\d\d\+0000'] + (a.ignore or [])]
     import difflib
     same = changed = 0
     shown = 0

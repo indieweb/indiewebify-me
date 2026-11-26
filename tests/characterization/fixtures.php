@@ -134,6 +134,10 @@ HTML);
 		page('<p>Gone</p>');
 	case '/redirect/once':
 		redirect("$base/hcard/representative", 302);
+	case '/redirect/to-404':
+		redirect("$base/status/404", 302);
+	case '/redirect/relative':
+		redirect('/hentry/note', 302);
 	case '/redirect/loop-a':
 		redirect("$base/redirect/loop-b", 302);
 	case '/redirect/loop-b':

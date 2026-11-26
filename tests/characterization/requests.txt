@@ -33,6 +33,7 @@ GET /validate-rel-me/?url={F}/status/404
 GET /validate-rel-me/?url={F}/status/500
 GET /validate-rel-me/?url={F}/plain.txt
 GET /validate-rel-me/?url=http://127.0.0.1:1/
+GET /validate-rel-me/?url={F}/redirect/to-404
 GET /validate-rel-me/?url={F}/relme/home%22%3E%3Cscript%3Ealert(1)%3C/script%3E
 
 # ---- rel-me-links / rel-me-check / rel-me-links-info ----
@@ -67,6 +68,10 @@ GET /validate-h-card/?url={F}/hcard/escaping
 GET /validate-h-card/?url={F}/hcard/empty-name
 GET /validate-h-card/?url={F}/redirect/once
 GET /validate-h-card/?url={F}/redirect/loop-a
+GET /validate-h-card/?url={F}/redirect/to-404
+GET /validate-h-card/?url=javascript:alert(1)
+GET /validate-h-card/?url=http://
+GET /validate-h-card/?url[]=x
 GET /validate-h-card/?url={F}/status/404
 GET /validate-h-card/?url={F}/status/410
 GET /validate-h-card/?url={F}/status/500
@@ -88,6 +93,10 @@ GET /validate-h-entry/?url={F}/hentry/unicode
 GET /validate-h-entry/?url={F}/status/404
 GET /validate-h-entry/?url=http://127.0.0.1:1/
 GET /validate-h-entry/?url=127.0.0.1:8290/hentry/note
+GET /validate-h-entry/?url={F}/redirect/relative
+GET /validate-h-entry/?url=javascript:alert(1)
+GET /validate-h-entry/?url=ftp://example.invalid/
+GET /validate-h-entry/?url=http://exa%20mple.invalid/
 
 # ---- send-webmentions ----
 POST /send-webmentions/ | url=
