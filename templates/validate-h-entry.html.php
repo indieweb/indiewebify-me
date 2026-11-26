@@ -1,4 +1,4 @@
-<?php namespace Indieweb\IndiewebifyMe; use BarnabyWalters\Mf2; ?>
+<?php namespace Indieweb\IndiewebifyMe; use BarnabyWalters\Mf2; $error ??= null; $showResult ??= null; $url ??= null; ?>
 
 <div class="row demo-row">
 	<div class="span12">

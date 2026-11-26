@@ -1,7 +1,21 @@
-<phpunit bootstrap="tests/bootstrap.php">
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="tests/bootstrap.php"
+         colors="true"
+         failOnDeprecation="true"
+         failOnNotice="true"
+         failOnWarning="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnTestsThatTriggerWarnings="true">
 	<testsuites>
 		<testsuite name="Tests">
 			<directory>tests/</directory>
 		</testsuite>
 	</testsuites>
+	<source>
+		<include>
+			<directory>lib</directory>
+			<directory>web</directory>
+		</include>
+	</source>
 </phpunit>

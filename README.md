@@ -9,7 +9,7 @@ Made by Brennan Novak, Barnaby Walters, and others at the 2013 IndieWebCamps in 
 ## Installation
 
 Requirements:
-* PHP 7.2
+* PHP 8.4 or newer (tested on 8.5 and 8.6), with the curl, dom, mbstring and xml extensions
 
 How to run your own instance of indiewebify.me for development:
 
@@ -18,7 +18,13 @@ How to run your own instance of indiewebify.me for development:
 	* `curl -s https://getcomposer.org/installer | php`
 1. Install dependencies: `./composer.phar install`
 1. Point your web server at `indiewebify-me/web/`.
-	* The included .htaccess should route apache requests correctly. For other servers file an issue or send us a pull request
+	* The included .htaccess should route apache requests correctly. For nginx, send anything that isn’t a file to `index.php`: `try_files $uri /index.php$is_args$args;`
+	* For quick local development: `php -S 127.0.0.1:8080 -t web web/index.php`
+
+## Tests
+
+* Unit tests: `vendor/bin/phpunit`
+* Characterization tests (HTTP level, against a local fixture server; no network access needed): `tests/characterization/harness.py record --php php8.6 --app . --out /tmp/rec-a`, then `harness.py compare` two recordings. See the docstring in `harness.py`.
 
 All of the interesting stuff is in `/web/index.php` — or at least is until that gets too big and needs moving.
 

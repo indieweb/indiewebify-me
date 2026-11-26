@@ -1,3 +1,4 @@
+<?php $error ??= null; $numSent ??= null; $hEntriesFound ??= null; $url ??= null; ?>
 <div id="send-webmentions" class="row demo-row">
 	<div class="span12">
 
