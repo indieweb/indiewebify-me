@@ -2,12 +2,15 @@
 """Characterization harness: record the app's HTTP behaviour, and diff two recordings.
 
   harness.py record --php php7.4 --app /path/to/checkout --out /path/to/rec-74
+  harness.py record --base http://127.0.0.1:8098 --out /path/to/rec-nginx
   harness.py compare /path/to/rec-74 /path/to/rec-86 [--show N]
 
 `record` starts two servers:
   * the fixture "internet" (tests/characterization/fixtures.php), always on
     FIXTURE_PHP (default php8.6) so it is identical whichever PHP runs the app;
   * the app under test, `<php> -S` with web/index.php as router.
+With --base, no app server is started: requests go to an already running
+server (e.g. nginx + php-fpm); its PHP error log is not captured.
 It then sends every request in requests.txt (relative to this file) and saves
 status, headers (minus Date / X-Powered-By), body, and the outbound requests
 the fixture server saw while that request was being handled.
@@ -48,10 +51,10 @@ def slug(i, method, path):
 
 
 def record(a):
-    if not a.app.strip() or not a.out.strip():
-        sys.exit('refusing: --app and --out must be non-empty')
-    app = os.path.abspath(a.app)
-    if not os.path.isfile(os.path.join(app, 'web', 'index.php')):
+    if not a.out.strip() or (not a.base and not (a.app or '').strip()):
+        sys.exit('refusing: --out and one of --app / --base must be non-empty')
+    app = os.path.abspath(a.app) if a.app else None
+    if app and not os.path.isfile(os.path.join(app, 'web', 'index.php')):
         sys.exit(f'refusing: {app} has no web/index.php (not an indiewebify-me checkout?)')
     out = os.path.abspath(a.out)
     if os.path.exists(out):
@@ -59,7 +62,7 @@ def record(a):
             sys.exit(f'refusing: {out} exists and is not a previous recording')
         shutil.rmtree(out)
     os.makedirs(out)
-    open(os.path.join(out, MARKER), 'w').write(f'{a.php} {app}\n')
+    open(os.path.join(out, MARKER), 'w').write(f'{a.base or a.php} {app}\n')
 
     flog = os.path.join(out, 'fixture-requests.jsonl')
     open(flog, 'w').close()
@@ -68,15 +71,18 @@ def record(a):
     procs = [
         subprocess.Popen([a.fixture_php, '-S', f'127.0.0.1:{a.fixture_port}', os.path.join(HERE, 'fixtures.php')],
                          env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL),
-        subprocess.Popen([a.php, '-d', 'short_open_tag=Off', '-d', 'display_errors=0', '-d', 'log_errors=1',
+    ]
+    if not a.base:
+        procs.append(subprocess.Popen([a.php, '-d', 'short_open_tag=Off', '-d', 'display_errors=0', '-d', 'log_errors=1',
                           '-d', 'error_reporting=-1', '-d', 'error_log=' + os.path.join(out, 'php-errors.log'),
                           '-S', f'127.0.0.1:{a.app_port}', '-t', os.path.join(app, 'web'),
                           os.path.join(app, 'web', 'index.php')],
-                         cwd=app, stdout=subprocess.DEVNULL, stderr=open(os.path.join(out, 'app-server.log'), 'w')),
-    ]
+                         cwd=app, stdout=subprocess.DEVNULL, stderr=open(os.path.join(out, 'app-server.log'), 'w')))
+    base = a.base.rstrip('/') if a.base else f'http://127.0.0.1:{a.app_port}'
     try:
         wait_port(a.fixture_port)
-        wait_port(a.app_port)
+        if not a.base:
+            wait_port(a.app_port)
         opener = urllib.request.build_opener(NoRedirect)
         timings = []
         lines = [l.rstrip('\n') for l in open(os.path.join(HERE, 'requests.txt'))
@@ -87,7 +93,7 @@ def record(a):
             method, path = req_part.split(None, 1)
             data = form.encode() if form else None
             headers = {'Content-Type': 'application/x-www-form-urlencoded'} if form else {}
-            req = urllib.request.Request(f'http://127.0.0.1:{a.app_port}{path}', data=data, method=method, headers=headers)
+            req = urllib.request.Request(base + path, data=data, method=method, headers=headers)
             pos = os.path.getsize(flog)
             t = time.monotonic()
             try:
@@ -155,8 +161,9 @@ def main():
     p = argparse.ArgumentParser()
     s = p.add_subparsers(dest='cmd', required=True)
     r = s.add_parser('record')
-    r.add_argument('--php', required=True)
-    r.add_argument('--app', required=True)
+    r.add_argument('--php')
+    r.add_argument('--app')
+    r.add_argument('--base', help='record against an already running server instead of starting php -S')
     r.add_argument('--out', required=True)
     r.add_argument('--app-port', type=int, default=8301)
     r.add_argument('--fixture-port', type=int, default=8290)
@@ -167,6 +174,8 @@ def main():
     c.add_argument('--show', type=int, default=50)
     c.add_argument('--ignore', action='append')
     a = p.parse_args()
+    if a.cmd == 'record' and not a.base and not a.php:
+        p.error('record needs --php (or --base)')
     sys.exit(record(a) if a.cmd == 'record' else compare(a))
 
 
