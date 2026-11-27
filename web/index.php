@@ -14,30 +14,6 @@ use IndieWeb\MentionClient;
 use Mf2\Parser as MfParser;
 use Symfony\Component\HttpFoundation as Http;
 
-function renderTemplate($template, array $__templateData = array()) {
-	$render = function ($__path, $render=null) use ($__templateData) {
-		ob_start();
-		extract($__templateData);
-		unset($__templateData);
-		include __DIR__ . '/../templates/' . $__path . '.php';
-		return ob_get_clean();
-	};
-
-	return $render($template, $render);
-}
-
-function render($template, array $data = array()) {
-	$isHtml = pathinfo($template, PATHINFO_EXTENSION) === 'html';
-	$out = '';
-
-	if ($isHtml)
-		$out .= renderTemplate('header.html', $data);
-	$out .= renderTemplate($template, $data);
-	if ($isHtml)
-		$out .= renderTemplate('footer.html', $data);
-	return $out;
-}
-
 function crossOriginResponse($resp, $code=200) {
 	$response = ($resp instanceof Http\Response) ? $resp : new Http\Response($resp, $code);
 	$response->headers->set('Access-Control-Allow-Origin', '*');

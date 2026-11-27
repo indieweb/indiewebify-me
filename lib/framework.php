@@ -12,8 +12,8 @@
  *    (Silex\RedirectableUrlMatcher);
  *  - a path that exists for other methods gets a 405 with `Allow`, in route
  *    registration order; anything else gets a 404;
- *  - 404 / other error pages are the Symfony 2.8 Debug ExceptionHandler pages
- *    (templates/errors/*.html, copied byte for byte from the baseline);
+ *  - 404 / 405 / 500 error pages use the site layout (templates/error.html.php);
+ *    the status codes match what Silex sent, the page content does not;
  *  - uncaught \Exception from a controller becomes that 500 page; \Error is
  *    left alone (Silex 1.3 never caught it, so PHP's own fatal 500 results);
  *  - responses with no cache headers get `Cache-Control: no-cache` (Symfony
@@ -77,9 +77,40 @@ final class Router {
 	}
 }
 
+function renderTemplate($template, array $__templateData = array()) {
+	$render = function ($__path, $render=null) use ($__templateData) {
+		ob_start();
+		extract($__templateData);
+		unset($__templateData);
+		include __DIR__ . '/../templates/' . $__path . '.php';
+		return ob_get_clean();
+	};
+
+	return $render($template, $render);
+}
+
+function render($template, array $data = array()) {
+	$isHtml = pathinfo($template, PATHINFO_EXTENSION) === 'html';
+	$out = '';
+
+	if ($isHtml)
+		$out .= renderTemplate('header.html', $data);
+	$out .= renderTemplate($template, $data);
+	if ($isHtml)
+		$out .= renderTemplate('footer.html', $data);
+	return $out;
+}
+
+/**
+ * Error page in the site layout, for 404s, 405s and uncaught exceptions.
+ */
 function errorPage(int $status): Response {
-	$file = $status === 404 ? '404.html' : 'error.html';
-	return new Response(file_get_contents(__DIR__ . '/../templates/errors/' . $file), $status);
+	[$title, $message] = match ($status) {
+		404 => ['Page not found', 'Sorry, the page you are looking for could not be found.'],
+		405 => ['Method not allowed', 'This page can’t be requested that way.'],
+		default => ['Something went wrong', 'Whoops, looks like something went wrong on our end. Please try again later.'],
+	};
+	return new Response(render('error.html', ['status' => $status, 'title' => $title, 'message' => $message]), $status);
 }
 
 function redirect(string $url, int $status = 302): Response {
