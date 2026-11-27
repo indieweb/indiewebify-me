@@ -1,3 +1,4 @@
+<?php $error ??= null; $rels ??= null; $url ??= null; ?>
 <div id="validate-rel-me" class="row demo-row">
 	<div class="span12">
 

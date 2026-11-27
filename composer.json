@@ -1,27 +1,37 @@
 {
 	"name": "indieweb/indiewebify-me",
 	"description": "Tools to help you get the best out of your indieweb site",
-	"authors": [{
-		"name": "Brennan Novak",
-		"homepage": "https://brennannovak.com"
-	},
-	{
-		"name": "Barnaby Walters",
-		"homepage": "http://waterpigs.co.uk"
-	}],
+	"authors": [
+		{
+			"name": "Brennan Novak",
+			"homepage": "https://brennannovak.com"
+		},
+		{
+			"name": "Barnaby Walters",
+			"homepage": "http://waterpigs.co.uk"
+		}
+	],
 	"require": {
+		"php": ">=8.4",
 		"barnabywalters/mf-cleaner": "^0.2",
-		"ezyang/htmlpurifier": "4.7.*",
-		"silex/silex": "*",
-		"guzzlehttp/guzzle": "*",
-		"tantek/cassis": "*",
-		"indieweb/mention-client": ">=1.1.6",
-		"indieweb/rel-me": "^0.1.1"
+		"guzzlehttp/guzzle": "^8.6",
+		"indieweb/mention-client": "^1.2.1",
+		"indieweb/rel-me": "^0.1.1",
+		"mf2/mf2": "^0.5.1",
+		"symfony/http-foundation": "^7.4",
+		"tantek/cassis": "^0.3"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "*"
+		"phpunit/phpunit": "^12"
 	},
 	"autoload": {
-		"files": []
+		"files": [
+			"lib/framework.php"
+		]
+	},
+	"config": {
+		"platform": {
+			"php": "8.6.0"
+		}
 	}
 }

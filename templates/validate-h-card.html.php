@@ -41,6 +41,7 @@
 
 	# default h-card to show properties for
 	$hCard = null;
+	$showResult ??= false;
 ?>
 
 <div class="row demo-row">

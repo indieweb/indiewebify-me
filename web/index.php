@@ -9,40 +9,10 @@ ob_end_clean();
 use BarnabyWalters\Mf2;
 use DateTime;
 use Exception;
-use Guzzle;
-use HTMLPurifier, HTMLPurifier_Config;
 use IndieWeb;
 use IndieWeb\MentionClient;
 use Mf2\Parser as MfParser;
-use Silex;
 use Symfony\Component\HttpFoundation as Http;
-
-function renderTemplate($template, array $__templateData = array()) {
-	$render = function ($__path, $render=null) use ($__templateData) {
-		ob_start();
-		extract($__templateData);
-		unset($__templateData);
-		include __DIR__ . '/../templates/' . $__path . '.php';
-		return ob_get_clean();
-	};
-
-	return $render($template, $render);
-}
-
-function render($template, array $data = array()) {
-	$isHtml = pathinfo($template, PATHINFO_EXTENSION) === 'html';
-	$out = '';
-
-	$purifierConfig = HTMLPurifier_Config::createDefault();
-	$data['purify'] = array(new HTMLPurifier($purifierConfig), 'purify');
-
-	if ($isHtml)
-		$out .= renderTemplate('header.html', $data);
-	$out .= renderTemplate($template, $data);
-	if ($isHtml)
-		$out .= renderTemplate('footer.html', $data);
-	return $out;
-}
 
 function crossOriginResponse($resp, $code=200) {
 	$response = ($resp instanceof Http\Response) ? $resp : new Http\Response($resp, $code);
@@ -51,19 +21,11 @@ function crossOriginResponse($resp, $code=200) {
 }
 
 function httpGet($url) {
-	$client = new Guzzle\Http\Client(null, array(
-		#'ssl.certificate_authority' => __DIR__ . '/../mozilla-ca-certs.pem'
-	));
 	ob_start();
 	$url = web_address_to_uri($url, true);
 	ob_end_clean();
 
-	try {
-		$response = $client->get($url)->send();
-		return array($response, null);
-	} catch (Guzzle\Common\Exception\GuzzleException $e) {
-		return array(null, $e);
-	}
+	return fetchUrl((string) $url);
 }
 
 function parseMf($resp, $url) {
@@ -88,15 +50,15 @@ function errorResponder($template, $url) {
 }
 
 function isWordpressDomain($url) {
-	return stristr(parse_url($url, PHP_URL_HOST), '.wordpress.com') !== false;
+	return stristr((string) parse_url($url, PHP_URL_HOST), '.wordpress.com') !== false;
 }
 
 function isGithubDomain($url) {
-	return stristr(parse_url($url, PHP_URL_HOST), '.github.') !== false;
+	return stristr((string) parse_url($url, PHP_URL_HOST), '.github.') !== false;
 }
 
 function isTumblrDomain($url) {
-	return stristr(parse_url($url, PHP_URL_HOST), '.tumblr.com') !== false;
+	return stristr((string) parse_url($url, PHP_URL_HOST), '.tumblr.com') !== false;
 }
 
 function detectBloggingSoftware($response) {
@@ -135,7 +97,7 @@ if (PHP_SAPI === 'cli-server') {
 	#error_reporting(0);
 }
 
-$app = new Silex\Application();
+$app = new Router();
 
 $app->get('/', function () {
 	return render('index.html', array('composite_view' => true, 'showResult' => false));
@@ -277,7 +239,7 @@ $app->get('/rel-me-links-info/', function (Http\Request $request) {
 });
 
 
-$app->get('/validate-h-card/', function (Http\Request $request) use($app) {
+$app->get('/validate-h-card/', function (Http\Request $request) {
 	if (!$request->query->has('url')) {
 		return render('validate-h-card.html', [
 			'showResult' => false,
@@ -287,7 +249,7 @@ $app->get('/validate-h-card/', function (Http\Request $request) use($app) {
 
 		# no scheme entered; use http:// and redirect
 		if (preg_match('#^https?://#', $url) === 0) {
-			return $app->redirect('/validate-h-card/?url=http://' . $url);
+			return redirect('/validate-h-card/?url=http://' . $url);
 		}
 
 		$errorResponse = errorResponder('validate-h-card.html', $url);
@@ -356,7 +318,7 @@ $app->get('/validate-h-entry/', function (Http\Request $request) {
 			$parsedName = Mf2\getProp($hEntry, 'name');
 			$nameState = null;
 			if ($content != null and $content != $parsedName) {
-				$nameState = mb_strlen($parsedName) > mb_strlen($content) ? 'invalid' : 'valid';
+				$nameState = mb_strlen((string) $parsedName) > mb_strlen((string) $content) ? 'invalid' : 'valid';
 			}
 		} else {
 			$postType = $hEntry = $nameState = null;
@@ -380,7 +342,7 @@ $app->get('/send-webmentions/', function (Http\Request $request) {
 
 $app->post('/send-webmentions/', function (Http\Request $request) {
 	ob_start();
-	$url = web_address_to_uri($request->get('url'), true);
+	$url = web_address_to_uri(requestParam($request, 'url'), true);
 	ob_end_clean();
 	$errorResponse = errorResponder('send-webmentions.html', $url);
 
